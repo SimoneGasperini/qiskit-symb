@@ -1,3 +1,5 @@
+"""Symbolic gates library module"""
+
 from qiskit_symbolic.library.standard_gates import *
 
 
