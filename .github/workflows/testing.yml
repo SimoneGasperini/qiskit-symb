@@ -1,3 +1,5 @@
+name: Testing + Coverage
+
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
@@ -9,13 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+          python -m pip install -r requirements-dev.txt
+      - name: Install package
+        run: |
+          python setup.py install
       - name: Run tests with pytest
         run: |
           pytest -v
@@ -28,13 +33,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+          python -m pip install -r requirements-dev.txt
+      - name: Install package
+        run: |
+          python setup.py install
       - name: Run pytest and coverage
         run: |
           coverage3 run -m pytest

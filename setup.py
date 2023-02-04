@@ -8,7 +8,7 @@ with open('requirements.txt', encoding='utf-8') as file:
 
 setuptools.setup(
     name='qiskit-symbolic',
-    version='0.0.1',
+    version='0.0.0',
     url='https://github.com/SimoneGasperini/qiskit-symbolic',
     author='SimoneGasperini',
     author_email='simone.gasperini4@unibo.it',
