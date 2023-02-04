@@ -3,7 +3,7 @@
 import sympy
 from sympy.matrices import Matrix
 from qiskit.circuit.library import UGate, RXGate, RYGate, RZGate
-from qiskit_symbolic.gatesymb import GateSymb  # pylint: disable=cyclic-import
+from ..gatesymb import GateSymb  # pylint: disable=cyclic-import
 
 
 class UGateSymb(UGate, GateSymb):
@@ -75,3 +75,11 @@ class RZGateSymb(RZGate, GateSymb):
         i = sympy.I
         return Matrix([[sympy.exp(-i * lam/2), 0],
                        [0, sympy.exp(i * lam/2)]])
+
+
+NAME_TO_INIT = {
+    'u': UGateSymb,
+    'rx': RXGateSymb,
+    'ry': RYGateSymb,
+    'rz': RZGateSymb
+}

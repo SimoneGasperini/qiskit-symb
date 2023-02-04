@@ -1,5 +1,3 @@
-"""Python package installer"""
-
 import setuptools
 
 
@@ -13,7 +11,8 @@ setuptools.setup(
     author='SimoneGasperini',
     author_email='simone.gasperini4@unibo.it',
     license='Apache 2.0',
+    package_dir={'': 'src'},
     packages=setuptools.find_packages(),
     install_requires=install_requires,
-    python_requires='>=3.8'
+    python_requires='>=3.8',
 )

@@ -1,8 +1,8 @@
 """Utilities module"""
 
 import re
-from qiskit.circuit.parameterexpression import ParameterExpression
-from qiskit_symbolic.library import NAME_TO_INIT
+from qiskit.circuit import ParameterExpression
+from .library.standard_gates import NAME_TO_INIT
 
 
 def get_init(name):

@@ -5,8 +5,8 @@ from sympy.utilities import lambdify
 from qiskit.circuit import QuantumCircuit, ParameterVector, Parameter
 from qiskit.quantum_info import Operator
 from hypothesis import given, strategies
-from qiskit_symbolic import GateSymb
-from qiskit_symbolic.library import (
+from qiskit_symbolic.gatesymb import GateSymb
+from qiskit_symbolic.library.standard_gates import (
     UGateSymb,
     RXGateSymb,
     RYGateSymb,
