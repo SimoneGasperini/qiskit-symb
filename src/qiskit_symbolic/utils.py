@@ -2,7 +2,7 @@
 
 import re
 from qiskit.circuit import ParameterExpression
-from .library.standard_gates import NAME_TO_INIT
+from .library import NAME_TO_INIT  # pylint: disable=cyclic-import
 
 
 def get_init(name):
