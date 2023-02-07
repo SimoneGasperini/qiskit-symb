@@ -20,4 +20,7 @@ class CXGateSymb(CXGate, GateSymb):
         super().__init__(label=label)
         self.ctrl_qubit = ctrl_qubit
         self.tg_qubit = tg_qubit
-        self.base_gate = GateSymb.from_instruction(self.base_gate)
+
+    def __sympy__(self):
+        """todo"""
+        return self.get_ctrl_unitary()

@@ -1,7 +1,9 @@
 """Symbolic gate module"""
 
 from sympy.matrices import Matrix
+from sympy.physics.quantum import TensorProduct
 from qiskit.circuit import ControlledGate
+from qiskit.circuit.library import IGate
 
 
 class GateSymb:
@@ -18,12 +20,12 @@ class GateSymb:
         # pylint: disable=import-outside-toplevel
         from qiskit_symbolic.utils import get_init
         instruction = circ_instruction.operation
-        qubits = circ_instruction.qubits
         name = instruction.name
         params = instruction.params
         label = instruction.label
         if isinstance(instruction, ControlledGate):
-            ctrl_qubit, tg_qubit = GateSymb.get_control_target(qubits)
+            ctrl_qubit = circ_instruction.qubits[0]
+            tg_qubit = circ_instruction.qubits[1]
             return get_init(name)(*params, ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, label=label)
         return GateSymb.from_instruction(instruction)
 
@@ -37,14 +39,22 @@ class GateSymb:
         label = instruction.label
         return get_init(name)(*params, label=label)
 
-    @staticmethod
-    def get_control_target(qubits):
+    def get_ctrl_unitary(self):
         """todo"""
         # pylint: disable=protected-access
-        control = qubits[0]._index
-        target = qubits[1]._index
-        i_min = min(control, target)
-        return control - i_min, target - i_min
+        # pylint: disable=no-member
+        control, target = self.ctrl_qubit._index, self.tg_qubit._index
+        imin = min(control, target)
+        control, target = control - imin, target - imin
+        span = abs(control - target) + 1
+        zero_term = [GateSymb.from_instruction(IGate()).to_sympy()] * span
+        zero_term[control] = Matrix([[1, 0],
+                                     [0, 0]])
+        one_term = [GateSymb.from_instruction(IGate()).to_sympy()] * span
+        one_term[control] = Matrix([[0, 0],
+                                    [0, 1]])
+        one_term[target] = GateSymb.from_instruction(self.base_gate).to_sympy()
+        return TensorProduct(*zero_term[::-1]) + TensorProduct(*one_term[::-1])
 
     def get_sympy_params(self):
         """todo"""
