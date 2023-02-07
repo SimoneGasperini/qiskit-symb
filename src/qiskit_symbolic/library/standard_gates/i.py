@@ -7,7 +7,6 @@ from qiskit_symbolic.gate import GateSymb
 class IGateSymb(IGate, GateSymb):
     r"""Symbolic Pauli :math:`I` gate class"""
 
-    def __init__(self, qubits=None, label=None):
+    def __init__(self, label=None):
         """todo"""
         super().__init__(label=label)
-        self.qubits = qubits

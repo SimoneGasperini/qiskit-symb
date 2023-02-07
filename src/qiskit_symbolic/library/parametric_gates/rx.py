@@ -9,10 +9,9 @@ from qiskit_symbolic.gate import GateSymb
 class RXGateSymb(RXGate, GateSymb):
     r"""Symbolic :math:`RX(\theta)` gate class"""
 
-    def __init__(self, theta, qubits=None, label=None):
+    def __init__(self, theta, label=None):
         """todo"""
         super().__init__(theta=theta, label=label)
-        self.qubits = qubits
 
     def __sympy__(self):
         """todo"""

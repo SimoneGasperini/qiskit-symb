@@ -9,10 +9,9 @@ from qiskit_symbolic.gate import GateSymb
 class RZGateSymb(RZGate, GateSymb):
     r"""Symbolic :math:`RZ(\lambda)` gate class"""
 
-    def __init__(self, phi, qubits=None, label=None):
+    def __init__(self, phi, label=None):
         """todo"""
         super().__init__(phi=phi, label=label)
-        self.qubits = qubits
 
     def __sympy__(self):
         """todo"""

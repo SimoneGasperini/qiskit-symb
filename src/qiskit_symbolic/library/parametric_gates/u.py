@@ -9,11 +9,9 @@ from qiskit_symbolic.gate import GateSymb
 class UGateSymb(UGate, GateSymb):
     r"""Symbolic :math:`U(\theta, \phi, \lambda)` gate class"""
 
-    def __init__(self, theta, phi, lam, qubits=None, label=None):
+    def __init__(self, theta, phi, lam, label=None):
         """todo"""
-        # pylint: disable=too-many-arguments
         super().__init__(theta=theta, phi=phi, lam=lam, label=label)
-        self.qubits = qubits
 
     def __sympy__(self):
         """todo"""

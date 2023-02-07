@@ -1,38 +1,50 @@
 """Symbolic gate module"""
 
 from sympy.matrices import Matrix
-from qiskit.circuit import CircuitInstruction, Instruction
+from qiskit.circuit import ControlledGate
 
 
 class GateSymb:
     """Symbolic gate base class"""
 
     @staticmethod
-    def get(obj):
+    def init(circ_instruction):
         """todo"""
-        if isinstance(obj, CircuitInstruction):
-            return GateSymb.from_circuit_instruction(obj)
-        if isinstance(obj, Instruction):
-            return GateSymb.from_instruction(obj)
-        raise TypeError
+        return GateSymb.from_circ_instruction(circ_instruction)
 
     @staticmethod
-    def from_circuit_instruction(circuit_instruction):
+    def from_circ_instruction(circ_instruction):
         """todo"""
         # pylint: disable=import-outside-toplevel
         from qiskit_symbolic.utils import get_init
-        instruction = circuit_instruction.operation
-        qubits = circuit_instruction.qubits
-        init = get_init(instruction.name)
-        return init(*instruction.params, qubits=qubits, label=instruction.label)
+        instruction = circ_instruction.operation
+        qubits = circ_instruction.qubits
+        name = instruction.name
+        params = instruction.params
+        label = instruction.label
+        if isinstance(instruction, ControlledGate):
+            ctrl_qubit, tg_qubit = GateSymb.get_control_target(qubits)
+            return get_init(name)(*params, ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, label=label)
+        return GateSymb.from_instruction(instruction)
 
     @staticmethod
     def from_instruction(instruction):
         """todo"""
         # pylint: disable=import-outside-toplevel
         from qiskit_symbolic.utils import get_init
-        init = get_init(instruction.name)
-        return init(*instruction.params, label=instruction.label)
+        name = instruction.name
+        params = instruction.params
+        label = instruction.label
+        return get_init(name)(*params, label=label)
+
+    @staticmethod
+    def get_control_target(qubits):
+        """todo"""
+        # pylint: disable=protected-access
+        control = qubits[0]._index
+        target = qubits[1]._index
+        i_min = min(control, target)
+        return control - i_min, target - i_min
 
     def get_sympy_params(self):
         """todo"""
@@ -44,6 +56,6 @@ class GateSymb:
     def to_sympy(self):
         """todo"""
         # pylint: disable=no-member
-        if not self.is_parameterized() and len(self.qubits) == 1:
+        if not self.is_parameterized() and self.num_qubits == 1:
             return Matrix(self.to_matrix())
         return self.__sympy__()
