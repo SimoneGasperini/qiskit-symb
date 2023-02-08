@@ -1,12 +1,17 @@
 r"""Symbolic Pauli :math:`Z` gate module"""
 
-from qiskit.circuit.library import ZGate
-from qiskit_symbolic.gate import GateSymb
+from sympy.matrices import Matrix
+from qiskit_symbolic.gate import Gate
 
 
-class ZGateSymb(ZGate, GateSymb):
+class ZGate(Gate):
     r"""Symbolic Pauli :math:`Z` gate class"""
 
-    def __init__(self, label=None):
+    def __init__(self):
         """todo"""
-        super().__init__(label=label)
+        super().__init__(name='z', num_qubits=1, params=[])
+
+    def __sympy__(self):
+        """todo"""
+        return Matrix([[1, 0],
+                       [0, -1]])

@@ -1,12 +1,19 @@
 r"""Symbolic Pauli :math:`Y` gate module"""
 
-from qiskit.circuit.library import YGate
-from qiskit_symbolic.gate import GateSymb
+import sympy
+from sympy.matrices import Matrix
+from qiskit_symbolic.gate import Gate
 
 
-class YGateSymb(YGate, GateSymb):
+class YGate(Gate):
     r"""Symbolic Pauli :math:`Y` gate class"""
 
-    def __init__(self, label=None):
+    def __init__(self):
         """todo"""
-        super().__init__(label=label)
+        super().__init__(name='y', num_qubits=1, params=[])
+
+    def __sympy__(self):
+        """todo"""
+        i = sympy.I
+        return Matrix([[0, -i],
+                       [i, 0]])

@@ -1,7 +1,8 @@
 """Symbolic standard gates module"""
 
-from .i import IGateSymb
-from .x import XGateSymb, CXGateSymb
-from .y import YGateSymb
-from .z import ZGateSymb
-from .h import HGateSymb
+# pylint: disable=cyclic-import
+from .i import IGate
+from .x import XGate, CXGate
+from .y import YGate
+from .z import ZGate
+from .h import HGate

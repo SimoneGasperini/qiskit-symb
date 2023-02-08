@@ -1,6 +1,7 @@
 """Symbolic parametric gates module"""
 
-from .u import UGateSymb
-from .rx import RXGateSymb
-from .ry import RYGateSymb
-from .rz import RZGateSymb
+# pylint: disable=cyclic-import
+from .u import UGate
+from .rx import RXGate
+from .ry import RYGate
+from .rz import RZGate

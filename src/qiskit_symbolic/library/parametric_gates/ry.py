@@ -2,16 +2,16 @@ r"""Symbolic :math:`RY(\theta)` gate module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit.circuit.library import RYGate
-from qiskit_symbolic.gate import GateSymb
+from qiskit_symbolic.gate import Gate
 
 
-class RYGateSymb(RYGate, GateSymb):
+class RYGate(Gate):
     r"""Symbolic :math:`RY(\theta)` gate class"""
 
-    def __init__(self, theta, label=None):
+    def __init__(self, theta):
         """todo"""
-        super().__init__(theta=theta, label=label)
+        params = [theta]
+        super().__init__(name='ry', num_qubits=1, params=params)
 
     def __sympy__(self):
         """todo"""

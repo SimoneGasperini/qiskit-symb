@@ -1,25 +1,31 @@
 r"""Symbolic :math:`X` and :math:`CX` gates module"""
 
-from qiskit.circuit.library import XGate, CXGate
-from qiskit_symbolic.gate import GateSymb
+from sympy.matrices import Matrix
+from qiskit_symbolic.gate import Gate
 
 
-class XGateSymb(XGate, GateSymb):
+class XGate(Gate):
     r"""Symbolic Pauli :math:`X` gate class"""
 
-    def __init__(self, label=None):
+    def __init__(self):
         """todo"""
-        super().__init__(label=label)
+        super().__init__(name='x', num_qubits=1, params=[])
+
+    def __sympy__(self):
+        """todo"""
+        return Matrix([[0, 1],
+                       [1, 0]])
 
 
-class CXGateSymb(CXGate, GateSymb):
+class CXGate(Gate):
     r"""Symbolic controlled-not :math:`CX` gate class"""
 
-    def __init__(self, ctrl_qubit, tg_qubit, label=None):
+    def __init__(self, ctrl_qubit, tg_qubit):
         """todo"""
-        super().__init__(label=label)
+        super().__init__(name='cx', num_qubits=2, params=[])
         self.ctrl_qubit = ctrl_qubit
         self.tg_qubit = tg_qubit
+        self.base_gate = XGate()
 
     def __sympy__(self):
         """todo"""

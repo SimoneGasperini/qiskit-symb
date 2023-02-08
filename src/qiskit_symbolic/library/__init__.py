@@ -1,30 +1,30 @@
 """Symbolic gates library module"""
 
 from .standard_gates import (
-    IGateSymb,
-    XGateSymb,
-    CXGateSymb,
-    YGateSymb,
-    ZGateSymb,
-    HGateSymb
+    IGate,
+    XGate,
+    CXGate,
+    YGate,
+    ZGate,
+    HGate
 )
 
 from .parametric_gates import (
-    UGateSymb,
-    RXGateSymb,
-    RYGateSymb,
-    RZGateSymb
+    UGate,
+    RXGate,
+    RYGate,
+    RZGate
 )
 
 NAME_TO_INIT = {
-    'id': IGateSymb,
-    'x': XGateSymb,
-    'cx': CXGateSymb,
-    'y': YGateSymb,
-    'z': ZGateSymb,
-    'h': HGateSymb,
-    'u': UGateSymb,
-    'rx': RXGateSymb,
-    'ry': RYGateSymb,
-    'rz': RZGateSymb
+    'id': IGate,
+    'x': XGate,
+    'cx': CXGate,
+    'y': YGate,
+    'z': ZGate,
+    'h': HGate,
+    'u': UGate,
+    'rx': RXGate,
+    'ry': RYGate,
+    'rz': RZGate
 }

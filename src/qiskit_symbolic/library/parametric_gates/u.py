@@ -2,16 +2,16 @@ r"""Symbolic :math:`U(\theta, \phi, \lambda)` gate module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit.circuit.library import UGate
-from qiskit_symbolic.gate import GateSymb
+from qiskit_symbolic.gate import Gate
 
 
-class UGateSymb(UGate, GateSymb):
+class UGate(Gate):
     r"""Symbolic :math:`U(\theta, \phi, \lambda)` gate class"""
 
-    def __init__(self, theta, phi, lam, label=None):
+    def __init__(self, theta, phi, lam):
         """todo"""
-        super().__init__(theta=theta, phi=phi, lam=lam, label=label)
+        params = [theta, phi, lam]
+        super().__init__(name='u', num_qubits=1, params=params)
 
     def __sympy__(self):
         """todo"""

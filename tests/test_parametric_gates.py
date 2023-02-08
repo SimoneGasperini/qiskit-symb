@@ -5,13 +5,8 @@ from sympy.utilities import lambdify
 from qiskit.circuit import QuantumCircuit, ParameterVector, Parameter
 from qiskit.quantum_info import Operator
 from hypothesis import given, strategies
-from qiskit_symbolic.gate import GateSymb
-from qiskit_symbolic.library import (
-    UGateSymb,
-    RXGateSymb,
-    RYGateSymb,
-    RZGateSymb
-)
+from qiskit_symbolic.gate import Gate
+from qiskit_symbolic.library import UGate, RXGate, RYGate, RZGate
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
 
@@ -25,8 +20,8 @@ def test_u(theta, phi, lam):
     pars_val = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_val))
     circ.u(*pars, 0)
-    u_symb = GateSymb.init(circ.data[0])
-    assert isinstance(u_symb, UGateSymb)
+    u_symb = Gate.init(circ.data[0])
+    assert isinstance(u_symb, UGate)
     ndarray1 = Operator(circ.assign_parameters({pars: pars_val})).data
     ndarray2 = lambdify(pars, u_symb.to_sympy(), 'numpy')(*pars_val)
     assert numpy.allclose(ndarray1, ndarray2)
@@ -38,8 +33,8 @@ def test_rx(theta):
     circ = QuantumCircuit(1)
     par = Parameter('par')
     circ.rx(par, 0)
-    rx_symb = GateSymb.init(circ.data[0])
-    assert isinstance(rx_symb, RXGateSymb)
+    rx_symb = Gate.init(circ.data[0])
+    assert isinstance(rx_symb, RXGate)
     ndarray1 = Operator(circ.assign_parameters({par: theta})).data
     ndarray2 = lambdify([par], rx_symb.to_sympy(), 'numpy')(theta)
     assert numpy.allclose(ndarray1, ndarray2)
@@ -51,8 +46,8 @@ def test_ry(theta):
     circ = QuantumCircuit(1)
     par = Parameter('par')
     circ.ry(par, 0)
-    ry_symb = GateSymb.init(circ.data[0])
-    assert isinstance(ry_symb, RYGateSymb)
+    ry_symb = Gate.init(circ.data[0])
+    assert isinstance(ry_symb, RYGate)
     ndarray1 = Operator(circ.assign_parameters({par: theta})).data
     ndarray2 = lambdify([par], ry_symb.to_sympy(), 'numpy')(theta)
     assert numpy.allclose(ndarray1, ndarray2)
@@ -64,8 +59,8 @@ def test_rz(phi):
     circ = QuantumCircuit(1)
     par = Parameter('par')
     circ.rz(par, 0)
-    rz_symb = GateSymb.init(circ.data[0])
-    assert isinstance(rz_symb, RZGateSymb)
+    rz_symb = Gate.init(circ.data[0])
+    assert isinstance(rz_symb, RZGate)
     ndarray1 = Operator(circ.assign_parameters({par: phi})).data
     ndarray2 = lambdify([par], rz_symb.to_sympy(), 'numpy')(phi)
     assert numpy.allclose(ndarray1, ndarray2)

@@ -2,16 +2,16 @@ r"""Symbolic :math:`RZ(\lambda)` gate module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit.circuit.library import RZGate
-from qiskit_symbolic.gate import GateSymb
+from qiskit_symbolic.gate import Gate
 
 
-class RZGateSymb(RZGate, GateSymb):
+class RZGate(Gate):
     r"""Symbolic :math:`RZ(\lambda)` gate class"""
 
-    def __init__(self, phi, label=None):
+    def __init__(self, phi):
         """todo"""
-        super().__init__(phi=phi, label=label)
+        params = [phi]
+        super().__init__(name='rz', num_qubits=1, params=params)
 
     def __sympy__(self):
         """todo"""

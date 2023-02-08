@@ -2,16 +2,16 @@ r"""Symbolic :math:`RX(\theta)` gate module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit.circuit.library import RXGate
-from qiskit_symbolic.gate import GateSymb
+from qiskit_symbolic.gate import Gate
 
 
-class RXGateSymb(RXGate, GateSymb):
+class RXGate(Gate):
     r"""Symbolic :math:`RX(\theta)` gate class"""
 
-    def __init__(self, theta, label=None):
+    def __init__(self, theta):
         """todo"""
-        super().__init__(theta=theta, label=label)
+        params = [theta]
+        super().__init__(name='rx', num_qubits=1, params=params)
 
     def __sympy__(self):
         """todo"""
