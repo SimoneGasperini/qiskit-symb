@@ -3,10 +3,10 @@
 from .standard_gates import (
     IGate,
     XGate, CXGate,
-    YGate,
-    ZGate,
-    HGate,
-    SGate, SdgGate,
+    YGate, CYGate,
+    ZGate, CZGate,
+    HGate, CHGate,
+    SGate, SdgGate, CSGate, CSdgGate,
     TGate, TdgGate
 )
 
@@ -24,10 +24,15 @@ NAME_TO_INIT = {
     'x': XGate,
     'cx': CXGate,
     'y': YGate,
+    'cy': CYGate,
     'z': ZGate,
+    'cz': CZGate,
     'h': HGate,
+    'ch': CHGate,
     's': SGate,
     'sdg': SdgGate,
+    'cs': CSGate,
+    'csdg': CSdgGate,
     't': TGate,
     'tdg': TdgGate,
     'u': UGate,

@@ -1,4 +1,4 @@
-r"""Symbolic :math:`X` and :math:`CX` gates module"""
+r"""Symbolic Pauli :math:`X` and :math:`CX` gates module"""
 
 from sympy.matrices import Matrix
 from qiskit_symbolic.gate import Gate
@@ -19,7 +19,7 @@ class XGate(Gate):
 
 
 class CXGate(ControlledGate):
-    r"""Symbolic controlled-not :math:`CX` gate class"""
+    r"""Symbolic :math:`CX` gate class"""
 
     def __init__(self, ctrl_qubit, tg_qubit):
         """todo"""
