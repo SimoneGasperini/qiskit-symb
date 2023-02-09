@@ -2,11 +2,12 @@
 
 from .standard_gates import (
     IGate,
-    XGate,
-    CXGate,
+    XGate, CXGate,
     YGate,
     ZGate,
-    HGate
+    HGate,
+    SGate, SdgGate,
+    TGate, TdgGate
 )
 
 from .parametric_gates import (
@@ -25,6 +26,10 @@ NAME_TO_INIT = {
     'y': YGate,
     'z': ZGate,
     'h': HGate,
+    's': SGate,
+    'sdg': SdgGate,
+    't': TGate,
+    'tdg': TdgGate,
     'u': UGate,
     'rx': RXGate,
     'ry': RYGate,
