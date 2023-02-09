@@ -13,7 +13,9 @@ from .parametric_gates import (
     UGate,
     RXGate,
     RYGate,
-    RZGate
+    RZGate,
+    PhaseGate,
+    RGate
 )
 
 NAME_TO_INIT = {
@@ -26,5 +28,7 @@ NAME_TO_INIT = {
     'u': UGate,
     'rx': RXGate,
     'ry': RYGate,
-    'rz': RZGate
+    'rz': RZGate,
+    'p': PhaseGate,
+    'r': RGate
 }
