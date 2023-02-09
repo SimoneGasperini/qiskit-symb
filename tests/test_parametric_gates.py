@@ -1,12 +1,17 @@
 """Test parametric gates module"""
 
 import numpy
-from sympy.utilities import lambdify
-from qiskit.circuit import QuantumCircuit, ParameterVector, Parameter
-from qiskit.quantum_info import Operator
 from hypothesis import given, strategies
-from qiskit_symbolic.gate import Gate
-from qiskit_symbolic.library import UGate, RXGate, RYGate, RZGate
+from qiskit.circuit import ParameterVector, Parameter
+from qiskit.circuit.library import UGate, RXGate, RYGate, RZGate, PhaseGate, RGate
+from qiskit_symbolic.library import (
+    UGate as symb_UGate,
+    RXGate as symb_RXGate,
+    RYGate as symb_RYGate,
+    RZGate as symb_RZGate,
+    PhaseGate as symb_PhaseGate,
+    RGate as symb_RGate
+)
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
 
@@ -16,51 +21,55 @@ val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
        lam=strategies.floats(**val_range))
 def test_u(theta, phi, lam):
     """todo"""
-    circ = QuantumCircuit(1)
-    pars_val = [theta, phi, lam]
-    pars = ParameterVector(name='pars', length=len(pars_val))
-    circ.u(*pars, 0)
-    u_symb = Gate.get(circ.data[0])
-    assert isinstance(u_symb, UGate)
-    ndarray1 = Operator(circ.assign_parameters({pars: pars_val})).data
-    ndarray2 = lambdify(pars, u_symb.to_sympy(), 'numpy')(*pars_val)
-    assert numpy.allclose(ndarray1, ndarray2)
+    pars_vals = [theta, phi, lam]
+    pars = ParameterVector(name='pars', length=len(pars_vals))
+    arr1 = UGate(*pars_vals).to_matrix()
+    arr2 = symb_UGate(*pars).to_matrix(pars_vals)
+    assert numpy.allclose(arr1, arr2)
 
 
 @given(theta=strategies.floats(**val_range))
 def test_rx(theta):
     """todo"""
-    circ = QuantumCircuit(1)
-    par = Parameter('par')
-    circ.rx(par, 0)
-    rx_symb = Gate.get(circ.data[0])
-    assert isinstance(rx_symb, RXGate)
-    ndarray1 = Operator(circ.assign_parameters({par: theta})).data
-    ndarray2 = lambdify([par], rx_symb.to_sympy(), 'numpy')(theta)
-    assert numpy.allclose(ndarray1, ndarray2)
+    par = Parameter(name='par')
+    arr1 = RXGate(theta).to_matrix()
+    arr2 = symb_RXGate(par).to_matrix(theta)
+    assert numpy.allclose(arr1, arr2)
 
 
 @given(theta=strategies.floats(**val_range))
 def test_ry(theta):
     """todo"""
-    circ = QuantumCircuit(1)
-    par = Parameter('par')
-    circ.ry(par, 0)
-    ry_symb = Gate.get(circ.data[0])
-    assert isinstance(ry_symb, RYGate)
-    ndarray1 = Operator(circ.assign_parameters({par: theta})).data
-    ndarray2 = lambdify([par], ry_symb.to_sympy(), 'numpy')(theta)
-    assert numpy.allclose(ndarray1, ndarray2)
+    par = Parameter(name='par')
+    arr1 = RYGate(theta).to_matrix()
+    arr2 = symb_RYGate(par).to_matrix(theta)
+    assert numpy.allclose(arr1, arr2)
 
 
 @given(phi=strategies.floats(**val_range))
 def test_rz(phi):
     """todo"""
-    circ = QuantumCircuit(1)
-    par = Parameter('par')
-    circ.rz(par, 0)
-    rz_symb = Gate.get(circ.data[0])
-    assert isinstance(rz_symb, RZGate)
-    ndarray1 = Operator(circ.assign_parameters({par: phi})).data
-    ndarray2 = lambdify([par], rz_symb.to_sympy(), 'numpy')(phi)
-    assert numpy.allclose(ndarray1, ndarray2)
+    par = Parameter(name='par')
+    arr1 = RZGate(phi).to_matrix()
+    arr2 = symb_RZGate(par).to_matrix(phi)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range))
+def test_p(theta):
+    """todo"""
+    par = Parameter(name='par')
+    arr1 = PhaseGate(theta).to_matrix()
+    arr2 = symb_PhaseGate(par).to_matrix(theta)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range),
+       phi=strategies.floats(**val_range))
+def test_r(theta, phi):
+    """todo"""
+    pars_vals = [theta, phi]
+    pars = ParameterVector(name='pars', length=len(pars_vals))
+    arr1 = RGate(*pars_vals).to_matrix()
+    arr2 = symb_RGate(*pars).to_matrix(pars_vals)
+    assert numpy.allclose(arr1, arr2)
