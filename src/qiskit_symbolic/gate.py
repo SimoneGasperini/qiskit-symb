@@ -1,5 +1,6 @@
 """Symbolic gate module"""
 
+import numpy
 from sympy import lambdify
 from qiskit.circuit import ControlledGate as QiskitCGate
 
@@ -37,11 +38,16 @@ class Gate:
         # pylint: disable=no-member
         return self.__sympy__()
 
-    def to_matrix(self, _vals):
+    def to_matrix(self, _vals=None, dtype=complex):
         """todo"""
-        # pylint: disable=no-member
         sympy_matrix = self.to_sympy()
-        try:
-            return lambdify(self.params, sympy_matrix, 'numpy')(*_vals)
-        except TypeError:
-            return lambdify(self.params, sympy_matrix, 'numpy')(_vals)
+        if _vals is None:
+            numpy_matrix = numpy.array(sympy_matrix)
+        else:
+            try:
+                numpy_matrix = lambdify(
+                    self.params, sympy_matrix, 'numpy')(*_vals)
+            except TypeError:
+                numpy_matrix = lambdify(
+                    self.params, sympy_matrix, 'numpy')(_vals)
+        return numpy_matrix.astype(dtype=dtype)
