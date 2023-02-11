@@ -19,8 +19,8 @@ class Gate:
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=cyclic-import
-        from qiskit_symbolic.controlledgate import ControlledGate
-        from qiskit_symbolic.utils import get_init
+        from .controlledgate import ControlledGate
+        from .utils import get_init
         gate = circuit_instruction.operation
         if isinstance(gate, QiskitCGate):
             return ControlledGate.get(circuit_instruction)
@@ -30,7 +30,7 @@ class Gate:
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
-        from qiskit_symbolic.utils import sympify
+        from .utils import sympify
         return [sympify(par) for par in self.params]
 
     def to_sympy(self):
