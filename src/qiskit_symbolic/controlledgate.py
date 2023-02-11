@@ -1,5 +1,6 @@
 """Symbolic controlled gate module"""
 
+import sympy
 from sympy.matrices import Matrix
 from sympy.physics.quantum import TensorProduct
 from qiskit_symbolic.gate import Gate
@@ -8,19 +9,21 @@ from qiskit_symbolic.gate import Gate
 class ControlledGate(Gate):
     """Symbolic controlled gate base class"""
 
-    def __init__(self, name, num_qubits, params, ctrl_qubit, tg_qubit, base_gate):
+    def __init__(self, name, num_qubits, params, ctrl_qubit, tg_qubit, base_gate,
+                 global_phase=False):
         """todo"""
         # pylint: disable=too-many-arguments
         super().__init__(name=name, num_qubits=num_qubits, params=params)
         self.ctrl_qubit = ctrl_qubit
         self.tg_qubit = tg_qubit
         self.base_gate = base_gate
+        self.global_phase = global_phase
 
     @staticmethod
     def get(circuit_instruction):
         """todo"""
         # pylint: disable=import-outside-toplevel
-        from qiskit_symbolic.utils import get_init
+        from .utils import get_init
         ctrl_qubit = circuit_instruction.qubits[0]
         tg_qubit = circuit_instruction.qubits[1]
         gate = circuit_instruction.operation
@@ -31,6 +34,7 @@ class ControlledGate(Gate):
         # pylint: disable=import-outside-toplevel
         # pylint: disable=protected-access
         # pylint: disable=no-member
+        from .utils import sympify
         from .library.standard_gates import IGate
         control, target = self.ctrl_qubit._index, self.tg_qubit._index
         imin = min(control, target)
@@ -40,4 +44,9 @@ class ControlledGate(Gate):
         one_term = [IGate().to_sympy()] * span
         one_term[control - imin] = Matrix([[0, 0], [0, 1]])
         one_term[target - imin] = self.base_gate.to_sympy()
-        return TensorProduct(*zero_term[::-1]) + TensorProduct(*one_term[::-1])
+        gph = 1
+        if self.global_phase:
+            i = sympy.I
+            gamma = sympify(self.params[-1])
+            gph = sympy.exp(i * gamma)
+        return TensorProduct(*zero_term[::-1]) + gph * TensorProduct(*one_term[::-1])
