@@ -1,8 +1,9 @@
-r"""Symbolic :math:`P(\lambda)` gate module"""
+r"""Symbolic :math:`P(\lambda)` and :math:`CP(\lambda)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
 from qiskit_symbolic.gate import Gate
+from qiskit_symbolic.controlledgate import ControlledGate
 
 
 class PhaseGate(Gate):
@@ -19,3 +20,14 @@ class PhaseGate(Gate):
         i = sympy.I
         return Matrix([[1, 0],
                        [0, sympy.exp(i * lam)]])
+
+
+class CPhaseGate(ControlledGate):
+    r"""Symbolic :math:`CP(\lambda)` gate class"""
+
+    def __init__(self, theta, ctrl_qubit, tg_qubit):
+        """todo"""
+        params = [theta]
+        base_gate = PhaseGate(theta)
+        super().__init__(name='cp', num_qubits=2, params=params,
+                         ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, base_gate=base_gate)

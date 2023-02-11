@@ -1,8 +1,9 @@
-r"""Symbolic :math:`RY(\theta)` gate module"""
+r"""Symbolic :math:`RY(\theta)` and :math:`CRY(\theta)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
 from qiskit_symbolic.gate import Gate
+from qiskit_symbolic.controlledgate import ControlledGate
 
 
 class RYGate(Gate):
@@ -20,3 +21,14 @@ class RYGate(Gate):
         sin = sympy.sin(theta / 2)
         return Matrix([[cos, -sin],
                        [sin, cos]])
+
+
+class CRYGate(ControlledGate):
+    r"""Symbolic :math:`CRY(\theta)` gate class"""
+
+    def __init__(self, theta, ctrl_qubit, tg_qubit):
+        """todo"""
+        params = [theta]
+        base_gate = RYGate(theta)
+        super().__init__(name='cry', num_qubits=2, params=params,
+                         ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, base_gate=base_gate)

@@ -11,11 +11,11 @@ from .standard_gates import (
 )
 
 from .parametric_gates import (
-    UGate,
-    RXGate,
-    RYGate,
-    RZGate,
-    PhaseGate,
+    UGate, CUGate,
+    RXGate, CRXGate,
+    RYGate, CRYGate,
+    RZGate, CRZGate,
+    PhaseGate, CPhaseGate,
     RGate
 )
 
@@ -36,9 +36,14 @@ NAME_TO_INIT = {
     't': TGate,
     'tdg': TdgGate,
     'u': UGate,
+    'cu': CUGate,
     'rx': RXGate,
+    'crx': CRXGate,
     'ry': RYGate,
+    'cry': CRYGate,
     'rz': RZGate,
+    'crz': CRZGate,
     'p': PhaseGate,
+    'cp': CPhaseGate,
     'r': RGate
 }
