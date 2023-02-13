@@ -23,27 +23,26 @@ class ControlledGate(Gate):
     def get(circuit_instruction):
         """todo"""
         # pylint: disable=import-outside-toplevel
+        # pylint: disable=protected-access
         from .utils import get_init
-        ctrl_qubit = circuit_instruction.qubits[0]
-        tg_qubit = circuit_instruction.qubits[1]
+        ctrl_qubit = circuit_instruction.qubits[0]._index
+        tg_qubit = circuit_instruction.qubits[1]._index
         gate = circuit_instruction.operation
         return get_init(gate.name)(*gate.params, ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit)
 
     def to_sympy(self):
         """todo"""
         # pylint: disable=import-outside-toplevel
-        # pylint: disable=protected-access
         # pylint: disable=no-member
         from .utils import sympify
         from .library.standard_gates import IGate
-        control, target = self.ctrl_qubit._index, self.tg_qubit._index
-        imin = min(control, target)
-        span = abs(control - target) + 1
+        imin = min(self.ctrl_qubit, self.tg_qubit)
+        span = abs(self.ctrl_qubit - self.tg_qubit) + 1
         zero_term = [IGate().to_sympy()] * span
-        zero_term[control - imin] = Matrix([[1, 0], [0, 0]])
+        zero_term[self.ctrl_qubit - imin] = Matrix([[1, 0], [0, 0]])
         one_term = [IGate().to_sympy()] * span
-        one_term[control - imin] = Matrix([[0, 0], [0, 1]])
-        one_term[target - imin] = self.base_gate.to_sympy()
+        one_term[self.ctrl_qubit - imin] = Matrix([[0, 0], [0, 1]])
+        one_term[self.tg_qubit - imin] = self.base_gate.to_sympy()
         gph = 1
         if self.global_phase:
             i = sympy.I
