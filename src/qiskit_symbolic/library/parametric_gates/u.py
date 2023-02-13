@@ -29,7 +29,7 @@ class UGate(Gate):
 class CUGate(ControlledGate):
     r"""Symbolic :math:`CU(\theta, \phi, \lambda, \gamma)` gate class"""
 
-    def __init__(self, theta, phi, lam, gamma, ctrl_qubit, tg_qubit):
+    def __init__(self, theta, phi, lam, gamma, ctrl_qubit=0, tg_qubit=1):
         """todo"""
         # pylint: disable=too-many-arguments
         params = [theta, phi, lam, gamma]

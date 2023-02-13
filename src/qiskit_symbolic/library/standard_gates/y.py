@@ -23,7 +23,7 @@ class YGate(Gate):
 class CYGate(ControlledGate):
     r"""Symbolic :math:`CY` gate class"""
 
-    def __init__(self, ctrl_qubit, tg_qubit):
+    def __init__(self, ctrl_qubit=0, tg_qubit=1):
         """todo"""
         super().__init__(name='cy', num_qubits=2, params=[],
                          ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, base_gate=YGate())

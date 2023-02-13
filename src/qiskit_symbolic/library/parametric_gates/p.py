@@ -25,7 +25,7 @@ class PhaseGate(Gate):
 class CPhaseGate(ControlledGate):
     r"""Symbolic :math:`CP(\lambda)` gate class"""
 
-    def __init__(self, theta, ctrl_qubit, tg_qubit):
+    def __init__(self, theta, ctrl_qubit=0, tg_qubit=1):
         """todo"""
         params = [theta]
         base_gate = PhaseGate(theta)

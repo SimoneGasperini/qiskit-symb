@@ -3,8 +3,7 @@
 import numpy
 from hypothesis import given, strategies
 from qiskit.circuit import ParameterVector, Parameter
-from qiskit.circuit import QuantumCircuit
-from qiskit.quantum_info import Operator
+from qiskit.circuit.library import CUGate, CRXGate, CRYGate, CRZGate, CPhaseGate
 from qiskit_symbolic.library import (
     CUGate as symb_CUGate,
     CRXGate as symb_CRXGate,
@@ -24,11 +23,8 @@ def test_cu(theta, phi, lam, gamma):
     """todo"""
     pars_vals = [theta, phi, lam, gamma]
     pars = ParameterVector(name='pars', length=len(pars_vals))
-    circ = QuantumCircuit(2)
-    circ.cu(*pars_vals, 0, 1)
-    arr1 = Operator(circ).data
-    symb_gate = symb_CUGate(*pars, circ[0].qubits[0], circ[0].qubits[1])
-    arr2 = symb_gate.to_matrix(pars_vals)
+    arr1 = CUGate(*pars_vals).to_matrix()
+    arr2 = symb_CUGate(*pars).to_matrix(pars_vals)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -36,11 +32,8 @@ def test_cu(theta, phi, lam, gamma):
 def test_crx(theta):
     """todo"""
     par = Parameter(name='par')
-    circ = QuantumCircuit(2)
-    circ.crx(theta, 0, 1)
-    arr1 = Operator(circ).data
-    symb_gate = symb_CRXGate(par, circ[0].qubits[0], circ[0].qubits[1])
-    arr2 = symb_gate.to_matrix(theta)
+    arr1 = CRXGate(theta).to_matrix()
+    arr2 = symb_CRXGate(par).to_matrix(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -48,11 +41,8 @@ def test_crx(theta):
 def test_cry(theta):
     """todo"""
     par = Parameter(name='par')
-    circ = QuantumCircuit(2)
-    circ.cry(theta, 0, 1)
-    arr1 = Operator(circ).data
-    symb_gate = symb_CRYGate(par, circ[0].qubits[0], circ[0].qubits[1])
-    arr2 = symb_gate.to_matrix(theta)
+    arr1 = CRYGate(theta).to_matrix()
+    arr2 = symb_CRYGate(par).to_matrix(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -60,11 +50,8 @@ def test_cry(theta):
 def test_crz(phi):
     """todo"""
     par = Parameter(name='par')
-    circ = QuantumCircuit(2)
-    circ.crz(phi, 0, 1)
-    arr1 = Operator(circ).data
-    symb_gate = symb_CRZGate(par, circ[0].qubits[0], circ[0].qubits[1])
-    arr2 = symb_gate.to_matrix(phi)
+    arr1 = CRZGate(phi).to_matrix()
+    arr2 = symb_CRZGate(par).to_matrix(phi)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -72,9 +59,6 @@ def test_crz(phi):
 def test_cp(theta):
     """todo"""
     par = Parameter(name='par')
-    circ = QuantumCircuit(2)
-    circ.cp(theta, 0, 1)
-    arr1 = Operator(circ).data
-    symb_gate = symb_CPhaseGate(par, circ[0].qubits[0], circ[0].qubits[1])
-    arr2 = symb_gate.to_matrix(theta)
+    arr1 = CPhaseGate(theta).to_matrix()
+    arr2 = symb_CPhaseGate(par).to_matrix(theta)
     assert numpy.allclose(arr1, arr2)

@@ -27,7 +27,7 @@ class RXGate(Gate):
 class CRXGate(ControlledGate):
     r"""Symbolic :math:`CRX(\theta)` gate class"""
 
-    def __init__(self, theta, ctrl_qubit, tg_qubit):
+    def __init__(self, theta, ctrl_qubit=0, tg_qubit=1):
         """todo"""
         params = [theta]
         base_gate = RXGate(theta)

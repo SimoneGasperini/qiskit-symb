@@ -22,7 +22,7 @@ class HGate(Gate):
 class CHGate(ControlledGate):
     r"""Symbolic :math:`CH` gate class"""
 
-    def __init__(self, ctrl_qubit, tg_qubit):
+    def __init__(self, ctrl_qubit=0, tg_qubit=1):
         """todo"""
         super().__init__(name='ch', num_qubits=2, params=[],
                          ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, base_gate=HGate())

@@ -25,7 +25,7 @@ class RZGate(Gate):
 class CRZGate(ControlledGate):
     r"""Symbolic :math:`CRZ(\phi)` gate class"""
 
-    def __init__(self, phi, ctrl_qubit, tg_qubit):
+    def __init__(self, phi, ctrl_qubit=0, tg_qubit=1):
         """todo"""
         params = [phi]
         base_gate = RZGate(phi)
