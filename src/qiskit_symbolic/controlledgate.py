@@ -1,13 +1,16 @@
 """Symbolic controlled gate module"""
 
 import sympy
-from sympy.matrices import Matrix
 from sympy.physics.quantum import TensorProduct
-from qiskit_symbolic.gate import Gate
+from .gate import Gate
+from .statevector import Statevector
 
 
 class ControlledGate(Gate):
     """Symbolic controlled gate base class"""
+
+    projector_0 = Statevector.from_label('0').projector()
+    projector_1 = Statevector.from_label('1').projector()
 
     def __init__(self, name, num_qubits, params, ctrl_qubit, tg_qubit, base_gate,
                  global_phase=False):
@@ -39,9 +42,9 @@ class ControlledGate(Gate):
         imin = min(self.ctrl_qubit, self.tg_qubit)
         span = abs(self.ctrl_qubit - self.tg_qubit) + 1
         zero_term = [IGate().to_sympy()] * span
-        zero_term[self.ctrl_qubit - imin] = Matrix([[1, 0], [0, 0]])
+        zero_term[self.ctrl_qubit - imin] = self.projector_0
         one_term = [IGate().to_sympy()] * span
-        one_term[self.ctrl_qubit - imin] = Matrix([[0, 0], [0, 1]])
+        one_term[self.ctrl_qubit - imin] = self.projector_1
         one_term[self.tg_qubit - imin] = self.base_gate.to_sympy()
         gph = 1
         if self.global_phase:
