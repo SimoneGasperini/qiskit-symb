@@ -3,7 +3,7 @@
 import sympy
 from sympy.physics.quantum import TensorProduct
 from .gate import Gate
-from .statevector import Statevector
+from .state.statevector import Statevector
 
 
 class ControlledGate(Gate):
@@ -37,7 +37,6 @@ class ControlledGate(Gate):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
-        from .utils import sympify
         from .library.standard_gates import IGate
         imin = min(self.ctrl_qubit, self.tg_qubit)
         span = abs(self.ctrl_qubit - self.tg_qubit) + 1
@@ -48,7 +47,6 @@ class ControlledGate(Gate):
         one_term[self.tg_qubit - imin] = self.base_gate.to_sympy()
         gph = 1
         if self.global_phase:
-            i = sympy.I
-            gamma = sympify(self.params[-1])
-            gph = sympy.exp(i * gamma)
+            gamma = self.sympy_symbols[-1]
+            gph = sympy.exp(sympy.I * gamma)
         return TensorProduct(*zero_term[::-1]) + gph * TensorProduct(*one_term[::-1])

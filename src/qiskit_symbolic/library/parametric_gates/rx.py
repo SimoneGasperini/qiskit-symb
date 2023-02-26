@@ -16,7 +16,7 @@ class RXGate(Gate):
 
     def __sympy__(self):
         """todo"""
-        theta, = self.get_sympy_params()
+        theta, = self.sympy_expressions
         i = sympy.I
         cos = sympy.cos(theta / 2)
         sin = sympy.sin(theta / 2)

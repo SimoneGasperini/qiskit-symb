@@ -17,7 +17,7 @@ class UGate(Gate):
 
     def __sympy__(self):
         """todo"""
-        theta, phi, lam = self.get_sympy_params()
+        theta, phi, lam = self.sympy_expressions
         cos = sympy.cos(theta / 2)
         sin = sympy.sin(theta / 2)
         i = sympy.I
