@@ -15,40 +15,40 @@ from qiskit_symbolic.library import (
 def test_cx():
     """todo"""
     arr1 = CXGate().to_matrix()
-    arr2 = symb_CXGate().to_matrix()
+    arr2 = symb_CXGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_cy():
     """todo"""
     arr1 = CYGate().to_matrix()
-    arr2 = symb_CYGate().to_matrix()
+    arr2 = symb_CYGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_cz():
     """todo"""
     arr1 = CZGate().to_matrix()
-    arr2 = symb_CZGate().to_matrix()
+    arr2 = symb_CZGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_ch():
     """todo"""
     arr1 = CHGate().to_matrix()
-    arr2 = symb_CHGate().to_matrix()
+    arr2 = symb_CHGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_cs():
     """todo"""
     arr1 = CSGate().to_matrix()
-    arr2 = symb_CSGate().to_matrix()
+    arr2 = symb_CSGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_csdg():
     """todo"""
     arr1 = CSdgGate().to_matrix()
-    arr2 = symb_CSdgGate().to_matrix()
+    arr2 = symb_CSdgGate().to_numpy()
     assert numpy.allclose(arr1, arr2)

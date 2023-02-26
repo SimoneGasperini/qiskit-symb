@@ -24,7 +24,7 @@ def test_u(theta, phi, lam):
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = UGate(*pars_vals).to_matrix()
-    arr2 = symb_UGate(*pars).to_matrix(pars_vals)
+    arr2 = symb_UGate(*pars).to_numpy(*pars_vals)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -33,7 +33,7 @@ def test_rx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RXGate(theta).to_matrix()
-    arr2 = symb_RXGate(par).to_matrix(theta)
+    arr2 = symb_RXGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -42,7 +42,7 @@ def test_ry(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RYGate(theta).to_matrix()
-    arr2 = symb_RYGate(par).to_matrix(theta)
+    arr2 = symb_RYGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -51,7 +51,7 @@ def test_rz(phi):
     """todo"""
     par = Parameter(name='par')
     arr1 = RZGate(phi).to_matrix()
-    arr2 = symb_RZGate(par).to_matrix(phi)
+    arr2 = symb_RZGate(par).to_numpy(phi)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -60,7 +60,7 @@ def test_p(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = PhaseGate(theta).to_matrix()
-    arr2 = symb_PhaseGate(par).to_matrix(theta)
+    arr2 = symb_PhaseGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -71,5 +71,5 @@ def test_r(theta, phi):
     pars_vals = [theta, phi]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = RGate(*pars_vals).to_matrix()
-    arr2 = symb_RGate(*pars).to_matrix(pars_vals)
+    arr2 = symb_RGate(*pars).to_numpy(*pars_vals)
     assert numpy.allclose(arr1, arr2)

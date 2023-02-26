@@ -24,7 +24,7 @@ def test_cu(theta, phi, lam, gamma):
     pars_vals = [theta, phi, lam, gamma]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = CUGate(*pars_vals).to_matrix()
-    arr2 = symb_CUGate(*pars).to_matrix(pars_vals)
+    arr2 = symb_CUGate(*pars).to_numpy(*pars_vals)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -33,7 +33,7 @@ def test_crx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = CRXGate(theta).to_matrix()
-    arr2 = symb_CRXGate(par).to_matrix(theta)
+    arr2 = symb_CRXGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -42,7 +42,7 @@ def test_cry(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = CRYGate(theta).to_matrix()
-    arr2 = symb_CRYGate(par).to_matrix(theta)
+    arr2 = symb_CRYGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -51,7 +51,7 @@ def test_crz(phi):
     """todo"""
     par = Parameter(name='par')
     arr1 = CRZGate(phi).to_matrix()
-    arr2 = symb_CRZGate(par).to_matrix(phi)
+    arr2 = symb_CRZGate(par).to_numpy(phi)
     assert numpy.allclose(arr1, arr2)
 
 
@@ -60,5 +60,5 @@ def test_cp(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = CPhaseGate(theta).to_matrix()
-    arr2 = symb_CPhaseGate(par).to_matrix(theta)
+    arr2 = symb_CPhaseGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
