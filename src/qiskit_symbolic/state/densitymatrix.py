@@ -1,6 +1,7 @@
 """Symbolic density matrix module"""
 
 import numpy
+from sympy import simplify
 from sympy.physics.quantum import TensorProduct
 from .quantumstate import QuantumState
 
@@ -28,17 +29,17 @@ class DensityMatrix(QuantumState):
 
     def trace(self):
         """todo"""
-        return self.to_sympy().trace().simplify()
+        return simplify(self.to_sympy().trace())
 
     def purity(self):
         """todo"""
-        return (self.to_sympy() @ self.to_sympy()).trace().simplify()
+        return simplify((self.to_sympy() @ self.to_sympy()).trace())
 
     def is_unit_trace(self):
         """todo"""
         try:
-            trace = numpy.trace(self.to_numpy())
-            return numpy.allclose(trace, 1)
+            numpy_matrix = numpy.array(self.to_sympy(), dtype=complex)
+            return numpy.allclose(numpy.trace(numpy_matrix), 1)
         except TypeError:
             return self.trace() == 1
 

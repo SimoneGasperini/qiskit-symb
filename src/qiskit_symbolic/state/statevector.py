@@ -2,6 +2,7 @@
 
 import numpy
 import sympy
+from sympy import simplify
 from sympy.physics.quantum import TensorProduct
 from .quantumstate import QuantumState
 
@@ -28,13 +29,13 @@ class Statevector(QuantumState):
 
     def norm(self):
         """todo"""
-        return sympy.sqrt(self.inner(self)).simplify()
+        return simplify(sympy.sqrt(self.inner(self)))
 
     def is_unit_norm(self):
         """todo"""
         try:
-            norm = numpy.linalg.norm(self.to_numpy())
-            return numpy.allclose(norm, 1)
+            numpy_array = numpy.array(self.to_sympy(), dtype=complex)[:, 0]
+            return numpy.allclose(numpy.linalg.norm(numpy_array), 1)
         except TypeError:
             return self.norm() == 1
 
