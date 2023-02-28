@@ -32,6 +32,38 @@ class QuantumState:
         data[int(label, 2)] = 1
         return data
 
+    def __add__(self, other):
+        """todo"""
+        if not isinstance(other, type(self)):
+            raise TypeError
+        return self.__class__(self._data + other._data)
+
+    def __neg__(self):
+        """todo"""
+        return self.__class__(-self._data)
+
+    def __sub__(self, other):
+        """todo"""
+        if not isinstance(other, type(self)):
+            raise TypeError
+        return self.__class__(self._data - other._data)
+
+    def __mul__(self, fact):
+        """todo"""
+        if not numpy.isscalar(fact):
+            raise TypeError
+        return self.__class__(self._data * fact)
+
+    def __rmul__(self, fact):
+        """todo"""
+        return self.__mul__(fact)
+
+    def __truediv__(self, div):
+        """todo"""
+        if not numpy.isscalar(div):
+            raise TypeError
+        return self.__class__(self._data / div)
+
     def to_sympy(self):
         """todo"""
         return self._data

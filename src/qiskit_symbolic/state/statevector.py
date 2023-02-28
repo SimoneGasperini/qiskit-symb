@@ -13,10 +13,6 @@ class Statevector(QuantumState):
         """todo"""
         super().__init__(data=data)
 
-    def __len__(self):
-        """todo"""
-        return len(self._data)
-
     @classmethod
     def from_label(cls, label):
         """todo"""
@@ -57,16 +53,12 @@ class Statevector(QuantumState):
         """todo"""
         if not isinstance(other, Statevector):
             other = Statevector(other)
-        if len(self) != len(other):
-            raise ValueError
         return (self.to_sympy().T @ other.to_sympy())[0]
 
     def outer(self, other):
         """todo"""
         if not isinstance(other, Statevector):
             other = Statevector(other)
-        if len(self) != len(other):
-            raise ValueError
         return self.to_sympy() @ other.to_sympy().T
 
     def projector(self):
