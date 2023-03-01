@@ -40,13 +40,17 @@ class Gate:
 
     def to_sympy(self):
         """todo"""
+        # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
-        return self.__sympy__()
+        from .utils import symbols2real
+        sympy_matrix = self.__sympy__()
+        return symbols2real(sympy_matrix)
 
     def to_numpy(self, *vals):
         """todo"""
+        # pylint: disable=no-member
         args_dict = dict(zip(self.sympy_symbols, vals))
-        sympy_matrix = self.to_sympy().subs(args_dict)
+        sympy_matrix = self.__sympy__().subs(args_dict)
         try:
             return matrix2numpy(sympy_matrix, dtype=complex)
         except TypeError:

@@ -33,7 +33,7 @@ class ControlledGate(Gate):
         gate = circuit_instruction.operation
         return get_init(gate.name)(*gate.params, ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit)
 
-    def to_sympy(self):
+    def __sympy__(self):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
@@ -44,7 +44,7 @@ class ControlledGate(Gate):
         zero_term[self.ctrl_qubit - imin] = self.projector_0
         one_term = [IGate().to_sympy()] * span
         one_term[self.ctrl_qubit - imin] = self.projector_1
-        one_term[self.tg_qubit - imin] = self.base_gate.to_sympy()
+        one_term[self.tg_qubit - imin] = self.base_gate.__sympy__()
         gph = 1
         if self.global_phase:
             gamma = self.sympy_symbols[-1]
