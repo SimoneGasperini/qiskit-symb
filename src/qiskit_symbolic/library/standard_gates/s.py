@@ -37,16 +37,20 @@ class SdgGate(Gate):
 class CSGate(ControlledGate):
     r"""Symbolic :math:`CS` gate class"""
 
-    def __init__(self, ctrl_qubit=0, tg_qubit=1):
+    def __init__(self, control_qubit=0, target_qubit=1):
         """todo"""
+        base_gate = SGate()
         super().__init__(name='cs', num_qubits=2, params=[],
-                         ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, base_gate=SGate())
+                         control_qubit=control_qubit, target_qubit=target_qubit,
+                         base_gate=base_gate)
 
 
 class CSdgGate(ControlledGate):
     r"""Symbolic :math:`CS^{\dagger}` gate class"""
 
-    def __init__(self, ctrl_qubit=0, tg_qubit=1):
+    def __init__(self, control_qubit=0, target_qubit=1):
         """todo"""
+        base_gate = SdgGate()
         super().__init__(name='csdg', num_qubits=2, params=[],
-                         ctrl_qubit=ctrl_qubit, tg_qubit=tg_qubit, base_gate=SdgGate())
+                         control_qubit=control_qubit, target_qubit=target_qubit,
+                         base_gate=base_gate)
