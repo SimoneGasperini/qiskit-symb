@@ -3,7 +3,7 @@
 import sympy
 from sympy.physics.quantum import TensorProduct
 from .gate import Gate
-from .state.statevector import Statevector
+from .statevector import Statevector
 
 
 class ControlledGate(Gate):
