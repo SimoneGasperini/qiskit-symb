@@ -1,6 +1,6 @@
 """Symbolic gate module"""
 
-from sympy import sympify, matrix2numpy
+from sympy import matrix2numpy
 from qiskit.circuit import ControlledGate as QiskitCGate
 
 
@@ -25,18 +25,20 @@ class Gate:
             return ControlledGate.get(circuit_instruction)
         return get_init(gate.name)(*gate.params)
 
-    @property
-    def sympy_symbols(self):
+    def _get_params_expr(self):
         """todo"""
-        # pylint: disable=protected-access
-        return list(dict.fromkeys([sympify(s) for par in self.params
-                                   for _, s in par._parameter_symbols.items()]))
+        # pylint: disable=import-outside-toplevel
+        from .utils import get_symbolic_expr
+        return [get_symbolic_expr(par) for par in self.params]
 
-    @property
-    def sympy_expressions(self):
+    def _get_unique_symbols(self):
         """todo"""
-        # pylint: disable=protected-access
-        return [sympify(par._symbol_expr) for par in self.params]
+        # pylint: disable=import-outside-toplevel
+        from .utils import get_unique_symbols
+        sympy_symbols = []
+        for par in self.params:
+            sympy_symbols.extend(get_unique_symbols(par))
+        return list(dict.fromkeys(sympy_symbols))
 
     def to_sympy(self):
         """todo"""
@@ -49,8 +51,10 @@ class Gate:
     def to_numpy(self, *vals):
         """todo"""
         # pylint: disable=no-member
-        args_dict = dict(zip(self.sympy_symbols, vals))
-        sympy_matrix = self.__sympy__().subs(args_dict)
+        sympy_symbols = self._get_unique_symbols()
+        if len(vals) > len(sympy_symbols):
+            raise ValueError
+        sympy_matrix = self.__sympy__().subs(dict(zip(sympy_symbols, vals)))
         try:
             return matrix2numpy(sympy_matrix, dtype=complex)
         except TypeError:

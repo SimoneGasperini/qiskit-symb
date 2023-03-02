@@ -16,7 +16,7 @@ class RZGate(Gate):
 
     def __sympy__(self):
         """todo"""
-        lam, = self.sympy_expressions
+        lam, = self._get_params_expr()
         i = sympy.I
         return Matrix([[sympy.exp(-i * lam/2), 0],
                        [0, sympy.exp(i * lam/2)]])

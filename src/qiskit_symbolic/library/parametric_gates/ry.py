@@ -16,7 +16,7 @@ class RYGate(Gate):
 
     def __sympy__(self):
         """todo"""
-        theta, = self.sympy_expressions
+        theta, = self._get_params_expr()
         cos = sympy.cos(theta / 2)
         sin = sympy.sin(theta / 2)
         return Matrix([[cos, -sin],

@@ -38,6 +38,7 @@ class ControlledGate(Gate):
         # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
         from .library.standard_gates import IGate
+        from .utils import get_symbolic_expr
         imin = min(self.ctrl_qubit, self.tg_qubit)
         span = abs(self.ctrl_qubit - self.tg_qubit) + 1
         zero_term = [IGate().to_sympy()] * span
@@ -47,6 +48,6 @@ class ControlledGate(Gate):
         one_term[self.tg_qubit - imin] = self.base_gate.__sympy__()
         gph = 1
         if self.global_phase:
-            gamma = self.sympy_symbols[-1]
+            gamma = get_symbolic_expr(self.params[-1])
             gph = sympy.exp(sympy.I * gamma)
         return TensorProduct(*zero_term[::-1]) + gph * TensorProduct(*one_term[::-1])
