@@ -1,7 +1,7 @@
 """Symbolic gate module"""
 
 from sympy import matrix2numpy
-from qiskit.circuit import ControlledGate as QiskitCGate
+from qiskit.circuit import ControlledGate as QiskitControlledGate
 
 
 class Gate:
@@ -14,15 +14,15 @@ class Gate:
         self.params = params
 
     @staticmethod
-    def get(circuit_instruction):
+    def get(instruction):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=cyclic-import
         from .controlledgate import ControlledGate
         from .utils import get_init
-        gate = circuit_instruction.operation
-        if isinstance(gate, QiskitCGate):
-            return ControlledGate.get(circuit_instruction)
+        gate = instruction.op
+        if isinstance(gate, QiskitControlledGate):
+            return ControlledGate.get(instruction)
         return get_init(gate.name)(*gate.params)
 
     def _get_params_expr(self):

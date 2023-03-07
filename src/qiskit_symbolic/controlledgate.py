@@ -23,15 +23,26 @@ class ControlledGate(Gate):
         self.global_phase = global_phase
 
     @staticmethod
-    def get(circuit_instruction):
+    def get(instruction):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=protected-access
         from .utils import get_init
-        control_qubit = circuit_instruction.qubits[0]._index
-        target_qubit = circuit_instruction.qubits[1]._index
-        gate = circuit_instruction.operation
+        control_qubit = instruction.qargs[0]._index
+        target_qubit = instruction.qargs[1]._index
+        gate = instruction.op
         return get_init(gate.name)(*gate.params, control_qubit, target_qubit)
+
+    @property
+    def _size(self):
+        """todo"""
+        return abs(self.control_qubit - self.target_qubit) + 1
+
+    @property
+    def _span(self):
+        """todo"""
+        imin = min(self.control_qubit, self.target_qubit)
+        return list(range(imin, imin + self._size))
 
     def __sympy__(self):
         """todo"""
@@ -40,10 +51,9 @@ class ControlledGate(Gate):
         from .library.standard_gates import IGate
         from .utils import get_symbolic_expr
         imin = min(self.control_qubit, self.target_qubit)
-        span = abs(self.control_qubit - self.target_qubit) + 1
-        zero_term = [IGate().to_sympy()] * span
+        zero_term = [IGate().to_sympy()] * self._size
         zero_term[self.control_qubit - imin] = self.projector_0
-        one_term = [IGate().to_sympy()] * span
+        one_term = [IGate().to_sympy()] * self._size
         one_term[self.control_qubit - imin] = self.projector_1
         one_term[self.target_qubit - imin] = self.base_gate.__sympy__()
         gph = 1

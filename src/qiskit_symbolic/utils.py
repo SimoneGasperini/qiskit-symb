@@ -1,12 +1,30 @@
 """Utilities module"""
 
 from sympy import Symbol, sympify
+from qiskit import QuantumCircuit, transpile
 from .library import NAME_TO_INIT  # pylint: disable=cyclic-import
 
 
 def get_init(name):
     """todo"""
     return NAME_TO_INIT[name]
+
+
+def flatten_circuit(circuit):
+    """todo"""
+    qubits, clbits = circuit.num_qubits, circuit.num_clbits
+    return QuantumCircuit(qubits, clbits).compose(circuit)
+
+
+def transpile_circuit(circuit):
+    """todo"""
+    basis_gates = list(NAME_TO_INIT.keys())
+    return transpile(circuit, basis_gates=basis_gates, optimization_level=1)
+
+
+def get_layers_data(circuit):
+    """todo"""
+    return circuit.draw(output='text').nodes
 
 
 def get_symbolic_expr(par_expr):

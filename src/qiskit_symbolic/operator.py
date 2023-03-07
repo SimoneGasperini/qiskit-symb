@@ -1,11 +1,14 @@
 """Symbolic matrix operator module"""
 
 import re
+import math
 import numpy
-from sympy import simplify
+import sympy
 from sympy.matrices import Matrix
 from sympy.physics.quantum import TensorProduct
-from qiskit.circuit import QuantumCircuit
+from qiskit import QuantumCircuit
+from .gate import Gate
+from .controlledgate import ControlledGate
 from .library.standard_gates import IGate, XGate, YGate, ZGate, HGate, SGate, TGate
 
 
@@ -20,7 +23,7 @@ class Operator:
         elif isinstance(data, (list, numpy.ndarray)):
             self._data = Matrix(data)
         elif isinstance(data, QuantumCircuit):
-            raise NotImplementedError
+            self._data = self._init_from_circuit(data)
         elif isinstance(data, type(self)):
             self._data = data._data
         else:
@@ -44,20 +47,46 @@ class Operator:
         data = TensorProduct(*one_qubit_ops)
         return cls(data=data)
 
+    @staticmethod
+    def _init_from_circuit(circuit):
+        """todo"""
+        # pylint: disable=import-outside-toplevel
+        from .utils import flatten_circuit, transpile_circuit
+        circuit = transpile_circuit(flatten_circuit(circuit))
+        circ_data = Operator._get_circ_data(circuit)
+        return math.prod(TensorProduct(*[gate.to_sympy() for gate in layer_data[::-1]
+                                         if gate is not None])
+                         for layer_data in circ_data[::-1])
+
+    @staticmethod
+    def _get_circ_data(circuit):
+        """todo"""
+        # pylint: disable=import-outside-toplevel
+        # pylint: disable=protected-access
+        from .utils import get_layers_data
+        layers_data = get_layers_data(circuit)
+        num_qubits, num_layers = circuit.num_qubits, len(layers_data)
+        circ_data = [[IGate()] * num_qubits for _ in range(num_layers)]
+        for layer_idx in range(num_layers):
+            for instruction in layers_data[layer_idx]:
+                gate = Gate.get(instruction)
+                if isinstance(gate, ControlledGate):
+                    gate_span = gate._span
+                    qubit_idx = gate_span[0]
+                    for i in gate_span[1:]:
+                        circ_data[layer_idx][i] = None
+                else:
+                    qubit_idx = instruction.qargs[0]._index
+                circ_data[layer_idx][qubit_idx] = gate
+        return circ_data
+
     def to_sympy(self):
         """todo"""
         return self._data
 
-    def to_numpy(self):
-        """todo"""
-        try:
-            return numpy.array(self.to_sympy(), dtype=complex)
-        except TypeError:
-            return numpy.array(self.to_sympy(), dtype=object)
-
     def is_unitary(self):
         """todo"""
-        matrix = simplify(self.dagger().to_sympy() @ self.to_sympy())
+        matrix = sympy.simplify(self.dagger().to_sympy() @ self.to_sympy())
         identity = numpy.eye(matrix.shape[0])
         try:
             numpy_matrix = numpy.array(matrix, dtype=complex)
