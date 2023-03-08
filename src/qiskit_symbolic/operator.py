@@ -55,8 +55,8 @@ class Operator:
         circuit = transpile_circuit(flatten_circuit(circuit))
         gph = sympy.exp(sympy.I * circuit.global_phase)
         circ_data = Operator._get_circ_data(circuit)
-        return gph * math.prod(TensorProduct(*[gate.to_sympy() for gate in layer_data[::-1]
-                                               if gate is not None]) for layer_data in circ_data[::-1])
+        return gph * math.prod(TensorProduct(*[gate.to_sympy() for gate in layer[::-1]
+                                               if gate is not None]) for layer in circ_data[::-1])
 
     @staticmethod
     def _get_circ_data(circuit):
@@ -83,6 +83,13 @@ class Operator:
     def to_sympy(self):
         """todo"""
         return self._data
+
+    def to_numpy(self):
+        """todo"""
+        try:
+            return numpy.array(self.to_sympy(), dtype=complex)
+        except TypeError:
+            return numpy.array(self.to_sympy(), dtype=object)
 
     def is_unitary(self):
         """todo"""
