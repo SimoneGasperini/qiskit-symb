@@ -53,10 +53,10 @@ class Operator:
         # pylint: disable=import-outside-toplevel
         from .utils import flatten_circuit, transpile_circuit
         circuit = transpile_circuit(flatten_circuit(circuit))
+        gph = sympy.exp(sympy.I * circuit.global_phase)
         circ_data = Operator._get_circ_data(circuit)
-        return math.prod(TensorProduct(*[gate.to_sympy() for gate in layer_data[::-1]
-                                         if gate is not None])
-                         for layer_data in circ_data[::-1])
+        return gph * math.prod(TensorProduct(*[gate.to_sympy() for gate in layer_data[::-1]
+                                               if gate is not None]) for layer_data in circ_data[::-1])
 
     @staticmethod
     def _get_circ_data(circuit):
