@@ -10,6 +10,11 @@ def get_init(name):
     return NAME_TO_INIT[name]
 
 
+def get_symbolic_gates_names():
+    """todo"""
+    return set(NAME_TO_INIT.keys())
+
+
 def flatten_circuit(circuit):
     """todo"""
     qubits, clbits = circuit.num_qubits, circuit.num_clbits
