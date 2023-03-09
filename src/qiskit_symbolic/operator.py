@@ -93,13 +93,14 @@ class Operator:
 
     def is_unitary(self):
         """todo"""
-        matrix = sympy.simplify(self.dagger().to_sympy() @ self.to_sympy())
-        identity = numpy.eye(matrix.shape[0])
         try:
-            numpy_matrix = numpy.array(matrix, dtype=complex)
-            return numpy.allclose(numpy_matrix, identity)
+            mat = numpy.array(self.to_sympy(), dtype=complex)
+            identity = numpy.eye(mat.shape[0])
+            return numpy.allclose(mat.transpose().conjugate() @ mat, identity)
         except TypeError:
-            return False
+            mat = self.to_sympy()
+            identity = Matrix(numpy.eye(mat.shape[0]))
+            return sympy.simplify(mat.transpose().conjugate() @ mat) == identity
 
     def is_valid(self):
         """todo"""
