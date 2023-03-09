@@ -1,3 +1,5 @@
+"""Symbolic random module"""
+
 import random
 import math
 from qiskit import QuantumRegister, QuantumCircuit
@@ -8,6 +10,7 @@ from .utils import get_symbolic_gates_names
 
 def random_parametric_circuit(num_qubits, depth, seed=None):
     """todo"""
+    # pylint: disable=too-many-locals
     random.seed(seed)
     qiskit_gates = {
         # gate_name: (gate_class, num_qubits, num_params)
