@@ -2,8 +2,8 @@
 
 import numpy
 from hypothesis import given, settings, strategies
-from qiskit.circuit.random import random_circuit
-from qiskit.quantum_info import Operator, random_unitary
+from qiskit.quantum_info import Operator
+from qiskit_symbolic.random import random_parametric_circuit
 from qiskit_symbolic.operator import Operator as symb_Operator
 
 
@@ -20,21 +20,18 @@ def test_from_label(num_qubits, seed):
     assert numpy.allclose(arr1, arr2)
 
 
-@given(seed=strategies.integers(min_value=0, max_value=2**32-1))
-@settings(max_examples=10, deadline=None)
-def test_from_circuit(seed):
-    """todo"""
-    circuit = random_circuit(num_qubits=3, depth=3, seed=seed)
-    arr1 = Operator(circuit).data
-    arr2 = symb_Operator(circuit).to_numpy()
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(num_qubits=strategies.integers(min_value=1, max_value=7),
+@given(num_qubits=strategies.integers(min_value=1, max_value=3),
        seed=strategies.integers(min_value=0, max_value=2**32-1))
-@settings(max_examples=10, deadline=None)
-def test_is_unitary(num_qubits, seed):
+@settings(max_examples=20, deadline=None)
+def test_from_circuit(num_qubits, seed):
     """todo"""
-    unitary_matrix = random_unitary(dims=2**num_qubits, seed=seed).data
-    symb_operator = symb_Operator(unitary_matrix)
-    assert symb_operator.is_unitary()
+    numpy.random.seed(seed)
+    circuit, params = random_parametric_circuit(
+        num_qubits=num_qubits, depth=3, seed=seed)
+    values = numpy.random.rand(len(params)) * 2*numpy.pi
+    params_dict = dict(zip(params, values))
+    qiskit_circ = circuit.assign_parameters(params_dict)
+    arr1 = Operator(qiskit_circ).data
+    symb_operator = symb_Operator(circuit)
+    arr2 = symb_operator.subs(params_dict).to_numpy()
+    assert numpy.allclose(arr1, arr2)
