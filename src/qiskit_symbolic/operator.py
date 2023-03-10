@@ -100,21 +100,6 @@ class Operator:
                         for par, value in params_dict.items()}
         return self.__class__(sympy_matrix.subs(symbol2value))
 
-    def is_unitary(self):
-        """todo"""
-        try:
-            mat = numpy.array(self.to_sympy(), dtype=complex)
-            identity = numpy.eye(mat.shape[0])
-            return numpy.allclose(mat.transpose().conjugate() @ mat, identity)
-        except TypeError:
-            mat = self.to_sympy()
-            identity = Matrix(numpy.eye(mat.shape[0]))
-            return sympy.simplify(mat.transpose().conjugate() @ mat) == identity
-
-    def is_valid(self):
-        """todo"""
-        return self.is_unitary()
-
     def transpose(self):
         """todo"""
         return self.__class__(self.to_sympy().transpose())
