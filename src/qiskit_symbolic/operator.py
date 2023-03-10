@@ -91,6 +91,15 @@ class Operator:
         except TypeError:
             return numpy.array(self.to_sympy(), dtype=object)
 
+    def subs(self, params_dict):
+        """todo"""
+        sympy_matrix = self.to_sympy()
+        name2symbol = {symbol.name: symbol
+                       for symbol in sympy_matrix.free_symbols}
+        symbol2value = {name2symbol[par.name]: value
+                        for par, value in params_dict.items()}
+        return self.__class__(sympy_matrix.subs(symbol2value))
+
     def is_unitary(self):
         """todo"""
         try:
