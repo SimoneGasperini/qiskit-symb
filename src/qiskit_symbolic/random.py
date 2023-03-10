@@ -42,7 +42,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         'cry': (standard_gates.CRYGate, 2, 1),
         'crz': (standard_gates.CRZGate, 2, 1),
         'csx': (standard_gates.CSXGate, 2, 0),
-        'cu': (standard_gates.CUGate, 2, 4),
+        # 'cu': (standard_gates.CUGate, 2, 4), https://github.com/Qiskit/qiskit-terra/issues/9763
         'cu1': (standard_gates.CU1Gate, 2, 1),
         'cu3': (standard_gates.CU3Gate, 2, 3),
         'cy': (standard_gates.CYGate, 2, 0),
