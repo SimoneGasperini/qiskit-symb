@@ -1,8 +1,11 @@
 """Test controlled standard gates module"""
 
 import numpy
-from qiskit.circuit.library import CXGate, CYGate, CZGate, CHGate, CSGate, CSdgGate
-from qiskit_symbolic.library import (
+from qiskit.circuit.library import (
+    CXGate, CYGate, CZGate,
+    CHGate, CSGate, CSdgGate
+)
+from qiskit_symbolic.circuit.library import (
     CXGate as symb_CXGate,
     CYGate as symb_CYGate,
     CZGate as symb_CZGate,

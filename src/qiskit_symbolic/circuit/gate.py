@@ -19,7 +19,7 @@ class Gate:
         # pylint: disable=import-outside-toplevel
         # pylint: disable=cyclic-import
         from .controlledgate import ControlledGate
-        from .utils import get_init
+        from ..utils import get_init
         gate = instruction.op
         if isinstance(gate, QiskitControlledGate):
             return ControlledGate.get(instruction)
@@ -28,13 +28,13 @@ class Gate:
     def _get_params_expr(self):
         """todo"""
         # pylint: disable=import-outside-toplevel
-        from .utils import get_symbolic_expr
+        from ..utils import get_symbolic_expr
         return [get_symbolic_expr(par) for par in self.params]
 
     def _get_unique_symbols(self):
         """todo"""
         # pylint: disable=import-outside-toplevel
-        from .utils import get_unique_symbols
+        from ..utils import get_unique_symbols
         sympy_symbols = []
         for par in self.params:
             sympy_symbols.extend(get_unique_symbols(par))
@@ -44,7 +44,7 @@ class Gate:
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
-        from .utils import symbols2real
+        from ..utils import symbols2real
         sympy_matrix = self.__sympy__()
         return symbols2real(sympy_matrix)
 

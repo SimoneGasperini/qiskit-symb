@@ -1,14 +1,13 @@
-"""Symbolic statevector module"""
+"""Symbolic quantum statevector module"""
 
-import numpy
-import sympy
-from sympy import simplify
+import numpy as np
+from sympy import simplify, matrix2numpy, sqrt
 from sympy.physics.quantum import TensorProduct
-from .quantumstate import QuantumState
+from .quantumbase import QuantumBase
 
 
-class Statevector(QuantumState):
-    """Symbolic statevector class"""
+class Statevector(QuantumBase):
+    """Symbolic quantum statevector class"""
 
     def __init__(self, data):
         """todo"""
@@ -17,25 +16,25 @@ class Statevector(QuantumState):
     @classmethod
     def from_label(cls, label):
         """todo"""
-        data = super()._init_data(label=label)
+        data = cls._init_from_label(label)
         return cls(data=data)
 
     def to_numpy(self):
         """todo"""
         try:
-            return numpy.array(self.to_sympy(), dtype=complex)[:, 0]
+            return matrix2numpy(self.to_sympy(), dtype=complex)[:, 0]
         except TypeError:
-            return numpy.array(self.to_sympy(), dtype=object)[:, 0]
+            return matrix2numpy(self.to_sympy(), dtype=object)[:, 0]
 
     def norm(self):
         """todo"""
-        return simplify(sympy.sqrt(self.inner(self)))
+        return simplify(sqrt(self.inner(self)))
 
     def is_unit_norm(self):
         """todo"""
         try:
-            numpy_array = numpy.array(self.to_sympy(), dtype=complex)[:, 0]
-            return numpy.allclose(numpy.linalg.norm(numpy_array), 1)
+            numpy_array = matrix2numpy(self.to_sympy(), dtype=complex)[:, 0]
+            return np.allclose(np.linalg.norm(numpy_array), 1)
         except TypeError:
             return self.norm() == 1
 

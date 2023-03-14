@@ -2,8 +2,8 @@ r"""Symbolic :math:`P(\lambda)` and :math:`CP(\lambda)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit_symbolic.gate import Gate
-from qiskit_symbolic.controlledgate import ControlledGate
+from qiskit_symbolic.circuit.gate import Gate
+from ...controlledgate import ControlledGate
 
 
 class PhaseGate(Gate):

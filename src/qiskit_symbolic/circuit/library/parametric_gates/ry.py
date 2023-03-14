@@ -2,8 +2,8 @@ r"""Symbolic :math:`RY(\theta)` and :math:`CRY(\theta)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit_symbolic.gate import Gate
-from qiskit_symbolic.controlledgate import ControlledGate
+from ...gate import Gate
+from ...controlledgate import ControlledGate
 
 
 class RYGate(Gate):

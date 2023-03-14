@@ -1,34 +1,35 @@
-""""Symbolic quantum state module"""
+"""Symbolic quantum base module"""
 
 import re
-import numpy
+import numpy as np
 from sympy.matrices import Matrix
 from qiskit.circuit import QuantumCircuit
 
 
-class QuantumState:
-    """Abstract symbolic quantum state base class"""
+class QuantumBase:
+    """Abstract symbolic quantum base class"""
 
     def __init__(self, data):
         """todo"""
+        # pylint: disable=no-member
         if isinstance(data, Matrix):
             self._data = data
-        elif isinstance(data, (list, numpy.ndarray)):
+        elif isinstance(data, (list, np.ndarray)):
             self._data = Matrix(data)
         elif isinstance(data, QuantumCircuit):
-            raise NotImplementedError
+            self._data = self._init_from_circuit(data)
         elif isinstance(data, type(self)):
             self._data = data._data
         else:
             raise TypeError
 
     @staticmethod
-    def _init_data(label):
+    def _init_from_label(label):
         """todo"""
         if re.match(r'^[01]+$', label) is None:
             raise ValueError
         num_qubits = len(label)
-        data = numpy.zeros(1 << num_qubits, dtype=int)
+        data = np.zeros(1 << num_qubits, dtype=int)
         data[int(label, 2)] = 1
         return data
 
@@ -50,7 +51,7 @@ class QuantumState:
 
     def __mul__(self, fact):
         """todo"""
-        if not numpy.isscalar(fact):
+        if not np.isscalar(fact):
             raise TypeError
         return self.__class__(self._data * fact)
 
@@ -60,7 +61,7 @@ class QuantumState:
 
     def __truediv__(self, div):
         """todo"""
-        if not numpy.isscalar(div):
+        if not np.isscalar(div):
             raise TypeError
         return self.__class__(self._data / div)
 
@@ -79,3 +80,12 @@ class QuantumState:
     def dagger(self):
         """todo"""
         return self.__class__(self.to_sympy().transpose().conjugate())
+
+    def subs(self, params_dict):
+        """todo"""
+        sympy_matrix = self.to_sympy()
+        name2symbol = {symbol.name: symbol
+                       for symbol in sympy_matrix.free_symbols}
+        symbol2value = {name2symbol[par.name]: value
+                        for par, value in params_dict.items()}
+        return self.__class__(sympy_matrix.subs(symbol2value))

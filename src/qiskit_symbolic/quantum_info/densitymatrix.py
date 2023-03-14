@@ -1,13 +1,13 @@
-"""Symbolic density matrix module"""
+"""Symbolic quantum density matrix module"""
 
-import numpy
-from sympy import simplify
+import numpy as np
+from sympy import simplify, matrix2numpy
 from sympy.physics.quantum import TensorProduct
-from .quantumstate import QuantumState
+from .quantumbase import QuantumBase
 
 
-class DensityMatrix(QuantumState):
-    """Symbolic density matrix class"""
+class DensityMatrix(QuantumBase):
+    """Symbolic quantum density matrix class"""
 
     def __init__(self, data):
         """todo"""
@@ -16,16 +16,16 @@ class DensityMatrix(QuantumState):
     @classmethod
     def from_label(cls, label):
         """todo"""
-        data = super()._init_data(label=label)
-        data = numpy.outer(data, data)
+        arr = cls._init_from_label(label)
+        data = np.outer(arr, arr)
         return cls(data=data)
 
     def to_numpy(self):
         """todo"""
         try:
-            return numpy.array(self.to_sympy(), dtype=complex)
+            return matrix2numpy(self.to_sympy(), dtype=complex)
         except TypeError:
-            return numpy.array(self.to_sympy(), dtype=object)
+            return matrix2numpy(self.to_sympy(), dtype=object)
 
     def trace(self):
         """todo"""
@@ -38,8 +38,8 @@ class DensityMatrix(QuantumState):
     def is_unit_trace(self):
         """todo"""
         try:
-            numpy_matrix = numpy.array(self.to_sympy(), dtype=complex)
-            return numpy.allclose(numpy.trace(numpy_matrix), 1)
+            numpy_matrix = matrix2numpy(self.to_sympy(), dtype=complex)
+            return np.allclose(np.trace(numpy_matrix), 1)
         except TypeError:
             return self.trace() == 1
 

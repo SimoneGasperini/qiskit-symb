@@ -1,7 +1,7 @@
 r"""Symbolic Pauli :math:`I` gate module"""
 
 from sympy.matrices import Matrix
-from qiskit_symbolic.gate import Gate
+from ...gate import Gate
 
 
 class IGate(Gate):

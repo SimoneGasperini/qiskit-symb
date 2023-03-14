@@ -3,8 +3,8 @@
 import numpy
 from hypothesis import given, settings, strategies
 from qiskit.quantum_info import Operator
-from qiskit_symbolic.random import random_parametric_circuit
-from qiskit_symbolic.operator import Operator as symb_Operator
+from qiskit_symbolic.circuit.random import random_parametric_circuit
+from qiskit_symbolic.quantum_info import Operator as symb_Operator
 
 
 @given(num_qubits=strategies.integers(min_value=1, max_value=7),

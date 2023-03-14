@@ -3,8 +3,11 @@
 import numpy
 from hypothesis import given, strategies
 from qiskit.circuit import ParameterVector, Parameter
-from qiskit.circuit.library import UGate, RXGate, RYGate, RZGate, PhaseGate, RGate
-from qiskit_symbolic.library import (
+from qiskit.circuit.library import (
+    UGate, RXGate, RYGate, RZGate,
+    PhaseGate, RGate
+)
+from qiskit_symbolic.circuit.library import (
     UGate as symb_UGate,
     RXGate as symb_RXGate,
     RYGate as symb_RYGate,

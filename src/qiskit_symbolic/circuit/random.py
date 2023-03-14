@@ -5,7 +5,7 @@ import math
 from qiskit import QuantumRegister, QuantumCircuit
 from qiskit.circuit import ParameterVector, Qubit
 from qiskit.circuit.library import standard_gates
-from .utils import get_symbolic_gates_names
+from ..utils import get_symbolic_gates_names
 
 
 def random_parametric_circuit(num_qubits, depth, seed=None):

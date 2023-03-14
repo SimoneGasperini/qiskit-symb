@@ -2,7 +2,7 @@
 
 from sympy import Symbol, sympify
 from qiskit import QuantumCircuit, transpile
-from .library import NAME_TO_INIT  # pylint: disable=cyclic-import
+from .circuit.library import NAME_TO_INIT  # pylint: disable=cyclic-import
 
 
 def get_init(name):

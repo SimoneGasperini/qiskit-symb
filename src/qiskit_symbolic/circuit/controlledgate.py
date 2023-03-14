@@ -3,7 +3,7 @@
 import sympy
 from sympy.physics.quantum import TensorProduct
 from .gate import Gate
-from .statevector import Statevector
+from ..quantum_info.statevector import Statevector
 
 
 class ControlledGate(Gate):
@@ -27,7 +27,7 @@ class ControlledGate(Gate):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=protected-access
-        from .utils import get_init
+        from ..utils import get_init
         control_qubit = instruction.qargs[0]._index
         target_qubit = instruction.qargs[1]._index
         gate = instruction.op
@@ -48,8 +48,8 @@ class ControlledGate(Gate):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=no-member
-        from .library.standard_gates import IGate
-        from .utils import get_symbolic_expr
+        from .library import IGate
+        from ..utils import get_symbolic_expr
         imin = min(self.control_qubit, self.target_qubit)
         zero_term = [IGate().to_sympy()] * self._size
         zero_term[self.control_qubit - imin] = self.projector_0

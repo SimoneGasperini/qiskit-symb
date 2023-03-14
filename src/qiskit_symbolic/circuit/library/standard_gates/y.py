@@ -2,8 +2,8 @@ r"""Symbolic Pauli :math:`Y` and :math:`CY` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit_symbolic.gate import Gate
-from qiskit_symbolic.controlledgate import ControlledGate
+from ...gate import Gate
+from ...controlledgate import ControlledGate
 
 
 class YGate(Gate):
