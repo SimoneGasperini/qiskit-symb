@@ -1,10 +1,10 @@
-"""Test operator module"""
+"""Test density matrix module"""
 
 import numpy
 from hypothesis import given, settings, strategies
-from qiskit.quantum_info import Operator
+from qiskit.quantum_info import DensityMatrix
 from qiskit_symbolic.circuit.random import random_parametric_circuit
-from qiskit_symbolic.quantum_info import Operator as symb_Operator
+from qiskit_symbolic.quantum_info import DensityMatrix as symb_DensityMatrix
 
 
 @given(num_qubits=strategies.integers(min_value=1, max_value=3),
@@ -19,7 +19,7 @@ def test_from_circuit(num_qubits, seed):
     values = numpy.random.rand(len(params)) * 2*numpy.pi
     params_dict = dict(zip(params, values))
     qiskit_circ = circuit.assign_parameters(params_dict)
-    arr1 = Operator(qiskit_circ).data
-    symb_op = symb_Operator(circuit)
-    arr2 = symb_op.subs(params_dict).to_numpy()
+    arr1 = DensityMatrix(qiskit_circ).data
+    symb_rho = symb_DensityMatrix(circuit)
+    arr2 = symb_rho.subs(params_dict).to_numpy()
     assert numpy.allclose(arr1, arr2)
