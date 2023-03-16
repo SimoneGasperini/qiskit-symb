@@ -1,14 +1,10 @@
 """Symbolic quantum operator module"""
 
-import re
 import math
 from sympy import matrix2numpy, exp, I
 from sympy.physics.quantum import TensorProduct
+from qiskit.quantum_info import Operator as qiskit_Operator
 from .quantumbase import QuantumBase
-from ..circuit.library import (
-    IGate, XGate, YGate, ZGate,
-    HGate, SGate, TGate
-)
 
 
 class Operator(QuantumBase):
@@ -21,13 +17,7 @@ class Operator(QuantumBase):
     @staticmethod
     def _init_from_label(label):
         """todo"""
-        char2gate = {
-            'I': IGate(), 'X': XGate(), 'Y': YGate(), 'Z': ZGate(),
-            'H': HGate(), 'S': SGate(), 'T': TGate()
-        }
-        if re.match(r'^[IXYZHST]+$', label) is None:
-            raise ValueError
-        return TensorProduct(*[char2gate[char].to_sympy() for char in label])
+        return qiskit_Operator.from_label(label).data
 
     @staticmethod
     def _init_from_circuit(circuit):

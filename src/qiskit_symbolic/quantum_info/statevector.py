@@ -3,6 +3,7 @@
 import numpy as np
 from sympy import simplify, matrix2numpy, sqrt
 from sympy.physics.quantum import TensorProduct
+from qiskit.quantum_info import Statevector as qiskit_Statevector
 from .quantumbase import QuantumBase
 
 
@@ -12,6 +13,11 @@ class Statevector(QuantumBase):
     def __init__(self, data):
         """todo"""
         super().__init__(data=data)
+
+    @staticmethod
+    def _init_from_label(label):
+        """todo"""
+        return qiskit_Statevector.from_label(label).data
 
     @staticmethod
     def _init_from_circuit(circuit):

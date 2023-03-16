@@ -3,6 +3,7 @@
 import numpy as np
 from sympy import simplify, matrix2numpy
 from sympy.physics.quantum import TensorProduct
+from qiskit.quantum_info import DensityMatrix as qiskit_DensityMatrix
 from .quantumbase import QuantumBase
 
 
@@ -13,12 +14,10 @@ class DensityMatrix(QuantumBase):
         """todo"""
         super().__init__(data=data)
 
-    @classmethod
-    def from_label(cls, label):
+    @staticmethod
+    def _init_from_label(label):
         """todo"""
-        arr = cls._init_from_label(label)
-        data = np.outer(arr, arr)
-        return cls(data=data)
+        return qiskit_DensityMatrix.from_label(label).data
 
     @staticmethod
     def _init_from_circuit(circuit):

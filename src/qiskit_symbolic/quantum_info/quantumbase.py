@@ -1,6 +1,5 @@
 """Symbolic quantum base module"""
 
-import re
 import numpy as np
 from sympy.matrices import Matrix
 from qiskit.circuit import QuantumCircuit
@@ -24,6 +23,7 @@ class QuantumBase:
     @classmethod
     def from_label(cls, label):
         """todo"""
+        # pylint: disable=no-member
         data = cls._init_from_label(label)
         return cls(data=data)
 
@@ -33,16 +33,6 @@ class QuantumBase:
         # pylint: disable=no-member
         data = cls._init_from_circuit(circuit)
         return cls(data=data)
-
-    @staticmethod
-    def _init_from_label(label):
-        """todo"""
-        if re.match(r'^[01]+$', label) is None:
-            raise ValueError
-        num_qubits = len(label)
-        data = np.zeros(1 << num_qubits, dtype=int)
-        data[int(label, 2)] = 1
-        return data
 
     @staticmethod
     def _get_circ_data(circuit):
