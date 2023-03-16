@@ -113,5 +113,6 @@ class QuantumBase:
         name2symbol = {symbol.name: symbol
                        for symbol in sympy_matrix.free_symbols}
         symbol2value = {name2symbol[par.name]: value
-                        for par, value in params_dict.items()}
+                        for par, value in params_dict.items()
+                        if par.name in name2symbol}
         return self.__class__(sympy_matrix.subs(symbol2value))
