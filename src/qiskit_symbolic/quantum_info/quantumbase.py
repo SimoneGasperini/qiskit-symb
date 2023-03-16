@@ -18,10 +18,21 @@ class QuantumBase:
             self._data = Matrix(data)
         elif isinstance(data, QuantumCircuit):
             self._data = self._init_from_circuit(data)
-        elif isinstance(data, type(self)):
-            self._data = data._data
         else:
             raise TypeError
+
+    @classmethod
+    def from_label(cls, label):
+        """todo"""
+        data = cls._init_from_label(label)
+        return cls(data=data)
+
+    @classmethod
+    def from_circuit(cls, circuit):
+        """todo"""
+        # pylint: disable=no-member
+        data = cls._init_from_circuit(circuit)
+        return cls(data=data)
 
     @staticmethod
     def _init_from_label(label):
@@ -32,6 +43,31 @@ class QuantumBase:
         data = np.zeros(1 << num_qubits, dtype=int)
         data[int(label, 2)] = 1
         return data
+
+    @staticmethod
+    def _get_circ_data(circuit):
+        """todo"""
+        # pylint: disable=import-outside-toplevel
+        # pylint: disable=cyclic-import
+        # pylint: disable=protected-access
+        from ..utils import get_layers_data
+        from ..circuit import Gate, ControlledGate
+        from ..circuit.library import IGate
+        layers_data = get_layers_data(circuit)
+        num_qubits, num_layers = circuit.num_qubits, len(layers_data)
+        circ_data = [[IGate()] * num_qubits for _ in range(num_layers)]
+        for layer_idx in range(num_layers):
+            for instruction in layers_data[layer_idx]:
+                gate = Gate.get(instruction)
+                if isinstance(gate, ControlledGate):
+                    gate_span = gate._span
+                    qubit_idx = gate_span[0]
+                    for i in gate_span[1:]:
+                        circ_data[layer_idx][i] = None
+                else:
+                    qubit_idx = instruction.qargs[0]._index
+                circ_data[layer_idx][qubit_idx] = gate
+        return circ_data
 
     def __add__(self, other):
         """todo"""

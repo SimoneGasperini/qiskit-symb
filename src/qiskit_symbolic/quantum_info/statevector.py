@@ -13,11 +13,11 @@ class Statevector(QuantumBase):
         """todo"""
         super().__init__(data=data)
 
-    @classmethod
-    def from_label(cls, label):
+    @staticmethod
+    def _init_from_circuit(circuit):
         """todo"""
-        data = cls._init_from_label(label)
-        return cls(data=data)
+        psi = Statevector.from_label('0' * circuit.num_qubits)
+        return psi.evolve(circuit).to_sympy()
 
     def to_numpy(self):
         """todo"""
@@ -41,6 +41,14 @@ class Statevector(QuantumBase):
     def is_valid(self):
         """todo"""
         return self.is_unit_norm()
+
+    def evolve(self, other):
+        """todo"""
+        # pylint: disable=import-outside-toplevel
+        from . import Operator
+        if not isinstance(other, Operator):
+            operator = Operator(other)
+        return self.__class__(operator.to_sympy() * self.to_sympy())
 
     def tensor(self, other):
         """todo"""

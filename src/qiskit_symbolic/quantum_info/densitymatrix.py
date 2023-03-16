@@ -20,6 +20,12 @@ class DensityMatrix(QuantumBase):
         data = np.outer(arr, arr)
         return cls(data=data)
 
+    @staticmethod
+    def _init_from_circuit(circuit):
+        """todo"""
+        rho = DensityMatrix.from_label('0' * circuit.num_qubits)
+        return rho.evolve(circuit).to_sympy()
+
     def to_numpy(self):
         """todo"""
         try:
@@ -59,6 +65,14 @@ class DensityMatrix(QuantumBase):
     def is_valid(self):
         """todo"""
         return self.is_unit_trace() and self.is_hermitian() and self.is_positive_semidefinite()
+
+    def evolve(self, other):
+        """todo"""
+        # pylint: disable=import-outside-toplevel
+        from . import Operator
+        if not isinstance(other, Operator):
+            operator = Operator(other)
+        return self.__class__(operator.dagger().to_sympy() * self.to_sympy() * operator.to_sympy())
 
     def tensor(self, other):
         """todo"""
