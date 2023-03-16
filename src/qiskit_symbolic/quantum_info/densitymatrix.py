@@ -56,10 +56,7 @@ class DensityMatrix(QuantumBase):
         """todo"""
         eigvals = self.to_sympy().eigenvals(
             simplify=True, rational=True, multiple=True)
-        for eigval in eigvals:
-            if eigval < 0:
-                return False
-        return True
+        return all(eigval >= 0 for eigval in eigvals)
 
     def is_valid(self):
         """todo"""

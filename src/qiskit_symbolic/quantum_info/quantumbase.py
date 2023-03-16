@@ -97,7 +97,7 @@ class QuantumBase:
 
     def transpose(self):
         """todo"""
-        return self.__class__(self.to_sympy().transpose())
+        return self.__class__(self.to_sympy().T)
 
     def conjugate(self):
         """todo"""
@@ -105,7 +105,7 @@ class QuantumBase:
 
     def dagger(self):
         """todo"""
-        return self.__class__(self.to_sympy().transpose().conjugate())
+        return self.__class__(self.to_sympy().T.conjugate())
 
     def subs(self, params_dict):
         """todo"""

@@ -1,6 +1,6 @@
 """Symbolic controlled gate module"""
 
-import sympy
+from sympy import exp, I
 from sympy.physics.quantum import TensorProduct
 from .gate import Gate
 from ..quantum_info.statevector import Statevector
@@ -56,8 +56,7 @@ class ControlledGate(Gate):
         one_term = [IGate().to_sympy()] * self._size
         one_term[self.control_qubit - imin] = self.projector_1
         one_term[self.target_qubit - imin] = self.base_gate.__sympy__()
-        gph = 1
         if self.global_phase:
-            gamma = get_symbolic_expr(self.params[-1])
-            gph = sympy.exp(sympy.I * gamma)
-        return TensorProduct(*zero_term[::-1]) + gph * TensorProduct(*one_term[::-1])
+            gph = exp(I * get_symbolic_expr(self.params[-1]))
+            return TensorProduct(*zero_term[::-1]) + gph * TensorProduct(*one_term[::-1])
+        return TensorProduct(*zero_term[::-1]) + TensorProduct(*one_term[::-1])
