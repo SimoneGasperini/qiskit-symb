@@ -71,7 +71,7 @@ class DensityMatrix(QuantumBase):
         from . import Operator
         if not isinstance(other, Operator):
             operator = Operator(other)
-        return self.__class__(operator.dagger().to_sympy() * self.to_sympy() * operator.to_sympy())
+        return self.__class__(operator.to_sympy() * self.to_sympy() * operator.dagger().to_sympy())
 
     def tensor(self, other):
         """todo"""
