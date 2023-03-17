@@ -32,9 +32,9 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         't': (standard_gates.TGate, 1, 0),
         'tdg': (standard_gates.TdgGate, 1, 0),
         'u': (standard_gates.UGate, 1, 3),
-        'u1': (standard_gates.U1Gate, 1, 1),
-        'u2': (standard_gates.U2Gate, 1, 2),
-        'u3': (standard_gates.U3Gate, 1, 3),
+        # 'u1': (standard_gates.U1Gate, 1, 1), deprecated
+        # 'u2': (standard_gates.U2Gate, 1, 2), deprecated
+        # 'u3': (standard_gates.U3Gate, 1, 3), deprecated
         'y': (standard_gates.YGate, 1, 0),
         'z': (standard_gates.ZGate, 1, 0),
     }
@@ -50,8 +50,8 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
             'csx': (standard_gates.CSXGate, 2, 0),
             # https://github.com/Qiskit/qiskit-terra/issues/9763
             # 'cu': (standard_gates.CUGate, 2, 4),
-            'cu1': (standard_gates.CU1Gate, 2, 1),
-            'cu3': (standard_gates.CU3Gate, 2, 3),
+            # 'cu1': (standard_gates.CU1Gate, 2, 1), deprecated
+            # 'cu3': (standard_gates.CU3Gate, 2, 3), deprecated
             'cy': (standard_gates.CYGate, 2, 0),
             'cz': (standard_gates.CZGate, 2, 0),
             'rxx': (standard_gates.RXXGate, 2, 1),
