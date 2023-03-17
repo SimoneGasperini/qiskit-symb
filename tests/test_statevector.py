@@ -19,7 +19,7 @@ def _test_data(request):
     num_qubits, seed = request.param
     circuit, params = random_parametric_circuit(
         num_qubits=num_qubits, depth=4, seed=seed)
-    symb_psi = symb_Statevector(circuit)
+    symb_psi = symb_Statevector.from_circuit(circuit)
     return circuit, params, symb_psi
 
 

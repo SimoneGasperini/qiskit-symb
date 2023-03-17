@@ -1,16 +1,13 @@
 """Symbolic controlled gate module"""
 
-from sympy import exp, I
+import sympy
+from sympy.matrices import Matrix
 from sympy.physics.quantum import TensorProduct
 from .gate import Gate
-from ..quantum_info.statevector import Statevector
 
 
 class ControlledGate(Gate):
     """Symbolic controlled gate base class"""
-
-    projector_0 = Statevector.from_label('0').projector()
-    projector_1 = Statevector.from_label('1').projector()
 
     def __init__(self, name, num_qubits, params,
                  control_qubit, target_qubit, base_gate, global_phase=False):
@@ -52,11 +49,11 @@ class ControlledGate(Gate):
         from ..utils import get_symbolic_expr
         imin = min(self.control_qubit, self.target_qubit)
         zero_term = [IGate().to_sympy()] * self._size
-        zero_term[self.control_qubit - imin] = self.projector_0
+        zero_term[self.control_qubit - imin] = Matrix([[1, 0], [0, 0]])
         one_term = [IGate().to_sympy()] * self._size
-        one_term[self.control_qubit - imin] = self.projector_1
+        one_term[self.control_qubit - imin] = Matrix([[0, 0], [0, 1]])
         one_term[self.target_qubit - imin] = self.base_gate.__sympy__()
         if self.global_phase:
-            gph = exp(I * get_symbolic_expr(self.params[-1]))
+            gph = sympy.exp(sympy.I * get_symbolic_expr(self.params[-1]))
             return TensorProduct(*zero_term[::-1]) + gph * TensorProduct(*one_term[::-1])
         return TensorProduct(*zero_term[::-1]) + TensorProduct(*one_term[::-1])

@@ -1,29 +1,30 @@
 """Symbolic quantum statevector module"""
 
-import numpy as np
-from sympy import simplify, matrix2numpy, sqrt
-from sympy.physics.quantum import TensorProduct
+from sympy.matrices import Matrix, matrix2numpy
 from qiskit.quantum_info import Statevector as qiskit_Statevector
 from .quantumbase import QuantumBase
+from .operator import Operator
 
 
 class Statevector(QuantumBase):
     """Symbolic quantum statevector class"""
 
-    def __init__(self, data):
+    def __init__(self, data, params):
         """todo"""
-        super().__init__(data=data)
+        super().__init__(data=data, params=params)
 
     @staticmethod
-    def _init_from_label(label):
+    def _get_data_from_label(label):
         """todo"""
-        return qiskit_Statevector.from_label(label).data
+        return Matrix(qiskit_Statevector.from_label(label).data)
 
     @staticmethod
-    def _init_from_circuit(circuit):
+    def _get_data_from_circuit(circuit):
         """todo"""
-        psi = Statevector.from_label('0' * circuit.num_qubits)
-        return psi.evolve(circuit).to_sympy()
+        # pylint: disable=protected-access
+        psi = Statevector._get_data_from_label('0' * circuit.num_qubits)
+        mat = Operator._get_data_from_circuit(circuit)
+        return mat * psi
 
     def to_numpy(self):
         """todo"""
@@ -31,50 +32,3 @@ class Statevector(QuantumBase):
             return matrix2numpy(self.to_sympy(), dtype=complex)[:, 0]
         except TypeError:
             return matrix2numpy(self.to_sympy(), dtype=object)[:, 0]
-
-    def norm(self):
-        """todo"""
-        return simplify(sqrt(self.inner(self)))
-
-    def is_unit_norm(self):
-        """todo"""
-        try:
-            numpy_array = matrix2numpy(self.to_sympy(), dtype=complex)[:, 0]
-            return np.allclose(np.linalg.norm(numpy_array), 1)
-        except TypeError:
-            return self.norm() == 1
-
-    def is_valid(self):
-        """todo"""
-        return self.is_unit_norm()
-
-    def evolve(self, other):
-        """todo"""
-        # pylint: disable=import-outside-toplevel
-        from . import Operator
-        if not isinstance(other, Operator):
-            operator = Operator(other)
-        return self.__class__(operator.to_sympy() * self.to_sympy())
-
-    def tensor(self, other):
-        """todo"""
-        if not isinstance(other, Statevector):
-            other = Statevector(other)
-        tensorprod = TensorProduct(self.to_sympy(), other.to_sympy())
-        return self.__class__(tensorprod)
-
-    def inner(self, other):
-        """todo"""
-        if not isinstance(other, Statevector):
-            other = Statevector(other)
-        return (self.to_sympy().T @ other.to_sympy())[0]
-
-    def outer(self, other):
-        """todo"""
-        if not isinstance(other, Statevector):
-            other = Statevector(other)
-        return self.to_sympy() @ other.to_sympy().T
-
-    def projector(self):
-        """todo"""
-        return self.outer(self)
