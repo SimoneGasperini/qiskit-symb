@@ -2,7 +2,7 @@
 
 import math
 import sympy
-from sympy.matrices import Matrix, matrix2numpy
+from sympy.matrices import Matrix
 from sympy.physics.quantum import TensorProduct
 from qiskit.quantum_info import Operator as qiskit_Operator
 from .quantumbase import QuantumBase
@@ -47,10 +47,3 @@ class Operator(QuantumBase):
         gph = sympy.exp(sympy.I * circuit.global_phase)
         return gph * math.prod(TensorProduct(*[gate.to_sympy() for gate in layer[::-1]
                                                if gate is not None]) for layer in circ_data[::-1])
-
-    def to_numpy(self):
-        """todo"""
-        try:
-            return matrix2numpy(self.to_sympy(), dtype=complex)
-        except TypeError:
-            return matrix2numpy(self.to_sympy(), dtype=object)

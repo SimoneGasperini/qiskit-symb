@@ -1,6 +1,6 @@
 """Symbolic quantum density matrix module"""
 
-from sympy.matrices import Matrix, matrix2numpy
+from sympy.matrices import Matrix
 from qiskit.quantum_info import DensityMatrix as qiskit_DensityMatrix
 from .quantumbase import QuantumBase
 from .operator import Operator
@@ -25,10 +25,3 @@ class DensityMatrix(QuantumBase):
         rho = DensityMatrix._get_data_from_label('0' * circuit.num_qubits)
         mat = Operator._get_data_from_circuit(circuit)
         return mat * rho * mat.T.conjugate()
-
-    def to_numpy(self):
-        """todo"""
-        try:
-            return matrix2numpy(self.to_sympy(), dtype=complex)
-        except TypeError:
-            return matrix2numpy(self.to_sympy(), dtype=object)

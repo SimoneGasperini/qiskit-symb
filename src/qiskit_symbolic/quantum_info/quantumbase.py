@@ -1,5 +1,8 @@
 """Symbolic quantum base module"""
 
+from sympy import lambdify, Symbol
+from sympy.matrices import matrix2numpy
+
 
 class QuantumBase:
     """Abstract symbolic quantum base class"""
@@ -28,6 +31,23 @@ class QuantumBase:
         """todo"""
         return self._data
 
+    def to_numpy(self):
+        """todo"""
+        try:
+            return matrix2numpy(self.to_sympy(), dtype=complex)
+        except TypeError:
+            return matrix2numpy(self.to_sympy(), dtype=object)
+
+    def lambdify(self):
+        """todo"""
+        sympy_matrix = self.to_sympy()
+        name2symb = {symb.name: symb for symb in sympy_matrix.free_symbols}
+        symbs = [name2symb[par.name] if par.name in name2symb else Symbol('@')
+                 for par in self._params]
+        args = [Symbol(f'_arg{i}') for i in range(len(self._params))]
+        expr = sympy_matrix.subs(dict(zip(symbs, args)))
+        return lambdify(args=args, expr=expr, modules='numpy')
+
     def subs(self, params_dict):
         """todo"""
         par2val = {}
@@ -46,12 +66,15 @@ class QuantumBase:
 
     def transpose(self):
         """todo"""
-        return self.__class__(data=self._data.T, params=self._params)
+        return self.__class__(data=self.to_sympy().T,
+                              params=self._params)
 
     def conjugate(self):
         """todo"""
-        return self.__class__(data=self._data.conjugate(), params=self._params)
+        return self.__class__(data=self.to_sympy().conjugate(),
+                              params=self._params)
 
     def dagger(self):
         """todo"""
-        return self.__class__(data=self._data.T.conjugate(), params=self._params)
+        return self.__class__(data=self.to_sympy().T.conjugate(),
+                              params=self._params)

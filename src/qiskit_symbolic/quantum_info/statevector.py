@@ -1,6 +1,7 @@
 """Symbolic quantum statevector module"""
 
-from sympy.matrices import Matrix, matrix2numpy
+import numpy
+from sympy.matrices import Matrix
 from qiskit.quantum_info import Statevector as qiskit_Statevector
 from .quantumbase import QuantumBase
 from .operator import Operator
@@ -28,7 +29,9 @@ class Statevector(QuantumBase):
 
     def to_numpy(self):
         """todo"""
-        try:
-            return matrix2numpy(self.to_sympy(), dtype=complex)[:, 0]
-        except TypeError:
-            return matrix2numpy(self.to_sympy(), dtype=object)[:, 0]
+        return QuantumBase.to_numpy(self)[:, 0]
+
+    def lambdify(self):
+        """todo"""
+        return lambda *args: numpy.reshape(QuantumBase.lambdify(self)(*args),
+                                           (self.to_sympy().shape[0],))
