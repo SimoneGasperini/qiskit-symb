@@ -32,3 +32,13 @@ def test_from_circuit(_test_data):
     arr1 = Operator(qiskit_circ).data
     arr2 = symb_op.subs(params_dict).to_numpy()
     assert numpy.allclose(arr1, arr2)
+
+
+def test_lambdify(_test_data):
+    """todo"""
+    circuit, params, symb_op = _test_data
+    values = numpy.random.rand(len(params)) * 2*numpy.pi
+    qiskit_circ = circuit.assign_parameters(values)
+    arr1 = Operator(qiskit_circ).data
+    arr2 = symb_op.lambdify()(*values)
+    assert numpy.allclose(arr1, arr2)
