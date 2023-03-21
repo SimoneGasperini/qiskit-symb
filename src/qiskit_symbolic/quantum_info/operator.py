@@ -32,6 +32,8 @@ class Operator(QuantumBase):
         circuit = transpile_circuit(flatten_circuit(circuit))
         layers_data = get_layers_data(circuit)
         num_qubits, num_layers = circuit.num_qubits, len(layers_data)
+        if num_layers == 0:
+            return TensorProduct(*[IGate().to_sympy()] * num_qubits)
         circ_data = [[IGate()] * num_qubits for _ in range(num_layers)]
         for layer_idx in range(num_layers):
             for instruction in layers_data[layer_idx]:
