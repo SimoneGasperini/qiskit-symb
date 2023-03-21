@@ -1,9 +1,18 @@
-<p align="center"><img src="https://github.com/SimoneGasperini/qiskit-symbolic/blob/master/logo.png"></p>
+<p align="center">
+    <img src="https://github.com/SimoneGasperini/qiskit-symbolic/blob/master/logo.png">
+</p>
 
-***
+<p align="center">
+    <img title="license" src="https://img.shields.io/badge/license-Apache_2.0-blue.svg">
+	<img title="python" src="https://img.shields.io/badge/python-≥3.8-blue.svg">
+    <img title="build" src='https://github.com/SimoneGasperini/qiskit-symbolic/actions/workflows/testing.yml/badge.svg'>
+</p>
+
+
 ## Table of contents
 - [Introduction](#introduction)
 - [Installation](#installation)
+
 ***
 
 
