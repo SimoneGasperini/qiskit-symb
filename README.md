@@ -4,8 +4,12 @@
 
 <p align="center">
     <img title="license" src="https://img.shields.io/badge/license-Apache_2.0-blue.svg">
-	<img title="python" src="https://img.shields.io/badge/python-≥3.8-blue.svg">
-    <img title="build" src='https://github.com/SimoneGasperini/qiskit-symbolic/actions/workflows/testing.yml/badge.svg?branch=master'>
+    <img title="python" src="https://img.shields.io/badge/python-≥3.8-blue.svg">
+</p>
+
+<p align="center">
+    <img title="test" src='https://github.com/SimoneGasperini/qiskit-symbolic/actions/workflows/test.yml/badge.svg?branch=master'>
+    <img title="lint" src='https://github.com/SimoneGasperini/qiskit-symbolic/actions/workflows/lint.yml/badge.svg?branch=master'>
     <img title="coverage" src='https://coveralls.io/repos/github/SimoneGasperini/qiskit-symbolic/badge.svg?branch=master'>
 </p>
 
