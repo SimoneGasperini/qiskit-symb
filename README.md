@@ -70,9 +70,9 @@ from qiskit_symbolic import Operator
 op = Operator.from_circuit(qc)
 op.to_sympy()
 ```
-$
+```math
 \left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i \left(p[0] + p[1]\right)} \cos{\left(\frac{y}{2} \right)} & - e^{i \left(p[0] + p[1]\right)} \sin{\left(\frac{y}{2} \right)}\\e^{i \left(p[0] + p[1]\right)} \sin{\left(\frac{y}{2} \right)} & e^{i \left(p[0] + p[1]\right)} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
-$
+```
 
 If you want to assign a value to some specific parameter, you can use the `Operator.subs` method passing a dictionary that maps each parameter to its corresponding value:
 ```python
@@ -80,9 +80,9 @@ params2value = {p: [-1, 2]}
 new_op = op.subs(params2value)
 new_op.to_sympy()
 ```
-$
+```math
 \left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i} \cos{\left(\frac{y}{2} \right)} & - e^{i} \sin{\left(\frac{y}{2} \right)}\\e^{i} \sin{\left(\frac{y}{2} \right)} & e^{i} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
-$
+```
 
 ***
 
