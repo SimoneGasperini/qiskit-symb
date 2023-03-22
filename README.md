@@ -1,4 +1,4 @@
-![logo](/logo.png)
+![logo](/img/logo.png)
 
 <p align="center">
     <img title="license" src="https://img.shields.io/badge/license-Apache_2.0-blue.svg">
@@ -61,7 +61,7 @@ qc.u(0, *p, 1)
 
 qc.draw('mpl')
 ```
-![example](/example.png)
+![example](/img/example.png)
 
 To get the symbolic matrix representation of the parametric unitary operator corresponding to the circuit, the following few lines of code are enough:
 ```python
