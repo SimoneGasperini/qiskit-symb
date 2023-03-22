@@ -31,15 +31,13 @@ In particular, `qiskit-symbolic` can be used to create a symbolic representation
 
 # Installation
 ### User-mode
-To start using `qiskit-symbolic`, you can install the package directly from GitHub running the command:
+To start using `qiskit-symbolic`, you can install the package directly from GitHub running the following command:
 ```
 pip install git+https://github.com/SimoneGasperini/qiskit-symbolic.git
 ```
 ### Dev-mode
-To install the package from source in *dev-mode*, you have to clone the GitHub repository, install the develop dependencies, and run the `pip install` command in editable mode (adding `-e` flag):
+To install the package in development mode, first you have to clone locally the GitHub repository; then, move to the repo directory to install the develop dependencies and to launch the editable-mode installation running the following commands:
 ```
-git clone https://github.com/SimoneGasperini/qiskit-symbolic.git
-cd qiskit-symbolic
 pip install -r requirements-dev.txt
 pip install -e .
 ```
