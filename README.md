@@ -12,9 +12,6 @@
 </p>
 
 ***
-***
-
-<br>
 
 # Table of contents
 - [Introduction](#introduction)
@@ -87,9 +84,6 @@ $
 \left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i} \cos{\left(\frac{y}{2} \right)} & - e^{i} \sin{\left(\frac{y}{2} \right)}\\e^{i} \sin{\left(\frac{y}{2} \right)} & e^{i} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
 $
 
-<br>
-
-***
 ***
 
 <p align="right">
