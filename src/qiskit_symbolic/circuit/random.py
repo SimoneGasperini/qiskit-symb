@@ -1,11 +1,9 @@
 """Symbolic random module"""
 
 import random
-import math
 from qiskit import QuantumRegister, QuantumCircuit
 from qiskit.circuit import ParameterVector, Qubit
 from qiskit.circuit.library import standard_gates
-from ..utils import get_symbolic_gates_names
 
 
 def random_parametric_circuit(num_qubits, depth, seed=None):
@@ -68,20 +66,12 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         })
     random.seed(seed)
     qiskit_gates_names = list(qiskit_gates.keys())
-    symbolic_gates_names = get_symbolic_gates_names()
     while circuit.depth() != depth:
         gate_name = random.choice(qiskit_gates_names)
         gate_init, n_qubits, n_params = qiskit_gates[gate_name]
-        if n_params > 0:
-            if gate_name in symbolic_gates_names:
-                length = len(params)
-                params.resize(length + n_params)
-                gate = gate_init(*params[length:])
-            else:
-                vals = [random.random() * 2*math.pi for _ in range(n_params)]
-                gate = gate_init(*vals)
-        else:
-            gate = gate_init()
+        length = len(params)
+        params.resize(length + n_params)
+        gate = gate_init(*params[length:])
         indices = list(range(num_qubits))
         qubits = [Qubit(register=register,
                         index=indices.pop(random.randrange(len(indices))))
