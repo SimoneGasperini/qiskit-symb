@@ -3,6 +3,7 @@
 import random
 from sympy import Symbol, sympify
 from qiskit import QuantumCircuit, transpile
+from qiskit.transpiler.passes import RemoveBarriers
 from .circuit.library import NAME_TO_INIT  # pylint: disable=cyclic-import
 
 
@@ -24,6 +25,7 @@ def flatten_circuit(circuit):
 
 def transpile_circuit(circuit):
     """todo"""
+    circuit = RemoveBarriers()(circuit)
     basis_gates = list(NAME_TO_INIT.keys())
     return transpile(circuit, basis_gates=basis_gates, optimization_level=1)
 
