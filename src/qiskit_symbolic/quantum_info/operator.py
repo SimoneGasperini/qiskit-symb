@@ -30,10 +30,11 @@ class Operator(QuantumBase):
         from ..circuit import Gate, ControlledGate
         from ..circuit.library import IGate
         circuit = transpile_circuit(flatten_circuit(circuit))
+        gph = sympy.exp(sympy.I * circuit.global_phase)
         layers_data = get_layers_data(circuit)
         num_qubits, num_layers = circuit.num_qubits, len(layers_data)
         if num_layers == 0:
-            return TensorProduct(*[IGate().to_sympy()] * num_qubits)
+            return gph * TensorProduct(*[IGate().to_sympy()] * num_qubits)
         circ_data = [[IGate()] * num_qubits for _ in range(num_layers)]
         for layer_idx in range(num_layers):
             for instruction in layers_data[layer_idx]:
@@ -46,6 +47,5 @@ class Operator(QuantumBase):
                 else:
                     qubit_idx = instruction.qargs[0]._index
                 circ_data[layer_idx][qubit_idx] = gate
-        gph = sympy.exp(sympy.I * circuit.global_phase)
         return gph * math.prod(TensorProduct(*[gate.to_sympy() for gate in layer[::-1]
                                                if gate is not None]) for layer in circ_data[::-1])
