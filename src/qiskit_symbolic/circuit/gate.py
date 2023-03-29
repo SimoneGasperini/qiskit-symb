@@ -52,8 +52,6 @@ class Gate:
         """todo"""
         # pylint: disable=no-member
         sympy_symbols = self._get_unique_symbols()
-        if len(vals) > len(sympy_symbols):
-            raise ValueError
         sympy_matrix = self.__sympy__().subs(dict(zip(sympy_symbols, vals)))
         try:
             return matrix2numpy(sympy_matrix, dtype=complex)
