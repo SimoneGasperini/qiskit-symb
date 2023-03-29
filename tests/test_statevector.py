@@ -30,7 +30,7 @@ def test_from_circuit(_test_data):
     params_dict = dict(zip(params, values))
     qiskit_circ = circuit.assign_parameters(params_dict)
     arr1 = Statevector(qiskit_circ).data
-    arr2 = symb_psi.subs(params_dict).to_numpy()
+    arr2 = symb_psi.subs(params_dict).to_numpy()[:, 0]
     assert numpy.allclose(arr1, arr2)
 
 
@@ -40,5 +40,5 @@ def test_lambdify(_test_data):
     values = numpy.random.rand(len(params)) * 2*numpy.pi
     qiskit_circ = circuit.assign_parameters(values)
     arr1 = Statevector(qiskit_circ).data
-    arr2 = symb_psi.lambdify()(*values)
+    arr2 = symb_psi.lambdify()(*values)[:, 0]
     assert numpy.allclose(arr1, arr2)

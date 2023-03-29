@@ -1,6 +1,5 @@
 """Symbolic quantum statevector module"""
 
-import numpy
 from sympy.matrices import Matrix
 from qiskit.quantum_info import Statevector as qiskit_Statevector
 from .quantumbase import QuantumBase
@@ -26,12 +25,3 @@ class Statevector(QuantumBase):
         psi = Statevector._get_data_from_label('0' * circuit.num_qubits)
         mat = Operator._get_data_from_circuit(circuit)
         return mat * psi
-
-    def to_numpy(self):
-        """todo"""
-        return QuantumBase.to_numpy(self)[:, 0]
-
-    def lambdify(self):
-        """todo"""
-        return lambda *args: numpy.reshape(QuantumBase.lambdify(self)(*args),
-                                           (self.to_sympy().shape[0],))
