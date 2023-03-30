@@ -34,11 +34,11 @@ def test_from_circuit(_test_data):
     assert numpy.allclose(arr1, arr2)
 
 
-def test_lambdify(_test_data):
+def test_to_lambda(_test_data):
     """todo"""
     circuit, params, symb_rho = _test_data
     values = numpy.random.rand(len(params)) * 2*numpy.pi
     qiskit_circ = circuit.assign_parameters(values)
     arr1 = DensityMatrix(qiskit_circ).data
-    arr2 = symb_rho.lambdify()(*values)
+    arr2 = symb_rho.to_lambda()(*values)
     assert numpy.allclose(arr1, arr2)

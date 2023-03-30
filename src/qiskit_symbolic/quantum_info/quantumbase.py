@@ -38,7 +38,7 @@ class QuantumBase:
         except TypeError:
             return matrix2numpy(self.to_sympy(), dtype=object)
 
-    def lambdify(self):
+    def to_lambda(self):
         """todo"""
         sympy_matrix = self.to_sympy()
         name2symb = {symb.name: symb for symb in sympy_matrix.free_symbols}
