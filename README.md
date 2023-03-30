@@ -1,4 +1,4 @@
-![logo](/img/logo.png)
+![](/img/logo.png)
 
 <p align="center">
     <img title="license" src="https://img.shields.io/badge/license-Apache_2.0-blue.svg">
@@ -18,7 +18,10 @@
 - [Installation](#installation)
     - [User-mode](#user-mode)
     - [Dev-mode](#dev-mode)
-- [How to use?](#how-to-use)
+- [Usage examples](#usage-examples)
+    - [_Sympify_ a Qiskit circuit](#sympify-a-qiskit-circuit)
+    - [_Lambdify_ a Qiskit circuit](#lambdify-a-qiskit-circuit)
+- [Contributors](#contributors)
 
 
 # Introduction
@@ -43,8 +46,10 @@ pip install -e .
 ```
 
 
-# How to use?
-To show a simple example on how to use `qiskit-symbolic`, consider the following PQC defined in Qiskit:
+# Usage examples
+
+### _Sympify_ a Qiskit circuit
+Let's get started on how to use `qiskit-symbolic` to get the symbolic representation of a given Qiskit circuit. In particular, in this first basic example, we consider the following quantum circuit:
 ```python
 from qiskit import QuantumCircuit
 from qiskit.circuit import Parameter, ParameterVector
@@ -52,27 +57,27 @@ from qiskit.circuit import Parameter, ParameterVector
 y = Parameter('y')
 p = ParameterVector('p', length=2)
 
-qc = QuantumCircuit(2)
-qc.ry(y, 0)
-qc.cx(0, 1)
-qc.u(0, *p, 1)
+pqc = QuantumCircuit(2)
+pqc.ry(y, 0)
+pqc.cx(0, 1)
+pqc.u(0, *p, 1)
 
-qc.draw('mpl')
+pqc.draw('mpl')
 ```
-![example](/img/example.png)
+![](/img/example_circuit.png)
 
-To get the symbolic matrix representation of the parametric unitary operator corresponding to the circuit, the following few lines of code are enough:
+To get the *sympy* representation of the unitary matrix corresponding to the parameterized circuit, we just have to create the symbolic `Operator` instance and call the `to_sympy()` method:
 ```python
 from qiskit_symbolic import Operator
 
-op = Operator.from_circuit(qc)
+op = Operator.from_circuit(pqc)
 op.to_sympy()
 ```
 ```math
 \left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i \left(p[0] + p[1]\right)} \cos{\left(\frac{y}{2} \right)} & - e^{i \left(p[0] + p[1]\right)} \sin{\left(\frac{y}{2} \right)}\\e^{i \left(p[0] + p[1]\right)} \sin{\left(\frac{y}{2} \right)} & e^{i \left(p[0] + p[1]\right)} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
 ```
 
-If you want to assign a value to some specific parameter, you can use the `Operator.subs` method passing a dictionary that maps each parameter to its corresponding value:
+If you want then to assign a value to some specific parameter, you can use the `subs(<dict>)` method passing a dictionary that maps each parameter to the desired corresponding value:
 ```python
 params2value = {p: [-1, 2]}
 new_op = op.subs(params2value)
@@ -82,11 +87,39 @@ new_op.to_sympy()
 \left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i} \cos{\left(\frac{y}{2} \right)} & - e^{i} \sin{\left(\frac{y}{2} \right)}\\e^{i} \sin{\left(\frac{y}{2} \right)} & e^{i} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
 ```
 
-***
+### _Lambdify_ a Qiskit circuit
+Given a Qiskit circuit, `qiskit-symbolic` also allows to generate a Python lambda function with actual arguments matching the Qiskit unbounded parameters.
+Let's consider the following example starting from a `ZZFeatureMap` circuit, commonly used as a data embedding ansatz in QML applications:
+```python
+from qiskit.circuit.library import ZZFeatureMap
 
-<p align="right">
-    <img src="https://avatars2.githubusercontent.com/u/71086758?s=400&v=4" width="80px"/><br>
-    <b>Simone Gasperini</b><br>
-    <a href="https://github.com/SimoneGasperini">GitHub</a>,
-    <a href="https://www.unibo.it/sitoweb/simone.gasperini4">UniBo</a>
-</p>
+pqc = ZZFeatureMap(feature_dimension=3, reps=1)
+pqc.draw('mpl')
+```
+![](/img/zzfeaturemap_circuit.png)
+
+To get the Python lambda function representing, for instance, the final parameterized statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
+```python
+from qiskit_symbolic import Statevector
+
+sv = Statevector.from_circuit(pqc)
+sv_func = sv.to_lambda()
+```
+
+We can now call the generated lambda function passing the actual values we want to assign to each free parameter (in alphabetical order, same convention used in `qiskit-terra`). The returned object will be a *numpy* 2D-array (with `shape=(8,1)` in this case) representing the final output statevector.
+```python
+values = [1.24, 2.27, 0.29]
+statevec = sv_func(*values)
+```
+
+**_REMARK_** \
+*When the PQC has to be evaluated on a large number of different sets of parameters values (typical case in QML), this `qiskit-symbolic` feature can help to significantly improve the (full-statevector) simulation performace. Indeed, the symbolic evalutation of the circuit and the lambda generation take place only once; then, the simulation only consists in executing multiple times the returned function passing a different set of parameters values for each iteration. For relatively shallow PQCs with a limilted number of qubits (e.g. Quantum Kernels evaluation), this can reduce the execution time up to two order of magnitudes (depending on the number of iterations) compared to the standard Qiskit simulation based on the [Aer Simulators](https://qiskit.org/documentation/tutorials/simulators/1_aer_provider.html) or the [Sampler](https://qiskit.org/documentation/stubs/qiskit.primitives.Sampler.html) primitive.*
+
+
+# Contributors
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/SimoneGasperini"><img src="https://avatars2.githubusercontent.com/u/71086758?s=400&v=4" width="120px;"/><br/><b>Simone Gasperini</b></a></td>
+  </tr>
+</table>
