@@ -1,5 +1,6 @@
 """Symbolic quantum base module"""
 
+import re
 from sympy import lambdify, Symbol
 from sympy.matrices import matrix2numpy
 
@@ -44,7 +45,8 @@ class QuantumBase:
         name2symb = {symb.name: symb for symb in sympy_matrix.free_symbols}
         symbs = [name2symb[par.name] if par.name in name2symb else Symbol('@')
                  for par in self._params]
-        args = [Symbol(f'_arg{i}') for i in range(len(self._params))]
+        args = [Symbol('_' + re.sub(r'[\$\[\]]', '', par.name.replace('\\', '')))
+                for par in self._params]
         expr = sympy_matrix.subs(dict(zip(symbs, args)))
         return lambdify(args=args, expr=expr, modules='numpy')
 
