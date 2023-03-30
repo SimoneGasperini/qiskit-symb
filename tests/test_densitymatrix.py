@@ -17,15 +17,15 @@ pars, ids = get_random_params(testing_params, size=10)
 def _test_data(request):
     """todo"""
     num_qubits, seed = request.param
-    circuit, params = random_parametric_circuit(
-        num_qubits=num_qubits, depth=4, seed=seed)
+    circuit = random_parametric_circuit(num_qubits, depth=4, seed=seed)
     symb_rho = symb_DensityMatrix.from_circuit(circuit)
-    return circuit, params, symb_rho
+    return circuit, symb_rho
 
 
 def test_from_circuit(_test_data):
     """todo"""
-    circuit, params, symb_rho = _test_data
+    circuit, symb_rho = _test_data
+    params = circuit.parameters
     values = numpy.random.rand(len(params)) * 2*numpy.pi
     params_dict = dict(zip(params, values))
     qiskit_circ = circuit.assign_parameters(params_dict)
@@ -36,7 +36,8 @@ def test_from_circuit(_test_data):
 
 def test_to_lambda(_test_data):
     """todo"""
-    circuit, params, symb_rho = _test_data
+    circuit, symb_rho = _test_data
+    params = circuit.parameters
     values = numpy.random.rand(len(params)) * 2*numpy.pi
     qiskit_circ = circuit.assign_parameters(values)
     arr1 = DensityMatrix(qiskit_circ).data

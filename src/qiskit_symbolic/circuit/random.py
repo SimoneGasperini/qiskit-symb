@@ -11,9 +11,8 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
     # pylint: disable=too-many-locals
     register = QuantumRegister(num_qubits)
     circuit = QuantumCircuit(register)
-    params = ParameterVector(name='x', length=0)
     if num_qubits == 0 or depth == 0:
-        return circuit, params
+        return circuit
     qiskit_gates = {
         # gate_name: (gate_class, num_qubits, num_params)
         'sx': (standard_gates.SXGate, 1, 0),
@@ -66,6 +65,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         })
     random.seed(seed)
     qiskit_gates_names = list(qiskit_gates.keys())
+    params = ParameterVector(name='x', length=0)
     while circuit.depth() != depth:
         gate_name = random.choice(qiskit_gates_names)
         gate_init, n_qubits, n_params = qiskit_gates[gate_name]
@@ -77,4 +77,4 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
                         index=indices.pop(random.randrange(len(indices))))
                   for _ in range(n_qubits)]
         circuit.append(instruction=gate, qargs=qubits)
-    return circuit, params
+    return circuit
