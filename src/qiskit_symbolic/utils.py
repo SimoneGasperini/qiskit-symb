@@ -30,11 +30,6 @@ def transpile_circuit(circuit):
     return transpile(circuit, basis_gates=basis_gates, optimization_level=1)
 
 
-def get_layers_data(circuit):
-    """todo"""
-    return circuit.draw(output='text').nodes
-
-
 def get_symbolic_expr(par_expr):
     """todo"""
     # pylint: disable=protected-access

@@ -1,6 +1,7 @@
 """Symbolic quantum base module"""
 
 import re
+import sympy
 from sympy import lambdify, Symbol
 from sympy.matrices import matrix2numpy
 
@@ -12,6 +13,33 @@ class QuantumBase:
         """todo"""
         self._data = data
         self._params = params
+
+    @staticmethod
+    def _get_circ_data(circuit):
+        """todo"""
+        # pylint: disable=import-outside-toplevel
+        # pylint: disable=protected-access
+        # pylint: disable=too-many-locals
+        from ..utils import flatten_circuit, transpile_circuit
+        from ..circuit import Gate, ControlledGate
+        from ..circuit.library import IGate
+        circuit = transpile_circuit(flatten_circuit(circuit))
+        gph = sympy.exp(sympy.I * circuit.global_phase)
+        layers_data = circuit.draw(output='text').nodes
+        num_qubits, num_layers = circuit.num_qubits, len(layers_data)
+        circ_data = [[IGate()] * num_qubits for _ in range(num_layers)]
+        for layer_idx in range(num_layers):
+            for instruction in layers_data[layer_idx]:
+                gate = Gate.get(instruction)
+                if isinstance(gate, ControlledGate):
+                    gate_span = gate._span
+                    qubit_idx = gate_span[0]
+                    for i in gate_span[1:]:
+                        circ_data[layer_idx][i] = None
+                else:
+                    qubit_idx = instruction.qargs[0]._index
+                circ_data[layer_idx][qubit_idx] = gate
+        return gph, circ_data
 
     @classmethod
     def from_label(cls, label):
