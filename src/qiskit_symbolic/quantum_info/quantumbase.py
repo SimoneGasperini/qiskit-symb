@@ -1,6 +1,5 @@
 """Symbolic quantum base module"""
 
-import re
 import sympy
 from sympy import lambdify, Symbol
 from sympy.matrices import matrix2numpy
@@ -71,12 +70,9 @@ class QuantumBase:
         """todo"""
         sympy_matrix = self.to_sympy()
         name2symb = {symb.name: symb for symb in sympy_matrix.free_symbols}
-        symbs = [name2symb[par.name] if par.name in name2symb else Symbol('@')
-                 for par in self._params]
-        args = [Symbol('_' + re.sub(r'[\$\[\]]', '', par.name.replace('\\', '')))
+        args = [name2symb[par.name] if par.name in name2symb else Symbol('_')
                 for par in self._params]
-        expr = sympy_matrix.subs(dict(zip(symbs, args)))
-        return lambdify(args=args, expr=expr, modules='numpy')
+        return lambdify(args=args, expr=sympy_matrix, modules='numpy', dummify=True, cse=True)
 
     def subs(self, params_dict):
         """todo"""
