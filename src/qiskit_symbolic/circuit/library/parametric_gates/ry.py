@@ -1,4 +1,4 @@
-r"""Symbolic :math:`RY(\theta)` and :math:`CRY(\theta)` gates module"""
+r"""Symbolic :math:`RY(\theta)` and controlled-:math:`RY(\theta)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -24,12 +24,12 @@ class RYGate(Gate):
 
 
 class CRYGate(ControlledGate):
-    r"""Symbolic :math:`CRY(\theta)` gate class"""
+    r"""Symbolic controlled-:math:`RY(\theta)` gate class"""
 
-    def __init__(self, theta, control_qubit=0, target_qubit=1):
+    def __init__(self, theta, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         params = [theta]
         base_gate = RYGate(theta)
         super().__init__(name='cry', num_qubits=2, params=params,
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

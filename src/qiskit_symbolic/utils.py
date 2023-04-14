@@ -26,8 +26,7 @@ def flatten_circuit(circuit):
 def transpile_circuit(circuit):
     """todo"""
     circuit = RemoveBarriers()(circuit)
-    basis_gates = list(NAME_TO_INIT.keys())
-    return transpile(circuit, basis_gates=basis_gates, optimization_level=1)
+    return transpile(circuit, optimization_level=2)
 
 
 def get_symbolic_expr(par_expr):

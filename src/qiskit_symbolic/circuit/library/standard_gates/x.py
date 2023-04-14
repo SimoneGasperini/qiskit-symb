@@ -1,4 +1,4 @@
-r"""Symbolic Pauli :math:`X` and :math:`CX` gates module"""
+r"""Symbolic Pauli :math:`X` and controlled-:math:`X` gates module"""
 
 from sympy.matrices import Matrix
 from ...gate import Gate
@@ -19,11 +19,11 @@ class XGate(Gate):
 
 
 class CXGate(ControlledGate):
-    r"""Symbolic :math:`CX` gate class"""
+    r"""Symbolic controlled-:math:`X` gate class"""
 
-    def __init__(self, control_qubit=0, target_qubit=1):
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = XGate()
         super().__init__(name='cx', num_qubits=2, params=[],
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

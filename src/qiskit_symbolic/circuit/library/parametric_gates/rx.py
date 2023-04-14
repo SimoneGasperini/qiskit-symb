@@ -1,4 +1,4 @@
-r"""Symbolic :math:`RX(\theta)` and :math:`CRX(\theta)` gates module"""
+r"""Symbolic :math:`RX(\theta)` and controlled-:math:`RX(\theta)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -25,12 +25,12 @@ class RXGate(Gate):
 
 
 class CRXGate(ControlledGate):
-    r"""Symbolic :math:`CRX(\theta)` gate class"""
+    r"""Symbolic controlled-:math:`RX(\theta)` gate class"""
 
-    def __init__(self, theta, control_qubit=0, target_qubit=1):
+    def __init__(self, theta, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         params = [theta]
         base_gate = RXGate(theta)
         super().__init__(name='crx', num_qubits=2, params=params,
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

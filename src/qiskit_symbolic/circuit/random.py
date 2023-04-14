@@ -15,7 +15,8 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         return circuit
     qiskit_gates = {
         # gate_name: (gate_class, num_qubits, num_params)
-        'sx': (standard_gates.SXGate, 1, 0),
+        'id': (standard_gates.IGate, 1, 0),
+        # 'sx': (standard_gates.SXGate, 1, 0), TODO
         'x': (standard_gates.XGate, 1, 0),
         'rz': (standard_gates.RZGate, 1, 1),
         'r': (standard_gates.RGate, 1, 2),
@@ -25,7 +26,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         'ry': (standard_gates.RYGate, 1, 1),
         's': (standard_gates.SGate, 1, 0),
         'sdg': (standard_gates.SdgGate, 1, 0),
-        'sxdg': (standard_gates.SXdgGate, 1, 0),
+        # 'sxdg': (standard_gates.SXdgGate, 1, 0), TODO
         't': (standard_gates.TGate, 1, 0),
         'tdg': (standard_gates.TdgGate, 1, 0),
         'u': (standard_gates.UGate, 1, 3),
@@ -38,30 +39,37 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
     if num_qubits > 1:
         qiskit_gates.update({
             'cx': (standard_gates.CXGate, 2, 0),
-            'dcx': (standard_gates.DCXGate, 2, 0),
+            # 'dcx': (standard_gates.DCXGate, 2, 0), TODO
             'ch': (standard_gates.CHGate, 2, 0),
             'cp': (standard_gates.CPhaseGate, 2, 1),
             'crx': (standard_gates.CRXGate, 2, 1),
             'cry': (standard_gates.CRYGate, 2, 1),
             'crz': (standard_gates.CRZGate, 2, 1),
-            'csx': (standard_gates.CSXGate, 2, 0),
+            # 'csx': (standard_gates.CSXGate, 2, 0), TODO
             # https://github.com/Qiskit/qiskit-terra/issues/9763
             # 'cu': (standard_gates.CUGate, 2, 4),
             # 'cu1': (standard_gates.CU1Gate, 2, 1), deprecated
             # 'cu3': (standard_gates.CU3Gate, 2, 3), deprecated
             'cy': (standard_gates.CYGate, 2, 0),
             'cz': (standard_gates.CZGate, 2, 0),
-            'rxx': (standard_gates.RXXGate, 2, 1),
-            'ryy': (standard_gates.RYYGate, 2, 1),
-            'rzz': (standard_gates.RZZGate, 2, 1),
-            'rzx': (standard_gates.RZXGate, 2, 1),
-            'xx_minus_yy': (standard_gates.XXMinusYYGate, 2, 2),
-            'xx_plus_yy': (standard_gates.XXPlusYYGate, 2, 2),
-            'ecr': (standard_gates.ECRGate, 2, 0),
+            # 'rxx': (standard_gates.RXXGate, 2, 1), TODO
+            # 'ryy': (standard_gates.RYYGate, 2, 1), TODO
+            # 'rzz': (standard_gates.RZZGate, 2, 1), TODO
+            # 'rzx': (standard_gates.RZXGate, 2, 1), TODO
+            # 'xx_minus_yy': (standard_gates.XXMinusYYGate, 2, 2), TODO
+            # 'xx_plus_yy': (standard_gates.XXPlusYYGate, 2, 2), TODO
+            # 'ecr': (standard_gates.ECRGate, 2, 0), TODO
             'cs': (standard_gates.CSGate, 2, 0),
             'csdg': (standard_gates.CSdgGate, 2, 0),
             'swap': (standard_gates.SwapGate, 2, 0),
             'iswap': (standard_gates.iSwapGate, 2, 0)
+        })
+    if num_qubits > 2:
+        qiskit_gates.update({
+            'ccx': (standard_gates.CCXGate, 3, 0),
+            # 'rccx': (standard_gates.RCCXGate, 3, 0), TODO
+            # 'cswap': (standard_gates.CSwapGate, 3, 0), TODO
+            'ccz': (standard_gates.CCZGate, 3, 0)
         })
     random.seed(seed)
     qiskit_gates_names = list(qiskit_gates.keys())

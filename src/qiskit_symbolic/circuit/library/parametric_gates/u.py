@@ -1,5 +1,5 @@
 r"""Symbolic :math:`U(\theta, \phi, \lambda)` and
-:math:`CU(\theta, \phi, \lambda, \gamma)` gates module"""
+controlled-:math:`U(\theta, \phi, \lambda)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -27,13 +27,13 @@ class UGate(Gate):
 
 
 class CUGate(ControlledGate):
-    r"""Symbolic :math:`CU(\theta, \phi, \lambda, \gamma)` gate class"""
+    r"""Symbolic controlled-:math:`U(\theta, \phi, \lambda)` gate class"""
 
-    def __init__(self, theta, phi, lam, gamma, control_qubit=0, target_qubit=1):
+    def __init__(self, theta, phi, lam, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         # pylint: disable=too-many-arguments
-        params = [theta, phi, lam, gamma]
+        params = [theta, phi, lam]
         base_gate = UGate(theta, phi, lam)
         super().__init__(name='cu', num_qubits=2, params=params,
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate, global_phase=True)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

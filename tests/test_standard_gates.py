@@ -87,12 +87,12 @@ def test_tdg():
 def test_swap():
     """todo"""
     arr1 = SwapGate().to_matrix()
-    arr2 = symb_SwapGate(qubits=[0, 1]).to_numpy()
+    arr2 = symb_SwapGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_iswap():
     """todo"""
     arr1 = iSwapGate().to_matrix()
-    arr2 = symb_iSwapGate(qubits=[0, 1]).to_numpy()
+    arr2 = symb_iSwapGate().to_numpy()
     assert numpy.allclose(arr1, arr2)

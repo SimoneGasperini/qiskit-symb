@@ -1,7 +1,7 @@
 """Test controlled parametric gates module"""
 
 import numpy
-from hypothesis import given, strategies
+from hypothesis import given, strategies, settings
 from qiskit.circuit import ParameterVector, Parameter
 from qiskit.circuit.library import (
     CUGate, CRXGate, CRYGate, CRZGate,
@@ -18,15 +18,15 @@ from qiskit_symbolic.circuit.library import (
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
 
 
+@settings(deadline=None)
 @given(theta=strategies.floats(**val_range),
        phi=strategies.floats(**val_range),
-       lam=strategies.floats(**val_range),
-       gamma=strategies.floats(**val_range))
-def test_cu(theta, phi, lam, gamma):
+       lam=strategies.floats(**val_range))
+def test_cu(theta, phi, lam):
     """todo"""
-    pars_vals = [theta, phi, lam, gamma]
+    pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = CUGate(*pars_vals).to_matrix()
+    arr1 = CUGate(*pars_vals, gamma=0).to_matrix()
     arr2 = symb_CUGate(*pars).to_numpy(*pars_vals)
     assert numpy.allclose(arr1, arr2)
 

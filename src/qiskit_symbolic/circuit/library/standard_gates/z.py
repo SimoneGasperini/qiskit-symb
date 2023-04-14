@@ -1,4 +1,4 @@
-r"""Symbolic Pauli :math:`Z` and :math:`CZ` gates module"""
+r"""Symbolic Pauli :math:`Z` and controlled-:math:`Z` gates module"""
 
 from sympy.matrices import Matrix
 from ...gate import Gate
@@ -19,11 +19,11 @@ class ZGate(Gate):
 
 
 class CZGate(ControlledGate):
-    r"""Symbolic :math:`CZ` gate class"""
+    r"""Symbolic controlled-:math:`Z` gate class"""
 
-    def __init__(self, control_qubit=0, target_qubit=1):
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = ZGate()
         super().__init__(name='cz', num_qubits=2, params=[],
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

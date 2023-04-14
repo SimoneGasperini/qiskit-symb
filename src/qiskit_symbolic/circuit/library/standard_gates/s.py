@@ -1,4 +1,5 @@
-r"""Symbolic :math:`S`, :math:`S^{\dagger}`, :math:`CS`, and :math:`CS^{\dagger}` gates module"""
+r"""Symbolic :math:`S`, :math:`S^{\dagger}`, controlled-:math:`S`,
+and controlled-:math:`S^{\dagger}` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -35,22 +36,22 @@ class SdgGate(Gate):
 
 
 class CSGate(ControlledGate):
-    r"""Symbolic :math:`CS` gate class"""
+    r"""Symbolic controlled-:math:`S` gate class"""
 
-    def __init__(self, control_qubit=0, target_qubit=1):
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = SGate()
         super().__init__(name='cs', num_qubits=2, params=[],
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)
 
 
 class CSdgGate(ControlledGate):
-    r"""Symbolic :math:`CS^{\dagger}` gate class"""
+    r"""Symbolic controlled-:math:`S^{\dagger}` gate class"""
 
-    def __init__(self, control_qubit=0, target_qubit=1):
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = SdgGate()
         super().__init__(name='csdg', num_qubits=2, params=[],
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

@@ -1,4 +1,4 @@
-r"""Symbolic Pauli :math:`Y` and :math:`CY` gates module"""
+r"""Symbolic Pauli :math:`Y` and controlled-:math:`Y` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -21,11 +21,11 @@ class YGate(Gate):
 
 
 class CYGate(ControlledGate):
-    r"""Symbolic :math:`CY` gate class"""
+    r"""Symbolic controlled-:math:`Y` gate class"""
 
-    def __init__(self, control_qubit=0, target_qubit=1):
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = YGate()
         super().__init__(name='cy', num_qubits=2, params=[],
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

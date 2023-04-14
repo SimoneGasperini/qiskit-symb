@@ -7,8 +7,9 @@ from ...gate import Gate
 class SwapGate(Gate):
     r"""Symbolic :math:`SWAP` gate class"""
 
-    def __init__(self, qubits):
+    def __init__(self, qubits=None):
         """todo"""
+        qubits = [0, 1] if qubits is None else qubits
         super().__init__(name='swap', num_qubits=2, params=[], qubits=qubits)
 
     def __sympy__(self):

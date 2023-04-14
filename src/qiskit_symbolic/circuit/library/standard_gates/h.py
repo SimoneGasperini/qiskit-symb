@@ -1,4 +1,4 @@
-r"""Symbolic Hadamard :math:`H` and :math:`CH` gates module"""
+r"""Symbolic Hadamard :math:`H` and controlled-:math:`H` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -20,11 +20,11 @@ class HGate(Gate):
 
 
 class CHGate(ControlledGate):
-    r"""Symbolic :math:`CH` gate class"""
+    r"""Symbolic controlled:math:`H` gate class"""
 
-    def __init__(self, control_qubit=0, target_qubit=1):
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = HGate()
         super().__init__(name='ch', num_qubits=2, params=[],
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)

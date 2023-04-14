@@ -1,4 +1,4 @@
-r"""Symbolic :math:`RZ(\phi)` and :math:`CRZ(\phi)` gates module"""
+r"""Symbolic :math:`RZ(\phi)` and controlled-:math:`RZ(\phi)` gates module"""
 
 import sympy
 from sympy.matrices import Matrix
@@ -23,12 +23,12 @@ class RZGate(Gate):
 
 
 class CRZGate(ControlledGate):
-    r"""Symbolic :math:`CRZ(\phi)` gate class"""
+    r"""Symbolic controlled-:math:`RZ(\phi)` gate class"""
 
-    def __init__(self, phi, control_qubit=0, target_qubit=1):
+    def __init__(self, phi, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         params = [phi]
         base_gate = RZGate(phi)
         super().__init__(name='crz', num_qubits=2, params=params,
-                         control_qubit=control_qubit, target_qubit=target_qubit,
-                         base_gate=base_gate)
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)
