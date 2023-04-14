@@ -7,7 +7,9 @@ from .standard_gates import (
     ZGate, CZGate,
     HGate, CHGate,
     SGate, SdgGate, CSGate, CSdgGate,
-    TGate, TdgGate
+    TGate, TdgGate,
+    SwapGate,
+    iSwapGate
 )
 
 from .parametric_gates import (
@@ -45,5 +47,7 @@ NAME_TO_INIT = {
     'crz': CRZGate,
     'p': PhaseGate,
     'cp': CPhaseGate,
-    'r': RGate
+    'r': RGate,
+    'swap': SwapGate,
+    'iswap': iSwapGate
 }

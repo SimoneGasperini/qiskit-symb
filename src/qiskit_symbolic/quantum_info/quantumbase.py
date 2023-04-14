@@ -20,7 +20,7 @@ class QuantumBase:
         # pylint: disable=protected-access
         # pylint: disable=too-many-locals
         from ..utils import flatten_circuit, transpile_circuit
-        from ..circuit import Gate, ControlledGate
+        from ..circuit import Gate
         from ..circuit.library import IGate
         circuit = transpile_circuit(flatten_circuit(circuit))
         gph = sympy.exp(sympy.I * circuit.global_phase)
@@ -30,7 +30,7 @@ class QuantumBase:
         for layer_idx in range(num_layers):
             for instruction in layers_data[layer_idx]:
                 gate = Gate.get(instruction)
-                if isinstance(gate, ControlledGate):
+                if gate.num_qubits > 1:
                     gate_span = gate._span
                     qubit_idx = gate_span[0]
                     for i in gate_span[1:]:

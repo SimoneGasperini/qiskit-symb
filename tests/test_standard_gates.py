@@ -3,7 +3,8 @@
 import numpy
 from qiskit.circuit.library import (
     IGate, XGate, YGate, ZGate, HGate,
-    SGate, SdgGate, TGate, TdgGate
+    SGate, SdgGate, TGate, TdgGate,
+    SwapGate, iSwapGate
 )
 from qiskit_symbolic.circuit.library import (
     IGate as symb_IGate,
@@ -14,7 +15,9 @@ from qiskit_symbolic.circuit.library import (
     SGate as symb_SGate,
     SdgGate as symb_SdgGate,
     TGate as symb_TGate,
-    TdgGate as symb_TdgGate
+    TdgGate as symb_TdgGate,
+    SwapGate as symb_SwapGate,
+    iSwapGate as symb_iSwapGate
 )
 
 
@@ -78,4 +81,18 @@ def test_tdg():
     """todo"""
     arr1 = TdgGate().to_matrix()
     arr2 = symb_TdgGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+def test_swap():
+    """todo"""
+    arr1 = SwapGate().to_matrix()
+    arr2 = symb_SwapGate(qubits=[0, 1]).to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+def test_iswap():
+    """todo"""
+    arr1 = iSwapGate().to_matrix()
+    arr2 = symb_iSwapGate(qubits=[0, 1]).to_numpy()
     assert numpy.allclose(arr1, arr2)
