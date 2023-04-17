@@ -62,3 +62,13 @@ def get_random_params(params_dict, size, seed=None):
                      for parname, parval in zip(parnames, parvals)])
            for parvals in params]
     return params, ids
+
+
+def get_random_qubits(num_qubits, seed=None):
+    """todo"""
+    random.seed(seed)
+    qubits = list(range(num_qubits))
+    random.shuffle(qubits)
+    ctrl_qubits, target_qubits = qubits[:num_qubits-1], qubits[num_qubits-1:]
+    ctrl_state = ''.join([str(random.randint(0, 1)) for _ in ctrl_qubits])
+    return ctrl_qubits, target_qubits, ctrl_state
