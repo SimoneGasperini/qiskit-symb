@@ -57,7 +57,7 @@ class QuantumBase:
 
     def to_sympy(self):
         """todo"""
-        return self._data
+        return sympy.nsimplify(self._data, rational=True)
 
     def to_numpy(self):
         """todo"""

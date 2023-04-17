@@ -64,11 +64,17 @@ def get_random_params(params_dict, size, seed=None):
     return params, ids
 
 
-def get_random_qubits(num_qubits, seed=None):
+def get_random_controlled(base_gate, seed=None):
     """todo"""
     random.seed(seed)
-    qubits = list(range(num_qubits))
-    random.shuffle(qubits)
-    ctrl_qubits, target_qubits = qubits[:num_qubits-1], qubits[num_qubits-1:]
-    ctrl_state = ''.join([str(random.randint(0, 1)) for _ in ctrl_qubits])
-    return ctrl_qubits, target_qubits, ctrl_state
+    num_targets = base_gate.num_qubits
+    num_controls = random.randint(1, 3)
+    state = random.randint(0, num_controls)
+    ctrl_state = format(state, 'b').zfill(num_controls)
+    gate = base_gate.control(num_controls, ctrl_state=ctrl_state)
+    num_qubits = num_controls + num_targets
+    num_wires = random.randint(num_qubits, num_qubits+1)
+    qargs = random.sample(range(num_wires), num_qubits)
+    circuit = QuantumCircuit(num_wires)
+    circuit.append(gate, qargs)
+    return circuit
