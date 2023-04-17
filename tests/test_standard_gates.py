@@ -2,7 +2,8 @@
 
 import numpy
 from qiskit.circuit.library import (
-    IGate, XGate, YGate, ZGate, HGate,
+    IGate, XGate, YGate, ZGate,
+    HGate, SXGate, SXdgGate,
     SGate, SdgGate, TGate, TdgGate,
     SwapGate, iSwapGate
 )
@@ -12,6 +13,8 @@ from qiskit_symbolic.circuit.library import (
     YGate as symb_YGate,
     ZGate as symb_ZGate,
     HGate as symb_HGate,
+    SXGate as symb_SXGate,
+    SXdgGate as symb_SXdgGate,
     SGate as symb_SGate,
     SdgGate as symb_SdgGate,
     TGate as symb_TGate,
@@ -53,6 +56,20 @@ def test_h():
     """todo"""
     arr1 = HGate().to_matrix()
     arr2 = symb_HGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+def test_sx():
+    """todo"""
+    arr1 = SXGate().to_matrix()
+    arr2 = symb_SXGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+def test_sxdg():
+    """todo"""
+    arr1 = SXdgGate().to_matrix()
+    arr2 = symb_SXdgGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
