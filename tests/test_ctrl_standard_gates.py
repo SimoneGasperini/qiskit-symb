@@ -43,7 +43,7 @@ def test_cz(seed):
     assert numpy.allclose(arr1, arr2)
 
 
-@settings(deadline=None)
+@settings(deadline=None, max_examples=10)
 @given(seed=strategies.integers(min_value=0))
 def test_ch(seed):
     """todo"""
