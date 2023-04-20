@@ -1,8 +1,9 @@
-r"""Symbolic :math:`iSWAP` gate module"""
+r"""Symbolic :math:`iSWAP` and controlled-:math:`iSWAP` gates module"""
 
 import sympy
 from sympy.physics.quantum import TensorProduct
 from ...gate import Gate
+from ...controlledgate import ControlledGate
 
 
 # pylint: disable=invalid-name
@@ -29,3 +30,14 @@ class iSwapGate(Gate):
         i = sympy.I
         return 1/2 * (TensorProduct(*term0[::-1]) + i * TensorProduct(*term1[::-1]) +
                       i * TensorProduct(*term2[::-1]) + TensorProduct(*term3[::-1]))
+
+
+class CiSwapGate(ControlledGate):
+    r"""Symbolic controlled-:math:`iSWAP` gate class"""
+
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
+        """todo"""
+        base_gate = iSwapGate(qubits=target_qubits)
+        super().__init__(name='ciswap', num_qubits=3, params=[],
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)
