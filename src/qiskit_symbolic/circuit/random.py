@@ -16,7 +16,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
     qiskit_gates = {
         # gate_name: (gate_class, num_qubits, num_params)
         'id': (standard_gates.IGate, 1, 0),
-        # 'sx': (standard_gates.SXGate, 1, 0), TODO
+        'sx': (standard_gates.SXGate, 1, 0),
         'x': (standard_gates.XGate, 1, 0),
         'rz': (standard_gates.RZGate, 1, 1),
         'r': (standard_gates.RGate, 1, 2),
@@ -26,7 +26,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
         'ry': (standard_gates.RYGate, 1, 1),
         's': (standard_gates.SGate, 1, 0),
         'sdg': (standard_gates.SdgGate, 1, 0),
-        # 'sxdg': (standard_gates.SXdgGate, 1, 0), TODO
+        'sxdg': (standard_gates.SXdgGate, 1, 0),
         't': (standard_gates.TGate, 1, 0),
         'tdg': (standard_gates.TdgGate, 1, 0),
         'u': (standard_gates.UGate, 1, 3),
@@ -45,7 +45,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
             'crx': (standard_gates.CRXGate, 2, 1),
             'cry': (standard_gates.CRYGate, 2, 1),
             'crz': (standard_gates.CRZGate, 2, 1),
-            # 'csx': (standard_gates.CSXGate, 2, 0), TODO
+            'csx': (standard_gates.CSXGate, 2, 0),
             # https://github.com/Qiskit/qiskit-terra/issues/9763
             # 'cu': (standard_gates.CUGate, 2, 4),
             # 'cu1': (standard_gates.CU1Gate, 2, 1), deprecated
@@ -63,13 +63,6 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
             'csdg': (standard_gates.CSdgGate, 2, 0),
             'swap': (standard_gates.SwapGate, 2, 0),
             'iswap': (standard_gates.iSwapGate, 2, 0)
-        })
-    if num_qubits > 2:
-        qiskit_gates.update({
-            'ccx': (standard_gates.CCXGate, 3, 0),
-            # 'rccx': (standard_gates.RCCXGate, 3, 0), TODO
-            # 'cswap': (standard_gates.CSwapGate, 3, 0), TODO
-            'ccz': (standard_gates.CCZGate, 3, 0)
         })
     random.seed(seed)
     qiskit_gates_names = list(qiskit_gates.keys())
