@@ -2,6 +2,7 @@
 
 import sympy
 from sympy import lambdify, Symbol
+from sympy.core.rules import Transform
 from sympy.matrices import matrix2numpy
 
 
@@ -57,18 +58,21 @@ class QuantumBase:
 
     def to_sympy(self):
         """todo"""
-        return sympy.nsimplify(self._data, rational=True)
+        # pylint: disable=unnecessary-lambda
+        sympy_matrix = self._data
+        sympy_matrix = sympy_matrix.xreplace(
+            Transform(lambda x: x.round(3), lambda x: x.is_Float))
+        sympy_matrix = sympy_matrix.xreplace(
+            Transform(lambda x: int(x), lambda x: x.is_Float and x == int(x)))
+        return sympy_matrix
 
     def to_numpy(self):
         """todo"""
-        try:
-            return matrix2numpy(self.to_sympy(), dtype=complex)
-        except TypeError:
-            return matrix2numpy(self.to_sympy(), dtype=object)
+        return matrix2numpy(self._data, dtype=complex)
 
     def to_lambda(self):
         """todo"""
-        sympy_matrix = self.to_sympy()
+        sympy_matrix = self._data
         name2symb = {symb.name: symb for symb in sympy_matrix.free_symbols}
         args = [name2symb[par.name] if par.name in name2symb else Symbol('_')
                 for par in self._params]
@@ -82,7 +86,7 @@ class QuantumBase:
                 par2val.update(dict(zip(par, val)))
             else:
                 par2val[par] = val
-        sympy_matrix = self.to_sympy()
+        sympy_matrix = self._data
         name2symb = {symb.name: symb for symb in sympy_matrix.free_symbols}
         symb2val = {name2symb[par.name]: val for par, val in par2val.items()
                     if par.name in name2symb}
@@ -92,15 +96,12 @@ class QuantumBase:
 
     def transpose(self):
         """todo"""
-        return self.__class__(data=self.to_sympy().T,
-                              params=self._params)
+        return self.__class__(data=self._data.T, params=self._params)
 
     def conjugate(self):
         """todo"""
-        return self.__class__(data=self.to_sympy().conjugate(),
-                              params=self._params)
+        return self.__class__(data=self._data.conjugate(), params=self._params)
 
     def dagger(self):
         """todo"""
-        return self.__class__(data=self.to_sympy().T.conjugate(),
-                              params=self._params)
+        return self.__class__(data=self._data.T.conjugate(), params=self._params)
