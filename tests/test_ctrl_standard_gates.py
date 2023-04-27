@@ -7,7 +7,7 @@ from qiskit.circuit.library import (
     XGate, YGate, ZGate,
     HGate, SXGate, SXdgGate,
     SGate, SdgGate, TGate, TdgGate,
-    SwapGate, iSwapGate
+    SwapGate, iSwapGate, ECRGate
 )
 from qiskit_symbolic.utils import get_random_controlled
 from qiskit_symbolic import Operator as symb_Operator
@@ -128,6 +128,16 @@ def test_cswap(seed):
 def test_ciswap(seed):
     """todo"""
     circuit = get_random_controlled(base_gate=iSwapGate(), seed=seed)
+    arr1 = Operator(circuit).data
+    arr2 = symb_Operator.from_circuit(circuit).to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+@settings(deadline=None, max_examples=10)
+@given(seed=strategies.integers(min_value=0))
+def test_cecr(seed):
+    """todo"""
+    circuit = get_random_controlled(base_gate=ECRGate(), seed=seed)
     arr1 = Operator(circuit).data
     arr2 = symb_Operator.from_circuit(circuit).to_numpy()
     assert numpy.allclose(arr1, arr2)

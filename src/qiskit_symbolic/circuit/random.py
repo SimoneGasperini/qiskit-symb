@@ -58,7 +58,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
             # 'rzx': (standard_gates.RZXGate, 2, 1), TODO
             # 'xx_minus_yy': (standard_gates.XXMinusYYGate, 2, 2), TODO
             # 'xx_plus_yy': (standard_gates.XXPlusYYGate, 2, 2), TODO
-            # 'ecr': (standard_gates.ECRGate, 2, 0), TODO
+            'ecr': (standard_gates.ECRGate, 2, 0),
             'cs': (standard_gates.CSGate, 2, 0),
             'csdg': (standard_gates.CSdgGate, 2, 0),
             'swap': (standard_gates.SwapGate, 2, 0),
