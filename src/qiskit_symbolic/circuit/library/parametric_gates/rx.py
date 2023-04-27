@@ -2,7 +2,7 @@ r"""Symbolic :math:`RX(\theta)` and controlled-:math:`RX(\theta)` gates module""
 
 import sympy
 from sympy.matrices import Matrix
-from qiskit_symbolic.circuit.gate import Gate
+from ...gate import Gate
 from ...controlledgate import ControlledGate
 
 
