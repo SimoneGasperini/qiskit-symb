@@ -7,3 +7,4 @@ from .ry import RYGate, CRYGate
 from .rz import RZGate, CRZGate
 from .p import PhaseGate, CPhaseGate
 from .r import RGate, CRGate
+from .rxx import RXXGate, CRXXGate

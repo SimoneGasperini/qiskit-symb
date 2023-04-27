@@ -52,7 +52,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
             # 'cu3': (standard_gates.CU3Gate, 2, 3), deprecated
             'cy': (standard_gates.CYGate, 2, 0),
             'cz': (standard_gates.CZGate, 2, 0),
-            # 'rxx': (standard_gates.RXXGate, 2, 1), TODO
+            'rxx': (standard_gates.RXXGate, 2, 1),
             # 'ryy': (standard_gates.RYYGate, 2, 1), TODO
             # 'rzz': (standard_gates.RZZGate, 2, 1), TODO
             # 'rzx': (standard_gates.RZXGate, 2, 1), TODO

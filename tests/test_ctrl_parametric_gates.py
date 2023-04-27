@@ -6,7 +6,8 @@ from qiskit.circuit import ParameterVector, Parameter
 from qiskit.quantum_info import Operator
 from qiskit.circuit.library import (
     UGate, RXGate, RYGate, RZGate,
-    PhaseGate, RGate
+    PhaseGate, RGate,
+    RXXGate
 )
 from qiskit_symbolic.utils import get_random_controlled
 from qiskit_symbolic import Operator as symb_Operator
@@ -98,4 +99,16 @@ def test_cr(theta, phi, seed):
         return
     arr2 = symb_Operator.from_circuit(
         circuit).subs({pars: pars_vals}).to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+@settings(deadline=None, max_examples=10)
+@given(theta=strategies.floats(**val_range),
+       seed=strategies.integers(min_value=0))
+def test_crxx(theta, seed):
+    """todo"""
+    par = Parameter(name='par')
+    circuit = get_random_controlled(base_gate=RXXGate(par), seed=seed)
+    arr1 = Operator(circuit.assign_parameters([theta])).data
+    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)

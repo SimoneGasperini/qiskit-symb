@@ -5,7 +5,8 @@ from hypothesis import given, strategies
 from qiskit.circuit import ParameterVector, Parameter
 from qiskit.circuit.library import (
     UGate, RXGate, RYGate, RZGate,
-    PhaseGate, RGate
+    PhaseGate, RGate,
+    RXXGate
 )
 from qiskit_symbolic.circuit.library import (
     UGate as symb_UGate,
@@ -13,7 +14,8 @@ from qiskit_symbolic.circuit.library import (
     RYGate as symb_RYGate,
     RZGate as symb_RZGate,
     PhaseGate as symb_PhaseGate,
-    RGate as symb_RGate
+    RGate as symb_RGate,
+    RXXGate as symb_RXXGate
 )
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
@@ -75,4 +77,13 @@ def test_r(theta, phi):
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = RGate(*pars_vals).to_matrix()
     arr2 = symb_RGate(*pars).to_numpy(*pars_vals)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range))
+def test_rxx(theta):
+    """todo"""
+    par = Parameter(name='par')
+    arr1 = RXXGate(theta).to_matrix()
+    arr2 = symb_RXXGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)

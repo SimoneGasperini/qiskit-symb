@@ -20,7 +20,8 @@ from .parametric_gates import (
     RYGate, CRYGate,
     RZGate, CRZGate,
     PhaseGate, CPhaseGate,
-    RGate, CRGate
+    RGate, CRGate,
+    RXXGate, CRXXGate
 )
 
 NAME_TO_INIT = {
@@ -59,6 +60,8 @@ NAME_TO_INIT = {
     'cp': CPhaseGate,
     'r': RGate,
     'cr': CRGate,
+    'rxx': RXXGate,
+    'crxx': CRXXGate,
     'swap': SwapGate,
     'cswap': CSwapGate,
     'iswap': iSwapGate,
