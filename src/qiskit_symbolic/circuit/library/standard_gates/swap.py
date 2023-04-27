@@ -18,12 +18,15 @@ class SwapGate(Gate):
         # pylint: disable=import-outside-toplevel
         from ...library import IGate, XGate, YGate, ZGate
         qubits = [qbit - min(self.qubits) for qbit in self.qubits]
-        igate = IGate().to_sympy()
+        igate = IGate().__sympy__()
         size = self._size
         term0 = [igate] * size
-        term1 = [XGate().to_sympy() if i in qubits else igate for i in range(size)]
-        term2 = [YGate().to_sympy() if i in qubits else igate for i in range(size)]
-        term3 = [ZGate().to_sympy() if i in qubits else igate for i in range(size)]
+        term1 = [XGate().__sympy__() if i in qubits else igate
+                 for i in range(size)]
+        term2 = [YGate().__sympy__() if i in qubits else igate
+                 for i in range(size)]
+        term3 = [ZGate().__sympy__() if i in qubits else igate
+                 for i in range(size)]
         return 1/2 * (TensorProduct(*term0[::-1]) + TensorProduct(*term1[::-1]) +
                       TensorProduct(*term2[::-1]) + TensorProduct(*term3[::-1]))
 

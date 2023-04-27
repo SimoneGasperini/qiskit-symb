@@ -70,7 +70,4 @@ class Gate:
         # pylint: disable=no-member
         sympy_symbols = self._get_unique_symbols()
         sympy_matrix = self.__sympy__().subs(dict(zip(sympy_symbols, vals)))
-        try:
-            return matrix2numpy(sympy_matrix, dtype=complex)
-        except TypeError:
-            return matrix2numpy(sympy_matrix, dtype=object)
+        return matrix2numpy(sympy_matrix, dtype=complex)

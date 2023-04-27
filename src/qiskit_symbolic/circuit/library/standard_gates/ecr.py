@@ -19,11 +19,11 @@ class ECRGate(Gate):
         # pylint: disable=import-outside-toplevel
         from ...library import IGate, XGate, YGate
         qubits = [qbit - min(self.qubits) for qbit in self.qubits]
-        term0 = [IGate().to_sympy()] * self._size
-        term0[qubits[0]] = XGate().to_sympy()
-        term1 = [IGate().to_sympy()] * self._size
-        term1[qubits[0]] = YGate().to_sympy()
-        term1[qubits[1]] = XGate().to_sympy()
+        term0 = [IGate().__sympy__()] * self._size
+        term0[qubits[0]] = XGate().__sympy__()
+        term1 = [IGate().__sympy__()] * self._size
+        term1[qubits[0]] = YGate().__sympy__()
+        term1[qubits[1]] = XGate().__sympy__()
         return 1/sympy.sqrt(2) * (TensorProduct(*term0[::-1]) - TensorProduct(*term1[::-1]))
 
 
