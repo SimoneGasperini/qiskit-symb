@@ -6,7 +6,8 @@ from qiskit.circuit import ParameterVector, Parameter
 from qiskit.circuit.library import (
     UGate, RXGate, RYGate, RZGate,
     PhaseGate, RGate,
-    RXXGate
+    RXXGate, RYYGate,
+    RZZGate, RZXGate
 )
 from qiskit_symbolic.circuit.library import (
     UGate as symb_UGate,
@@ -15,7 +16,10 @@ from qiskit_symbolic.circuit.library import (
     RZGate as symb_RZGate,
     PhaseGate as symb_PhaseGate,
     RGate as symb_RGate,
-    RXXGate as symb_RXXGate
+    RXXGate as symb_RXXGate,
+    RYYGate as symb_RYYGate,
+    RZZGate as symb_RZZGate,
+    RZXGate as symb_RZXGate
 )
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
@@ -86,4 +90,31 @@ def test_rxx(theta):
     par = Parameter(name='par')
     arr1 = RXXGate(theta).to_matrix()
     arr2 = symb_RXXGate(par).to_numpy(theta)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range))
+def test_ryy(theta):
+    """todo"""
+    par = Parameter(name='par')
+    arr1 = RYYGate(theta).to_matrix()
+    arr2 = symb_RYYGate(par).to_numpy(theta)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range))
+def test_rzz(theta):
+    """todo"""
+    par = Parameter(name='par')
+    arr1 = RZZGate(theta).to_matrix()
+    arr2 = symb_RZZGate(par).to_numpy(theta)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range))
+def test_rzx(theta):
+    """todo"""
+    par = Parameter(name='par')
+    arr1 = RZXGate(theta).to_matrix()
+    arr2 = symb_RZXGate(par).to_numpy(theta)
     assert numpy.allclose(arr1, arr2)
