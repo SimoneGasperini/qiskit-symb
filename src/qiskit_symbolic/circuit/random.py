@@ -39,7 +39,7 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
     if num_qubits > 1:
         qiskit_gates.update({
             'cx': (standard_gates.CXGate, 2, 0),
-            # 'dcx': (standard_gates.DCXGate, 2, 0), TODO
+            'dcx': (standard_gates.DCXGate, 2, 0),
             'ch': (standard_gates.CHGate, 2, 0),
             'cp': (standard_gates.CPhaseGate, 2, 1),
             'crx': (standard_gates.CRXGate, 2, 1),
@@ -53,9 +53,9 @@ def random_parametric_circuit(num_qubits, depth, seed=None):
             'cy': (standard_gates.CYGate, 2, 0),
             'cz': (standard_gates.CZGate, 2, 0),
             'rxx': (standard_gates.RXXGate, 2, 1),
-            # 'ryy': (standard_gates.RYYGate, 2, 1), TODO
-            # 'rzz': (standard_gates.RZZGate, 2, 1), TODO
-            # 'rzx': (standard_gates.RZXGate, 2, 1), TODO
+            'ryy': (standard_gates.RYYGate, 2, 1),
+            'rzz': (standard_gates.RZZGate, 2, 1),
+            'rzx': (standard_gates.RZXGate, 2, 1),
             # 'xx_minus_yy': (standard_gates.XXMinusYYGate, 2, 2), TODO
             # 'xx_plus_yy': (standard_gates.XXPlusYYGate, 2, 2), TODO
             'ecr': (standard_gates.ECRGate, 2, 0),
