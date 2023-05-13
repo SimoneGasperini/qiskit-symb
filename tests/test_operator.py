@@ -18,7 +18,7 @@ def _test_data(request):
     """todo"""
     num_qubits, seed = request.param
     circuit = random_parametric_circuit(num_qubits, depth=4, seed=seed)
-    symb_op = symb_Operator.from_circuit(circuit)
+    symb_op = symb_Operator(circuit)
     return circuit, symb_op
 
 

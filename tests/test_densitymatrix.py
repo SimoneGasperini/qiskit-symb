@@ -18,7 +18,7 @@ def _test_data(request):
     """todo"""
     num_qubits, seed = request.param
     circuit = random_parametric_circuit(num_qubits, depth=4, seed=seed)
-    symb_rho = symb_DensityMatrix.from_circuit(circuit)
+    symb_rho = symb_DensityMatrix(circuit)
     return circuit, symb_rho
 
 

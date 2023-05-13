@@ -9,7 +9,7 @@ from .operator import Operator
 class DensityMatrix(QuantumBase):
     """Symbolic quantum density matrix class"""
 
-    def __init__(self, data, params):
+    def __init__(self, data, params=None):
         """todo"""
         super().__init__(data=data, params=params)
 

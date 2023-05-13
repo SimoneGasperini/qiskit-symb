@@ -9,7 +9,7 @@ from .quantumbase import QuantumBase
 class Operator(QuantumBase):
     """Symbolic quantum operator class"""
 
-    def __init__(self, data, params):
+    def __init__(self, data, params=None):
         """todo"""
         super().__init__(data=data, params=params)
 

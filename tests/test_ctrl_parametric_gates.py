@@ -31,7 +31,7 @@ def test_cu(theta, phi, lam, seed):
     except TypeError:
         # https://github.com/Qiskit/qiskit-terra/issues/10002
         return
-    arr2 = symb_Operator.from_circuit(
+    arr2 = symb_Operator(
         circuit).subs({pars: pars_vals}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
@@ -44,7 +44,7 @@ def test_crx(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RXGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -56,7 +56,7 @@ def test_cry(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RYGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -68,7 +68,7 @@ def test_crz(phi, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RZGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([phi])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: phi}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: phi}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -80,7 +80,7 @@ def test_cp(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=PhaseGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -98,7 +98,7 @@ def test_cr(theta, phi, seed):
     except TypeError:
         # https://github.com/Qiskit/qiskit-terra/issues/10002
         return
-    arr2 = symb_Operator.from_circuit(
+    arr2 = symb_Operator(
         circuit).subs({pars: pars_vals}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
@@ -111,7 +111,7 @@ def test_crxx(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RXXGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -123,7 +123,7 @@ def test_cryy(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RYYGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -135,7 +135,7 @@ def test_crzz(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RZZGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -147,5 +147,5 @@ def test_crzx(theta, seed):
     par = Parameter(name='par')
     circuit = get_random_controlled(base_gate=RZXGate(par), seed=seed)
     arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator.from_circuit(circuit).subs({par: theta}).to_numpy()
+    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)

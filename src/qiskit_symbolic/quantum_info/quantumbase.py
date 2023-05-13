@@ -4,6 +4,7 @@ import sympy
 from sympy import lambdify, Symbol
 from sympy.core.rules import Transform
 from sympy.matrices import matrix2numpy
+from qiskit import QuantumCircuit
 
 
 class QuantumBase:
@@ -11,6 +12,10 @@ class QuantumBase:
 
     def __init__(self, data, params):
         """todo"""
+        # pylint: disable=no-member
+        if isinstance(data, QuantumCircuit):
+            params = list(data.parameters)
+            data = self._get_data_from_circuit(circuit=data)
         self._data = data
         self._params = params
 
