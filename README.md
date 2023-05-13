@@ -3,6 +3,7 @@
 <p align="center">
     <img title="license" src="https://img.shields.io/badge/license-Apache_2.0-blue.svg">
     <img title="python" src="https://img.shields.io/badge/python-≥3.8-blue.svg">
+    <img title="Ecosystem" src="https://img.shields.io/badge/Qiskit-Ecosystem-blueviolet.svg">
 </p>
 
 <p align="center">
@@ -68,9 +69,9 @@ pqc.draw('mpl')
 
 To get the *sympy* representation of the unitary matrix corresponding to the parameterized circuit, we just have to create the symbolic `Operator` instance and call the `to_sympy()` method:
 ```python
-from qiskit_symbolic import Operator
+from qiskit_symbolic.quantum_info import Operator
 
-op = Operator.from_circuit(pqc)
+op = Operator(pqc)
 op.to_sympy()
 ```
 ```math
@@ -100,9 +101,9 @@ pqc.draw('mpl')
 
 To get the Python lambda function representing, for instance, the final parameterized statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
 ```python
-from qiskit_symbolic import Statevector
+from qiskit_symbolic.quantum_info import Statevector
 
-sv = Statevector.from_circuit(pqc)
+sv = Statevector(pqc)
 sv_func = sv.to_lambda()
 ```
 
