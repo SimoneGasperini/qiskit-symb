@@ -1,6 +1,3 @@
-tox
 pylint
 pytest
-pytest-cov
-coveralls
 hypothesis

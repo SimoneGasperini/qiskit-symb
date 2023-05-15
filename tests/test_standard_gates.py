@@ -7,7 +7,7 @@ from qiskit.circuit.library import (
     SGate, SdgGate, TGate, TdgGate,
     SwapGate, iSwapGate, ECRGate
 )
-from qiskit_symbolic.circuit.library import (
+from qiskit_symb.circuit.library import (
     IGate as symb_IGate,
     XGate as symb_XGate,
     YGate as symb_YGate,

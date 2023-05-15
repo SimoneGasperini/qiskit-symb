@@ -11,7 +11,7 @@ def get_init(name):
     """todo"""
     if name not in NAME_TO_INIT:
         raise NotImplementedError(
-            f'Gate "{name}" is not implemented in qiskit-symbolic')
+            f'Gate "{name}" is not implemented in qiskit-symb')
     return NAME_TO_INIT[name]
 
 

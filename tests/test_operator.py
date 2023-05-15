@@ -3,9 +3,9 @@
 import numpy
 import pytest
 from qiskit.quantum_info import Operator
-from qiskit_symbolic.circuit.random import random_parametric_circuit
-from qiskit_symbolic.quantum_info import Operator as symb_Operator
-from qiskit_symbolic.utils import get_random_params
+from qiskit_symb.circuit.random import random_parametric_circuit
+from qiskit_symb.quantum_info import Operator as symb_Operator
+from qiskit_symb.utils import get_random_params
 
 
 # pylint: disable=duplicate-code

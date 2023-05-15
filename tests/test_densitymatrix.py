@@ -3,9 +3,9 @@
 import numpy
 import pytest
 from qiskit.quantum_info import DensityMatrix
-from qiskit_symbolic.circuit.random import random_parametric_circuit
-from qiskit_symbolic.quantum_info import DensityMatrix as symb_DensityMatrix
-from qiskit_symbolic.utils import get_random_params
+from qiskit_symb.circuit.random import random_parametric_circuit
+from qiskit_symb.quantum_info import DensityMatrix as symb_DensityMatrix
+from qiskit_symb.utils import get_random_params
 
 
 # pylint: disable=duplicate-code

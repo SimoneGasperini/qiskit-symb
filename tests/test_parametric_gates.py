@@ -9,7 +9,7 @@ from qiskit.circuit.library import (
     RXXGate, RYYGate,
     RZZGate, RZXGate
 )
-from qiskit_symbolic.circuit.library import (
+from qiskit_symb.circuit.library import (
     UGate as symb_UGate,
     RXGate as symb_RXGate,
     RYGate as symb_RYGate,

@@ -9,8 +9,8 @@ from qiskit.circuit.library import (
     SGate, SdgGate, TGate, TdgGate,
     SwapGate, iSwapGate, ECRGate
 )
-from qiskit_symbolic.utils import get_random_controlled
-from qiskit_symbolic import Operator as symb_Operator
+from qiskit_symb.utils import get_random_controlled
+from qiskit_symb import Operator as symb_Operator
 
 
 @settings(deadline=None, max_examples=10)

@@ -1,7 +1,7 @@
 r"""Symbolic :math:`RZX(\theta)` and controlled-:math:`RZX(\theta)` gates module"""
 
 from sympy.physics.quantum import TensorProduct
-from qiskit_symbolic import DensityMatrix
+from qiskit_symb import DensityMatrix
 from ...gate import Gate
 from ...controlledgate import ControlledGate
 

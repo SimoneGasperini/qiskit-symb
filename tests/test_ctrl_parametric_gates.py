@@ -10,8 +10,8 @@ from qiskit.circuit.library import (
     RXXGate, RYYGate,
     RZZGate, RZXGate
 )
-from qiskit_symbolic.utils import get_random_controlled
-from qiskit_symbolic import Operator as symb_Operator
+from qiskit_symb.utils import get_random_controlled
+from qiskit_symb import Operator as symb_Operator
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
 

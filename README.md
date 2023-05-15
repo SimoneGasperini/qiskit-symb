@@ -7,9 +7,9 @@
 </p>
 
 <p align="center">
-    <img title="test" src='https://github.com/SimoneGasperini/qiskit-symbolic/actions/workflows/test.yml/badge.svg?branch=master'>
-    <img title="lint" src='https://github.com/SimoneGasperini/qiskit-symbolic/actions/workflows/lint.yml/badge.svg?branch=master'>
-    <img title="coverage" src='https://coveralls.io/repos/github/SimoneGasperini/qiskit-symbolic/badge.svg?branch=master'>
+    <img title="test" src='https://github.com/SimoneGasperini/qiskit-symb/actions/workflows/test.yml/badge.svg?branch=master'>
+    <img title="lint" src='https://github.com/SimoneGasperini/qiskit-symb/actions/workflows/lint.yml/badge.svg?branch=master'>
+    <img title="coverage" src='https://coveralls.io/repos/github/SimoneGasperini/qiskit-symb/badge.svg?branch=master'>
 </p>
 
 ***
@@ -26,22 +26,24 @@
 
 
 # Introduction
-The `qiskit-symbolic` package is meant to be a Python tool to enable the symbolic evaluation of parametric quantum states and operators defined in [Qiskit](https://github.com/Qiskit/qiskit-terra) by parameterized quantum circuits.
+The `qiskit-symb` package is meant to be a Python tool to enable the symbolic evaluation of parametric quantum states and operators defined in [Qiskit](https://github.com/Qiskit/qiskit-terra) by parameterized quantum circuits.
 
 A Parameterized Quantum Circuit (PQC) is a quantum circuit where we have at least one free parameter (e.g. a rotation angle $\theta$). PQCs are particularly relevant in Quantum Machine Learning (QML) models, where the values of these parameters can be learned during training to reach the desired output.
 
-In particular, `qiskit-symbolic` can be used to create a symbolic representation of a parametric quantum statevector, density matrix, or unitary operator directly from the Qiskit quantum circuit. This has been achieved through the re-implementation of some basic classes defined in the [`qiskit/quantum_info/`](https://github.com/Qiskit/qiskit-terra/tree/main/qiskit/quantum_info) module by using [sympy](https://github.com/sympy/sympy) as a backend for symbolic expressions manipulation.
+In particular, `qiskit-symb` can be used to create a symbolic representation of a parametric quantum statevector, density matrix, or unitary operator directly from the Qiskit quantum circuit. This has been achieved through the re-implementation of some basic classes defined in the [`qiskit/quantum_info/`](https://github.com/Qiskit/qiskit-terra/tree/main/qiskit/quantum_info) module by using [sympy](https://github.com/sympy/sympy) as a backend for symbolic expressions manipulation.
 
 
 # Installation
-### User-mode
-To start using `qiskit-symbolic`, you can install the package directly from GitHub running the following command:
+
+## User-mode
 ```
-pip install git+https://github.com/SimoneGasperini/qiskit-symbolic.git
+pip install qiskit-symb
 ```
-### Dev-mode
-To install the package in development mode, first you have to clone locally the GitHub repository; then, move to the repo directory to install the develop dependencies and to launch the editable-mode installation running the following commands:
+
+## Dev-mode
 ```
+git clone https://github.com/SimoneGasperini/qiskit-symb.git
+cd qiskit-symb
 pip install -r requirements-dev.txt
 pip install -e .
 ```
@@ -50,7 +52,7 @@ pip install -e .
 # Usage examples
 
 ### _Sympify_ a Qiskit circuit
-Let's get started on how to use `qiskit-symbolic` to get the symbolic representation of a given Qiskit circuit. In particular, in this first basic example, we consider the following quantum circuit:
+Let's get started on how to use `qiskit-symb` to get the symbolic representation of a given Qiskit circuit. In particular, in this first basic example, we consider the following quantum circuit:
 ```python
 from qiskit import QuantumCircuit
 from qiskit.circuit import Parameter, ParameterVector
@@ -69,7 +71,7 @@ pqc.draw('mpl')
 
 To get the *sympy* representation of the unitary matrix corresponding to the parameterized circuit, we just have to create the symbolic `Operator` instance and call the `to_sympy()` method:
 ```python
-from qiskit_symbolic.quantum_info import Operator
+from qiskit_symb.quantum_info import Operator
 
 op = Operator(pqc)
 op.to_sympy()
@@ -89,7 +91,7 @@ new_op.to_sympy()
 ```
 
 ### _Lambdify_ a Qiskit circuit
-Given a Qiskit circuit, `qiskit-symbolic` also allows to generate a Python lambda function with actual arguments matching the Qiskit unbounded parameters.
+Given a Qiskit circuit, `qiskit-symb` also allows to generate a Python lambda function with actual arguments matching the Qiskit unbounded parameters.
 Let's consider the following example starting from a `ZZFeatureMap` circuit, commonly used as a data embedding ansatz in QML applications:
 ```python
 from qiskit.circuit.library import ZZFeatureMap
@@ -101,7 +103,7 @@ pqc.draw('mpl')
 
 To get the Python lambda function representing, for instance, the final parameterized statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
 ```python
-from qiskit_symbolic.quantum_info import Statevector
+from qiskit_symb.quantum_info import Statevector
 
 sv = Statevector(pqc)
 sv_func = sv.to_lambda()
@@ -114,7 +116,7 @@ statevec = sv_func(*values)
 ```
 
 **_REMARK_** \
-*When the PQC has to be evaluated on a large number of different sets of parameters values (typical case in QML), this `qiskit-symbolic` feature can help to significantly improve the (full-statevector) simulation performace. Indeed, the symbolic evalutation of the circuit and the lambda generation take place only once; then, the simulation only consists in executing multiple times the returned function passing a different set of parameters values for each iteration. For relatively shallow PQCs with a limilted number of qubits (e.g. Quantum Kernels evaluation), this can reduce the execution time up to two order of magnitudes (depending on the number of iterations) compared to the standard Qiskit simulation based on the [Aer Simulators](https://qiskit.org/documentation/tutorials/simulators/1_aer_provider.html) or the [Sampler](https://qiskit.org/documentation/stubs/qiskit.primitives.Sampler.html) primitive.*
+*When the PQC has to be evaluated on a large number of different sets of parameters values (typical case in QML), this `qiskit-symb` feature can help to significantly improve the (full-statevector) simulation performace. Indeed, the symbolic evalutation of the circuit and the lambda generation take place only once; then, the simulation only consists in executing multiple times the returned function passing a different set of parameters values for each iteration. For relatively shallow PQCs with a limilted number of qubits (e.g. Quantum Kernels evaluation), this can reduce the execution time up to two order of magnitudes (depending on the number of iterations) compared to the standard Qiskit simulation based on the [Aer Simulators](https://qiskit.org/documentation/tutorials/simulators/1_aer_provider.html) or the [Sampler](https://qiskit.org/documentation/stubs/qiskit.primitives.Sampler.html) primitive.*
 
 
 # Contributors
