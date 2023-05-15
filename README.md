@@ -7,8 +7,7 @@
 </p>
 
 <p align="center">
-    <img title="test" src='https://github.com/SimoneGasperini/qiskit-symb/actions/workflows/test.yml/badge.svg?branch=master'>
-    <img title="lint" src='https://github.com/SimoneGasperini/qiskit-symb/actions/workflows/lint.yml/badge.svg?branch=master'>
+    <img title="build" src='https://github.com/SimoneGasperini/qiskit-symb/actions/workflows/python-package.yml/badge.svg?branch=master'>
     <img title="coverage" src='https://coveralls.io/repos/github/SimoneGasperini/qiskit-symb/badge.svg?branch=master'>
 </p>
 

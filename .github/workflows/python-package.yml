@@ -32,4 +32,8 @@ jobs:
         pylint src/ tests/
     - name: Test with pytest
       run: |
-        pytest -v tests/
+        pytest -v --cov=qiskit_symb
+    - name: Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: coveralls --service=github
