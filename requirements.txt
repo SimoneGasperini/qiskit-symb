@@ -1,1 +1,6 @@
 qiskit-terra
+pylint
+pytest
+pytest-cov
+hypothesis
+coveralls

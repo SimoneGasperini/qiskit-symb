@@ -43,7 +43,6 @@ pip install qiskit-symb
 ```
 git clone https://github.com/SimoneGasperini/qiskit-symb.git
 cd qiskit-symb
-pip install -r requirements-dev.txt
 pip install -e .
 ```
 
