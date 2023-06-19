@@ -3,7 +3,8 @@
 <p align="center">
     <img title="license" src="https://img.shields.io/badge/license-Apache_2.0-blue.svg">
     <img title="python" src="https://img.shields.io/badge/python-≥3.8-blue.svg">
-    <img title="Ecosystem" src="https://img.shields.io/badge/Qiskit-Ecosystem-blueviolet.svg">
+    <a href="https://qiskit.org/ecosystem/" alt="Ecosystem">
+        <img src="https://img.shields.io/badge/Qiskit-Ecosystem-blueviolet.svg" /></a>
 </p>
 
 <p align="center">
