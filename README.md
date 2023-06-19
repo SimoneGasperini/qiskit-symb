@@ -83,8 +83,7 @@ op.to_sympy()
 
 If you want then to assign a value to some specific parameter, you can use the `subs(<dict>)` method passing a dictionary that maps each parameter to the desired corresponding value:
 ```python
-params2value = {p: [-1, 2]}
-new_op = op.subs(params2value)
+new_op = op.subs({p: [-1, 2]})
 new_op.to_sympy()
 ```
 ```math
@@ -92,7 +91,7 @@ new_op.to_sympy()
 ```
 
 ### _Lambdify_ a Qiskit circuit
-Given a Qiskit circuit, `qiskit-symb` also allows to generate a Python lambda function with actual arguments matching the Qiskit unbounded parameters.
+Given a Qiskit circuit, `qiskit-symb` also allows to generate a Python lambda function with actual arguments matching the Qiskit unbound parameters.
 Let's consider the following example starting from a `ZZFeatureMap` circuit, commonly used as a data embedding ansatz in QML applications:
 ```python
 from qiskit.circuit.library import ZZFeatureMap
@@ -102,23 +101,20 @@ pqc.draw('mpl')
 ```
 ![](/img/zzfeaturemap_circuit.png)
 
-To get the Python lambda function representing, for instance, the final parameterized statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
+To get the Python function representing the final parameteric statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
 ```python
 from qiskit_symb.quantum_info import Statevector
 
-sv = Statevector(pqc)
-sv_func = sv.to_lambda()
+statevec = Statevector(pqc).to_lambda()
 ```
 
-We can now call the generated lambda function passing the actual values we want to assign to each free parameter (in alphabetical order, same convention used in `qiskit-terra`). The returned object will be a *numpy* 2D-array (with `shape=(8,1)` in this case) representing the final output statevector.
+We can now call the generated lambda function `statevec` passing the values we want to assign to each free parameter. The returned object will be a *numpy* 2D-array (with `shape=(8,1)` in this case) representing the final output statevector.
 ```python
 values = [1.24, 2.27, 0.29]
-statevec = sv_func(*values)
+psi = statevec(*values)
 ```
 
-**_REMARK_** \
-*When the PQC has to be evaluated on a large number of different sets of parameters values (typical case in QML), this `qiskit-symb` feature can help to significantly improve the (full-statevector) simulation performace. Indeed, the symbolic evalutation of the circuit and the lambda generation take place only once; then, the simulation only consists in executing multiple times the returned function passing a different set of parameters values for each iteration. For relatively shallow PQCs with a limilted number of qubits (e.g. Quantum Kernels evaluation), this can reduce the execution time up to two order of magnitudes (depending on the number of iterations) compared to the standard Qiskit simulation based on the [Aer Simulators](https://qiskit.org/documentation/tutorials/simulators/1_aer_provider.html) or the [Sampler](https://qiskit.org/documentation/stubs/qiskit.primitives.Sampler.html) primitive.*
-
+This feature can be useful when, given a Qiskit PQC, we want to run it multiple times with different parameters values. Indeed, we can perform a single symbolic evalutation and then call the lambda generated function as many times as needed, passing different values of the parameters at each iteration.
 
 # Contributors
 
