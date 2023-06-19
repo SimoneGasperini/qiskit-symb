@@ -13,6 +13,8 @@
 </p>
 
 ***
+This package was presented at [Qiskit DemoDays](https://github.com/Qiskit/feedback/wiki/Qiskit-DemoDays) on June 15th 2023 $\rightarrow$ [Webex recording](https://ibm.webex.com/recordingservice/sites/ibm/recording/playback/c6d96f25edba103bb7d600505681044d) (password: `Demoday20230615`) + [Jupyter notebook](https://github.com/Qiskit/feedback/blob/main/demo-day-notebooks/2023-06-15/1_qiskit_symb_demo.ipynb)
+***
 
 # Table of contents
 - [Introduction](#introduction)
