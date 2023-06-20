@@ -105,13 +105,14 @@ To get the Python function representing the final parameteric statevector, we ju
 ```python
 from qiskit_symb.quantum_info import Statevector
 
+pqc = pqc.decompose()
 statevec = Statevector(pqc).to_lambda()
 ```
 
-We can now call the generated lambda function `statevec` passing the values we want to assign to each free parameter. The returned object will be a *numpy* 2D-array (with `shape=(8,1)` in this case) representing the final output statevector.
+We can now call the lambda-generated function `statevec` passing the `x` values we want to assign to each parameter. The returned object will be a *numpy* 2D-array (with `shape=(8,1)` in this case) representing the final output statevector `psi`.
 ```python
-values = [1.24, 2.27, 0.29]
-psi = statevec(*values)
+x = [1.24, 2.27, 0.29]
+psi = statevec(*x)
 ```
 
 This feature can be useful when, given a Qiskit PQC, we want to run it multiple times with different parameters values. Indeed, we can perform a single symbolic evalutation and then call the lambda generated function as many times as needed, passing different values of the parameters at each iteration.
