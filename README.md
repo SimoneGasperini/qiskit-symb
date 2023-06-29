@@ -13,7 +13,12 @@
 </p>
 
 ***
-This package was presented at [Qiskit DemoDays](https://github.com/Qiskit/feedback/wiki/Qiskit-DemoDays) on June 15th 2023 $\rightarrow$ [Webex recording](https://ibm.webex.com/recordingservice/sites/ibm/recording/playback/c6d96f25edba103bb7d600505681044d) (password: `Demoday20230615`) + [Jupyter notebook](https://github.com/Qiskit/feedback/blob/main/demo-day-notebooks/2023-06-15/1_qiskit_symb_demo.ipynb)
+[Qiskit DemoDays](https://github.com/Qiskit/feedback/wiki/Qiskit-DemoDays) presentation $\rightarrow$ :link:[link](https://ibm.webex.com/recordingservice/sites/ibm/recording/playback/c6d96f25edba103bb7d600505681044d),
+password: `Demoday20230615` (15th June 2023)
+
+Jupyter notebook demo $\rightarrow$ :link:[link](https://github.com/Qiskit/feedback/blob/main/demo-day-notebooks/2023-06-15/1_qiskit_symb_demo.ipynb) (15th June 2023)
+
+Qiskit Medium blog $\rightarrow$ :link:[link](https://medium.com/p/b6b4407fa705) (28th June 2023)
 ***
 
 # Table of contents
