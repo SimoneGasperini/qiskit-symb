@@ -2,7 +2,6 @@
 
 import sympy
 from sympy import lambdify, Symbol
-from sympy.core.rules import Transform
 from sympy.matrices import matrix2numpy
 from qiskit import QuantumCircuit
 
@@ -63,13 +62,7 @@ class QuantumBase:
 
     def to_sympy(self):
         """todo"""
-        # pylint: disable=unnecessary-lambda
-        sympy_matrix = self._data
-        sympy_matrix = sympy_matrix.xreplace(
-            Transform(lambda x: x.round(3), lambda x: x.is_Float))
-        sympy_matrix = sympy_matrix.xreplace(
-            Transform(lambda x: int(x), lambda x: x.is_Float and x == int(x)))
-        return sympy_matrix
+        return self._data
 
     def to_numpy(self):
         """todo"""
