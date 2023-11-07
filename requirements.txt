@@ -1,4 +1,4 @@
-qiskit-terra
+qiskit
 pylint
 pytest
 pytest-cov
