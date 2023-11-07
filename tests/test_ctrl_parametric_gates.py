@@ -26,13 +26,8 @@ def test_cu(theta, phi, lam, seed):
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     circuit = get_random_controlled(base_gate=UGate(*pars), seed=seed)
-    try:
-        arr1 = Operator(circuit.assign_parameters(pars_vals)).data
-    except TypeError:
-        # https://github.com/Qiskit/qiskit-terra/issues/10002
-        return
-    arr2 = symb_Operator(
-        circuit).subs({pars: pars_vals}).to_numpy()
+    arr1 = Operator(circuit.assign_parameters(pars_vals)).data
+    arr2 = symb_Operator(circuit).subs({pars: pars_vals}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -97,13 +92,8 @@ def test_cr(theta, phi, seed):
     pars_vals = [theta, phi]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     circuit = get_random_controlled(base_gate=RGate(*pars), seed=seed)
-    try:
-        arr1 = Operator(circuit.assign_parameters(pars_vals)).data
-    except TypeError:
-        # https://github.com/Qiskit/qiskit-terra/issues/10002
-        return
-    arr2 = symb_Operator(
-        circuit).subs({pars: pars_vals}).to_numpy()
+    arr1 = Operator(circuit.assign_parameters(pars_vals)).data
+    arr2 = symb_Operator(circuit).subs({pars: pars_vals}).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
