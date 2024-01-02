@@ -11,7 +11,8 @@ from .standard_gates import (
     TGate, TdgGate, CTGate, CTdgGate,
     SwapGate, CSwapGate,
     iSwapGate, CiSwapGate,
-    ECRGate, CECRGate
+    ECRGate, CECRGate,
+    UnitaryGate
 )
 
 from .parametric_gates import (
@@ -76,5 +77,6 @@ NAME_TO_INIT = {
     'iswap': iSwapGate,
     'ciswap': CiSwapGate,
     'ecr': ECRGate,
-    'cecr': CECRGate
+    'cecr': CECRGate,
+    'unitary': UnitaryGate
 }

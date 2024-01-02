@@ -1,11 +1,14 @@
 """Test standard gates module"""
 
 import numpy
+from hypothesis import given, strategies
+from qiskit.quantum_info import random_unitary
 from qiskit.circuit.library import (
     IGate, XGate, YGate, ZGate,
     HGate, SXGate, SXdgGate,
     SGate, SdgGate, TGate, TdgGate,
-    SwapGate, iSwapGate, ECRGate
+    SwapGate, iSwapGate, ECRGate,
+    UnitaryGate
 )
 from qiskit_symb.circuit.library import (
     IGate as symb_IGate,
@@ -21,7 +24,8 @@ from qiskit_symb.circuit.library import (
     TdgGate as symb_TdgGate,
     SwapGate as symb_SwapGate,
     iSwapGate as symb_iSwapGate,
-    ECRGate as symb_ECRGate
+    ECRGate as symb_ECRGate,
+    UnitaryGate as symb_UnitaryGate
 )
 
 
@@ -120,4 +124,14 @@ def test_ecr():
     """todo"""
     arr1 = ECRGate().to_matrix()
     arr2 = symb_ECRGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(num_qubits=strategies.integers(min_value=1, max_value=3),
+       seed=strategies.integers(min_value=0))
+def test_unitary(num_qubits, seed):
+    """todo"""
+    random_unitary_matrix = random_unitary(dims=2**num_qubits, seed=seed).data
+    arr1 = UnitaryGate(data=random_unitary_matrix).to_matrix()
+    arr2 = symb_UnitaryGate(matrix=random_unitary_matrix).to_numpy()
     assert numpy.allclose(arr1, arr2)

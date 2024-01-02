@@ -12,3 +12,4 @@ from .t import TGate, TdgGate, CTGate, CTdgGate
 from .swap import SwapGate, CSwapGate
 from .iswap import iSwapGate, CiSwapGate
 from .ecr import ECRGate, CECRGate
+from .unitary import UnitaryGate
