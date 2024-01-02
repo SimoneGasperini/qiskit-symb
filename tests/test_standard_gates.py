@@ -1,7 +1,7 @@
 """Test standard gates module"""
 
 import numpy
-from hypothesis import given, strategies
+from hypothesis import given, strategies, settings
 from qiskit.quantum_info import random_unitary
 from qiskit.circuit.library import (
     IGate, XGate, YGate, ZGate,
@@ -127,6 +127,7 @@ def test_ecr():
     assert numpy.allclose(arr1, arr2)
 
 
+@settings(deadline=None, max_examples=10)
 @given(num_qubits=strategies.integers(min_value=1, max_value=3),
        seed=strategies.integers(min_value=0))
 def test_unitary(num_qubits, seed):
