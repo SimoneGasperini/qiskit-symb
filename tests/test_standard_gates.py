@@ -2,14 +2,15 @@
 
 import numpy
 from hypothesis import given, strategies, settings
-from qiskit.quantum_info import random_unitary
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import random_unitary, Operator
 from qiskit.circuit.library import (
     IGate, XGate, YGate, ZGate,
     HGate, SXGate, SXdgGate,
     SGate, SdgGate, TGate, TdgGate,
-    SwapGate, iSwapGate, ECRGate,
-    UnitaryGate
+    SwapGate, iSwapGate, ECRGate
 )
+from qiskit_symb import Operator as symb_Operator
 from qiskit_symb.circuit.library import (
     IGate as symb_IGate,
     XGate as symb_XGate,
@@ -24,8 +25,7 @@ from qiskit_symb.circuit.library import (
     TdgGate as symb_TdgGate,
     SwapGate as symb_SwapGate,
     iSwapGate as symb_iSwapGate,
-    ECRGate as symb_ECRGate,
-    UnitaryGate as symb_UnitaryGate
+    ECRGate as symb_ECRGate
 )
 
 
@@ -127,12 +127,16 @@ def test_ecr():
     assert numpy.allclose(arr1, arr2)
 
 
-@settings(deadline=None, max_examples=10)
-@given(num_qubits=strategies.integers(min_value=1, max_value=3),
-       seed=strategies.integers(min_value=0))
-def test_unitary(num_qubits, seed):
+@settings(deadline=None, max_examples=20)
+@given(num_qubits=strategies.integers(min_value=1, max_value=4))
+def test_unitary(num_qubits):
     """todo"""
-    random_unitary_matrix = random_unitary(dims=2**num_qubits, seed=seed).data
-    arr1 = UnitaryGate(data=random_unitary_matrix).to_matrix()
-    arr2 = symb_UnitaryGate(matrix=random_unitary_matrix).to_numpy()
+    circ_num_qubits = 4
+    qubits = numpy.random.choice(
+        range(circ_num_qubits), size=num_qubits, replace=False).tolist()
+    circuit = QuantumCircuit(circ_num_qubits)
+    random_unitary_op = random_unitary(dims=2**num_qubits)
+    circuit.unitary(random_unitary_op, qubits=qubits)
+    arr1 = Operator(circuit).data
+    arr2 = symb_Operator(circuit).to_numpy()
     assert numpy.allclose(arr1, arr2)
