@@ -14,8 +14,14 @@ class QuantumBase:
         # pylint: disable=no-member
         if isinstance(data, QuantumCircuit):
             params = list(data.parameters)
-            data = self._get_data_from_circuit(circuit=data)
-        self._data = data
+            #data = self._get_data_from_circuit(circuit=data)
+            retdata = self._get_symbolic_circuit_unitary(circuit=data)
+            try:
+                data2 = self._get_data_from_circuit(circuit=data)
+                assert data2 == retdata
+            except:
+                pass
+        self._data = retdata
         self._params = params
 
     @staticmethod

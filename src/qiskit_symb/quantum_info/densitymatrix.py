@@ -22,6 +22,7 @@ class DensityMatrix(QuantumBase):
     def _get_data_from_circuit(circuit):
         """todo"""
         # pylint: disable=protected-access
-        rho = DensityMatrix._get_data_from_label('0' * circuit.num_qubits)
-        mat = Operator._get_data_from_circuit(circuit)
-        return mat * rho * mat.T.conjugate()
+        # rho = DensityMatrix._get_data_from_label('0' * circuit.num_qubits)
+        # mat = Operator._get_data_from_circuit(circuit)
+        # return mat * rho * mat.T.conjugate()
+        return Operator._get_symbolic_circuit_unitary(circuit)
