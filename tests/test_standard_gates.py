@@ -8,12 +8,15 @@ from qiskit.circuit.library import (
     IGate, XGate, YGate, ZGate,
     HGate, SXGate, SXdgGate,
     SGate, SdgGate, TGate, TdgGate,
-    SwapGate, iSwapGate, ECRGate
+    SwapGate, iSwapGate, ECRGate, DCXGate, RCCXGate, RC3XGate
 )
 from qiskit_symb import Operator as symb_Operator
 from qiskit_symb.circuit.library import (
     IGate as symb_IGate,
     XGate as symb_XGate,
+    DCXGate as symb_DCXGate,
+    RCCXGate as symb_RCCXGate,
+    RC3XGate as symb_RC3XGate,
     YGate as symb_YGate,
     ZGate as symb_ZGate,
     HGate as symb_HGate,
@@ -61,6 +64,25 @@ def test_h():
     """todo"""
     arr1 = HGate().to_matrix()
     arr2 = symb_HGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+def test_dcx():
+    """todo"""
+    arr1 = DCXGate().to_matrix()
+    arr2 = symb_DCXGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+
+def test_rccx():
+    """todo"""
+    arr1 = RCCXGate().to_matrix()
+    arr2 = symb_RCCXGate().to_numpy()
+    assert numpy.allclose(arr1, arr2)
+
+def test_rc3x():
+    """todo"""
+    arr1 = RC3XGate().to_matrix()
+    arr2 = symb_RC3XGate().to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 

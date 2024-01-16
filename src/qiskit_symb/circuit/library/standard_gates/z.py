@@ -19,11 +19,21 @@ class ZGate(Gate):
 
 
 class CZGate(ControlledGate):
-    r"""Symbolic controlled-:math:`Z` gate class"""
+    r"""Symbolic controlled-:math:`CZ` gate class"""
 
     def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
         """todo"""
         base_gate = ZGate()
         super().__init__(name='cz', num_qubits=2, params=[],
+                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
+                         ctrl_state=ctrl_state, base_gate=base_gate)
+
+class CCZGate(ControlledGate):
+    r"""Symbolic controlled-:math:`CCZ` gate class"""
+
+    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
+        """todo"""
+        base_gate = CZGate()
+        super().__init__(name='ccz', num_qubits=3, params=[],
                          ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
                          ctrl_state=ctrl_state, base_gate=base_gate)

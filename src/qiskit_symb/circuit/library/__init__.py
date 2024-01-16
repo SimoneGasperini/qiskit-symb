@@ -1,4 +1,7 @@
 """Symbolic gates library module"""
+from qiskit_symb.circuit.library.standard_gates.z import CCZGate
+from .parametric_gates.rxx import XXMinusYYGate, XXPlusYYGate, RXXGate, CRXXGate
+from .parametric_gates.u import U1Gate, U2Gate, CU1Gate
 
 from .standard_gates import (
     IGate,
@@ -22,25 +25,30 @@ from .parametric_gates import (
     RZGate, CRZGate,
     PhaseGate, CPhaseGate,
     RGate, CRGate,
-    RXXGate, CRXXGate,
     RYYGate, CRYYGate,
     RZZGate, CRZZGate,
     RZXGate, CRZXGate
 )
+from .standard_gates.sx import C3SXGate
+from .standard_gates.x import CCXGate, DCXGate, RC3XGate, RCCXGate
 
 NAME_TO_INIT = {
     'id': IGate,
     'x': XGate,
     'cx': CXGate,
+    'dcx': DCXGate,
+    'ccx': CCXGate,
     'y': YGate,
     'cy': CYGate,
     'z': ZGate,
     'cz': CZGate,
+    'ccz': CCZGate,
     'h': HGate,
     'ch': CHGate,
     'sx': SXGate,
     'sxdg': SXdgGate,
     'csx': CSXGate,
+    'c3sx': C3SXGate,
     'csxdg': CSXdgGate,
     's': SGate,
     'sdg': SdgGate,
@@ -51,11 +59,15 @@ NAME_TO_INIT = {
     'ct': CTGate,
     'ctdg': CTdgGate,
     'u': UGate,
+    'u1': U1Gate,
+    'cu1': CU1Gate,
+    'u2': U2Gate,
     'u3': UGate,
     'cu': CUGate,
     'cu3': CUGate,
     'rx': RXGate,
     'crx': CRXGate,
+    'crxx': CRXXGate,
     'ry': RYGate,
     'cry': CRYGate,
     'rz': RZGate,
@@ -65,7 +77,10 @@ NAME_TO_INIT = {
     'r': RGate,
     'cr': CRGate,
     'rxx': RXXGate,
-    'crxx': CRXXGate,
+    'xx_minus_yy': XXMinusYYGate,
+    'xx_plus_yy': XXPlusYYGate,
+    'rccx': RCCXGate,
+    'rcccx': RC3XGate,
     'ryy': RYYGate,
     'cryy': CRYYGate,
     'rzz': RZZGate,

@@ -7,10 +7,12 @@ from qiskit.circuit.library import (
     UGate, RXGate, RYGate, RZGate,
     PhaseGate, RGate,
     RXXGate, RYYGate,
-    RZZGate, RZXGate
+    RZZGate, RZXGate, U1Gate, U2Gate
 )
 from qiskit_symb.circuit.library import (
     UGate as symb_UGate,
+    U1Gate as symb_U1Gate,
+    U2Gate as symb_U2Gate,
     RXGate as symb_RXGate,
     RYGate as symb_RYGate,
     RZGate as symb_RZGate,
@@ -34,6 +36,26 @@ def test_u(theta, phi, lam):
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = UGate(*pars_vals).to_matrix()
     arr2 = symb_UGate(*pars).to_numpy(*pars_vals)
+    assert numpy.allclose(arr1, arr2)
+
+
+@given(theta=strategies.floats(**val_range))
+def test_u1(theta):
+    """todo"""
+    pars_vals = [theta]
+    pars = ParameterVector(name='pars', length=len(pars_vals))
+    arr1 = U1Gate(*pars_vals).to_matrix()
+    arr2 = symb_U1Gate(*pars).to_numpy(*pars_vals)
+    assert numpy.allclose(arr1, arr2)
+
+@given(phi=strategies.floats(**val_range),
+       lam=strategies.floats(**val_range))
+def test_u2(phi, lam):
+    """todo"""
+    pars_vals = [phi, lam]
+    pars = ParameterVector(name='pars', length=len(pars_vals))
+    arr1 = U2Gate(*pars_vals).to_matrix()
+    arr2 = symb_U2Gate(*pars).to_numpy(*pars_vals)
     assert numpy.allclose(arr1, arr2)
 
 
