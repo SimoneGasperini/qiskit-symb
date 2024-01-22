@@ -21,7 +21,9 @@ class QuantumBase:
                 assert data2 == retdata
             except:
                 pass
-        self._data = retdata
+            self._data = retdata
+        else:
+            self._data = data
         self._params = params
 
     @staticmethod
