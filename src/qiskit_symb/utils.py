@@ -3,7 +3,6 @@
 import random
 from sympy import Symbol, sympify
 from qiskit import QuantumCircuit, transpile
-from qiskit.transpiler.passes import RemoveBarriers
 from .circuit.library import NAME_TO_INIT  # pylint: disable=cyclic-import
 
 
@@ -11,7 +10,7 @@ def get_init(name):
     """todo"""
     if name not in NAME_TO_INIT:
         raise NotImplementedError(
-            f'Gate "{name}" is not implemented in qiskit-symb, use Qiskit transpiler!')
+            f'Instruction "{name}" is not implemented in qiskit-symb')
     return NAME_TO_INIT[name]
 
 
@@ -28,7 +27,8 @@ def flatten_circuit(circuit):
 
 def transpile_circuit(circuit):
     """todo"""
-    circuit = RemoveBarriers()(circuit)
+    circuit.data = [
+        instr for instr in circuit if instr.operation.name not in ['barrier', 'delay']]
     return transpile(circuit, optimization_level=2)
 
 
