@@ -41,21 +41,27 @@ class Operator(QuantumBase):
         _unitary = np.eye(2**circuit.num_qubits, dtype=complex)
         _unitary = np.reshape(_unitary, circuit.num_qubits * [2, 2])
 
-        skipped_operations = ['measure', "delay", 'barrier', 'reset', 'global_phase']
+        skipped_operations = ['measure', "delay",
+                              'barrier', 'reset', 'global_phase']
         for layer in circ_data:
             for gate in layer[::-1]:
                 if gate is not None and gate.name not in skipped_operations:
-                    gate_qubits = gate.qubits if gate.qubits is not None else [0]
+                    gate_qubits = gate.qubits if gate.qubits is not None else [
+                        0]
                     g = copy.deepcopy(gate)
                     g.qubits = list(range(gate.num_qubits))
                     if isinstance(g, ControlledGate):
-                        g.ctrl_qubits = list(range(gate.num_qubits-len(gate.target_qubits)))
-                        tqs = list(range(gate.num_qubits-len(gate.target_qubits), gate.num_qubits))
+                        g.ctrl_qubits = list(
+                            range(gate.num_qubits-len(gate.target_qubits)))
+                        tqs = list(
+                            range(gate.num_qubits-len(gate.target_qubits), gate.num_qubits))
                         g.target_qubits = tqs
                         g.base_gate.qubits = tqs
                     indexes = einsum_matmul_index(gate_qubits, circ_qubits)
-                    gate_tensor = np.reshape(np.array(g.to_sympy(), dtype=np.dtype('O')), len(gate_qubits) * [2, 2])
-                    _unitary = np.einsum(indexes, gate_tensor, _unitary, dtype=np.dtype('O'), casting="no", optimize="optimal")
+                    gate_tensor = np.reshape(
+                        np.array(g.to_sympy(), dtype=np.dtype('O')), len(gate_qubits) * [2, 2])
+                    _unitary = np.einsum(indexes, gate_tensor, _unitary, dtype=np.dtype(
+                        'O'), casting="no", optimize="optimal")
                     g.to_sympy()
 
         _unitary = np.reshape(_unitary, 2 * [2 ** circuit.num_qubits])

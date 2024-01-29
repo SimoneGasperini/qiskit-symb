@@ -46,28 +46,6 @@ class CSXGate(ControlledGate):
                          ctrl_state=ctrl_state, base_gate=base_gate)
 
 
-class C2SXGate(ControlledGate):
-    r"""Symbolic controlled-:math:`CC\sqrt{X}` gate class"""
-
-    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
-        """todo"""
-        base_gate = CSXGate()
-        super().__init__(name='c2sx', num_qubits=3, params=[],
-                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
-                         ctrl_state=ctrl_state, base_gate=base_gate)
-
-
-class C3SXGate(ControlledGate):
-    r"""Symbolic controlled-:math:`CCC\sqrt{X}` gate class"""
-
-    def __init__(self, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
-        """todo"""
-        base_gate = C2SXGate()
-        super().__init__(name='c3sx', num_qubits=4, params=[],
-                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
-                         ctrl_state=ctrl_state, base_gate=base_gate)
-
-
 class CSXdgGate(ControlledGate):
     r"""Symbolic controlled-:math:`\sqrt{X}^{\dagger}` gate class"""
 
