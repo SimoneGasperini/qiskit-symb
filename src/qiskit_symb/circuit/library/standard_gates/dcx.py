@@ -7,10 +7,9 @@ from ...gate import Gate
 class DCXGate(Gate):
     r"""Symbolic Double-CNOT :math:`DCX` gate class"""
 
-    def __init__(self, qubits=None):
+    def __init__(self):
         """todo"""
-        qubits = [0, 1] if qubits is None else qubits
-        super().__init__(name='dcx', num_qubits=2, params=[], qubits=qubits)
+        super().__init__(name='dcx', num_qubits=2, params=[])
 
     def __sympy__(self):
         """todo"""

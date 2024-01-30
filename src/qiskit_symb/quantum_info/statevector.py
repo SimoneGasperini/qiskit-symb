@@ -1,8 +1,7 @@
 """Symbolic quantum statevector module"""
 
-from sympy.matrices import Matrix
-from sympy.physics.quantum import TensorProduct
 from qiskit.quantum_info import Statevector as qiskit_Statevector
+from sympy.matrices import Matrix
 from .quantumbase import QuantumBase
 
 
@@ -22,8 +21,5 @@ class Statevector(QuantumBase):
     def _get_data_from_circuit(circuit):
         """todo"""
         psi = Statevector._get_data_from_label('0' * circuit.num_qubits)
-        gph, circ_data = QuantumBase._get_circ_data(circuit=circuit)
-        for layer in circ_data:
-            psi = TensorProduct(*[gate.to_sympy() for gate in layer[::-1]
-                                  if gate is not None]) * psi
-        return gph * psi
+        unitary = QuantumBase._get_circ_unitary(circuit)
+        return unitary * psi

@@ -2,16 +2,13 @@
 
 import numpy
 from hypothesis import given, strategies, settings
-
-from qiskit import QuantumCircuit
 from qiskit.circuit import ParameterVector, Parameter
 from qiskit.quantum_info import Operator
 from qiskit.circuit.library import (
     UGate, RXGate, RYGate, RZGate,
     PhaseGate, RGate,
     RXXGate, RYYGate,
-    RZZGate, RZXGate,
-    XXMinusYYGate, XXPlusYYGate
+    RZZGate, RZXGate
 )
 from qiskit_symb.utils import get_random_controlled
 from qiskit_symb import Operator as symb_Operator
@@ -159,30 +156,6 @@ def test_crzx(theta, seed):
     except TypeError:
         # https://github.com/Qiskit/qiskit/issues/10311
         return
-    arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
-    assert numpy.allclose(arr1, arr2)
-
-
-@settings(deadline=None, max_examples=10)
-@given(theta=strategies.floats(**val_range))
-def test_xx_minus_yy(theta):
-    """todo"""
-    par = Parameter(name='par')
-    circuit = QuantumCircuit(2)
-    circuit.append(XXMinusYYGate(par), (0, 1))
-    arr1 = Operator(circuit.assign_parameters([theta])).data
-    arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
-    assert numpy.allclose(arr1, arr2)
-
-
-@settings(deadline=None, max_examples=10)
-@given(theta=strategies.floats(**val_range))
-def test_xx_plus_yy(theta):
-    """todo"""
-    par = Parameter(name='par')
-    circuit = QuantumCircuit(2)
-    circuit.append(XXPlusYYGate(par), (0, 1))
     arr1 = Operator(circuit.assign_parameters([theta])).data
     arr2 = symb_Operator(circuit).subs({par: theta}).to_numpy()
     assert numpy.allclose(arr1, arr2)

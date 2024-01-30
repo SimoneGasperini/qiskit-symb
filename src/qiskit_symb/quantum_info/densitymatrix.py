@@ -1,9 +1,8 @@
 """Symbolic quantum density matrix module"""
 
-from sympy.matrices import Matrix
 from qiskit.quantum_info import DensityMatrix as qiskit_DensityMatrix
+from sympy.matrices import Matrix
 from .quantumbase import QuantumBase
-from .operator import Operator
 
 
 class DensityMatrix(QuantumBase):
@@ -21,8 +20,6 @@ class DensityMatrix(QuantumBase):
     @staticmethod
     def _get_data_from_circuit(circuit):
         """todo"""
-        # pylint: disable=protected-access
-        # rho = DensityMatrix._get_data_from_label('0' * circuit.num_qubits)
-        # mat = Operator._get_data_from_circuit(circuit)
-        # return mat * rho * mat.T.conjugate()
-        return Operator._get_symbolic_circuit_unitary(circuit)
+        rho = DensityMatrix._get_data_from_label('0' * circuit.num_qubits)
+        unitary = QuantumBase._get_circ_unitary(circuit)
+        return unitary * rho * unitary.transpose().conjugate()

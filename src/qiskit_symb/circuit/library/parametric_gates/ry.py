@@ -26,10 +26,10 @@ class RYGate(Gate):
 class CRYGate(ControlledGate):
     r"""Symbolic controlled-:math:`RY(\theta)` gate class"""
 
-    def __init__(self, theta, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
+    def __init__(self, theta, num_ctrl_qubits=1, ctrl_state=None):
         """todo"""
-        params = [theta]
-        base_gate = RYGate(theta)
-        super().__init__(name='cry', num_qubits=2, params=params,
-                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
-                         ctrl_state=ctrl_state, base_gate=base_gate)
+        base_gate = RYGate(theta=theta)
+        num_qubits = num_ctrl_qubits + base_gate.num_qubits
+        params = base_gate.params
+        super().__init__(name='cry', num_qubits=num_qubits, params=params, base_gate=base_gate,
+                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)

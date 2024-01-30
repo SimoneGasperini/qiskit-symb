@@ -1,9 +1,11 @@
 """Symbolic quantum base module"""
 
+import numpy
 import sympy
-from sympy import lambdify, Symbol
-from sympy.matrices import matrix2numpy
+from sympy import Symbol, lambdify
+from sympy.matrices import Matrix, matrix2numpy
 from qiskit import QuantumCircuit
+from qiskit.providers.basicaer.basicaertools import einsum_matmul_index
 
 
 class QuantumBase:
@@ -14,38 +16,32 @@ class QuantumBase:
         # pylint: disable=no-member
         if isinstance(data, QuantumCircuit):
             params = list(data.parameters)
-            retdata = self._get_symbolic_circuit_unitary(circuit=data)
-            self._data = retdata
-        else:
-            self._data = data
+            data = self._get_data_from_circuit(circuit=data)
+        self._data = data
         self._params = params
 
     @staticmethod
-    def _get_circ_data(circuit):
+    def _get_circ_unitary(circ):
         """todo"""
         # pylint: disable=import-outside-toplevel
         # pylint: disable=protected-access
-        # pylint: disable=too-many-locals
-        from ..utils import flatten_circuit, transpile_circuit
+        from ..utils import transpile_circuit, flatten_circuit
         from ..circuit import Gate
-        from ..circuit.library import IGate
-        circuit = transpile_circuit(flatten_circuit(circuit))
-        gph = sympy.exp(sympy.I * circuit.global_phase)
-        layers_data = circuit.draw(output='text').nodes
-        num_qubits, num_layers = circuit.num_qubits, len(layers_data)
-        circ_data = [[IGate()] * num_qubits for _ in range(num_layers)]
-        for layer_idx in range(num_layers):
-            for instruction in layers_data[layer_idx]:
-                gate = Gate.get(instruction)
-                if gate.num_qubits > 1:
-                    gate_span = gate._span
-                    qubit_idx = gate_span[0]
-                    for i in gate_span[1:]:
-                        circ_data[layer_idx][i] = None
-                else:
-                    qubit_idx = instruction.qargs[0]._index
-                circ_data[layer_idx][qubit_idx] = gate
-        return gph, circ_data
+        circ = transpile_circuit(flatten_circuit(circ))
+        layers = circ.draw(output='text').nodes
+        dim = 2 ** circ.num_qubits
+        newshape = (2, 2) * circ.num_qubits
+        unitary = numpy.reshape(numpy.eye(dim), newshape=newshape)
+        for layer in layers:
+            for instruction in layer[::-1]:
+                gate_tensor = Gate.get(instruction)._get_tensor()
+                gate_indices = [qarg._index for qarg in instruction.qargs]
+                indexing = einsum_matmul_index(
+                    gate_indices=gate_indices, number_of_qubits=circ.num_qubits)
+                unitary = numpy.einsum(indexing, gate_tensor, unitary,
+                                       dtype=object, casting='no', optimize='optimal')
+        gph = sympy.exp(sympy.I * circ.global_phase)
+        return gph * Matrix(numpy.reshape(unitary, newshape=(dim, dim)))
 
     @classmethod
     def from_label(cls, label):
