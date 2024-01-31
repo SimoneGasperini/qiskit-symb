@@ -20,18 +20,17 @@ class RGate(Gate):
         cos = sympy.cos(theta / 2)
         sin = sympy.sin(theta / 2)
         i = sympy.I
-        return Matrix([[cos, -i * sympy.exp(-i * phi) * sin],
-                       [-i * sympy.exp(i * phi) * sin, cos]])
+        return Matrix([[cos, -i*sympy.exp(-i*phi)*sin],
+                       [-i*sympy.exp(i*phi)*sin, cos]])
 
 
 class CRGate(ControlledGate):
     r"""Symbolic controlled-:math:`R` gate class"""
 
-    def __init__(self, theta, phi, ctrl_qubits=None, target_qubits=None, ctrl_state=None):
+    def __init__(self, theta, phi, num_ctrl_qubits=1, ctrl_state=None):
         """todo"""
-        # pylint: disable=too-many-arguments
-        params = [theta, phi]
-        base_gate = RGate(theta, phi)
-        super().__init__(name='cr', num_qubits=2, params=params,
-                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
-                         ctrl_state=ctrl_state, base_gate=base_gate)
+        base_gate = RGate(theta=theta, phi=phi)
+        num_qubits = num_ctrl_qubits + base_gate.num_qubits
+        params = base_gate.params
+        super().__init__(name='cr', num_qubits=num_qubits, params=params, base_gate=base_gate,
+                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)

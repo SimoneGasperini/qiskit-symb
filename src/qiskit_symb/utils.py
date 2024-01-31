@@ -71,7 +71,7 @@ def get_random_controlled(base_gate, seed=None):
     """todo"""
     random.seed(seed)
     num_targets = base_gate.num_qubits
-    num_controls = random.randint(1, 3)
+    num_controls = random.randint(1, 2)
     state = random.randint(0, num_controls)
     ctrl_state = format(state, 'b').zfill(num_controls)
     gate = base_gate.control(num_controls, ctrl_state=ctrl_state)

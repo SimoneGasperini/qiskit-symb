@@ -1,8 +1,7 @@
 """Symbolic quantum operator module"""
 
-from sympy.matrices import Matrix
-from sympy.physics.quantum import TensorProduct
 from qiskit.quantum_info import Operator as qiskit_Operator
+from sympy.matrices import Matrix
 from .quantumbase import QuantumBase
 
 
@@ -21,9 +20,4 @@ class Operator(QuantumBase):
     @staticmethod
     def _get_data_from_circuit(circuit):
         """todo"""
-        mat = Operator._get_data_from_label('I' * circuit.num_qubits)
-        gph, circ_data = QuantumBase._get_circ_data(circuit=circuit)
-        for layer in circ_data:
-            mat = TensorProduct(*[gate.to_sympy() for gate in layer[::-1]
-                                  if gate is not None]) * mat
-        return gph * mat
+        return QuantumBase._get_circ_unitary(circuit)

@@ -11,3 +11,5 @@ from .rxx import RXXGate, CRXXGate
 from .ryy import RYYGate, CRYYGate
 from .rzz import RZZGate, CRZZGate
 from .rzx import RZXGate, CRZXGate
+from .xx_minus_yy import XXMinusYYGate
+from .xx_plus_yy import XXPlusYYGate

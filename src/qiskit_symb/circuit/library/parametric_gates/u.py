@@ -21,20 +21,18 @@ class UGate(Gate):
         cos = sympy.cos(theta / 2)
         sin = sympy.sin(theta / 2)
         i = sympy.I
-        exp = sympy.exp
-        return exp(i * gamma) * Matrix([[cos, -exp(i * lam) * sin],
-                                        [exp(i * phi) * sin, exp(i * (phi + lam)) * cos]])
+        return sympy.exp(i * gamma) * Matrix([[cos, -sympy.exp(i*lam)*sin],
+                                              [sympy.exp(i*phi)*sin, sympy.exp(i*(phi+lam))*cos]])
 
 
 class CUGate(ControlledGate):
     r"""Symbolic controlled-:math:`U(\theta, \phi, \lambda, \gamma)` gate class"""
 
-    def __init__(self, theta, phi, lam, gamma=0,
-                 ctrl_qubits=None, target_qubits=None, ctrl_state=None):
+    def __init__(self, theta, phi, lam, gamma=0, num_ctrl_qubits=1, ctrl_state=None):
         """todo"""
         # pylint: disable=too-many-arguments
-        params = [theta, phi, lam, gamma]
-        base_gate = UGate(theta, phi, lam, gamma)
-        super().__init__(name='cu', num_qubits=2, params=params,
-                         ctrl_qubits=ctrl_qubits, target_qubits=target_qubits,
-                         ctrl_state=ctrl_state, base_gate=base_gate)
+        base_gate = UGate(theta=theta, phi=phi, lam=lam, _gamma=gamma)
+        num_qubits = num_ctrl_qubits + base_gate.num_qubits
+        params = base_gate.params
+        super().__init__(name='cu', num_qubits=num_qubits, params=params, base_gate=base_gate,
+                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
