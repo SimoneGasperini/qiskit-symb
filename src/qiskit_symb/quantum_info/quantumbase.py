@@ -5,7 +5,7 @@ import sympy
 from sympy import Symbol, lambdify
 from sympy.matrices import Matrix, matrix2numpy
 from qiskit import QuantumCircuit
-from qiskit.providers.basicaer.basicaertools import einsum_matmul_index
+from qiskit.providers.basic_provider.basic_provider_tools import einsum_matmul_index
 
 
 class QuantumBase:

@@ -47,6 +47,8 @@ In particular, `qiskit-symb` can be used to create a symbolic representation of 
 pip install qiskit-symb
 ```
 
+:warning: The package requires `qiskit>=1`. See the official [Migration guides](https://docs.quantum.ibm.com/api/migration-guides) if you are used to a prevoius Qiskit version.
+
 ## Dev-mode
 ```
 git clone https://github.com/SimoneGasperini/qiskit-symb.git
