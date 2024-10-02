@@ -43,5 +43,5 @@ disable = [
     "too-many-positional-arguments",
     "too-many-locals",
     "invalid-name",
-    "duplicate-code",
+    "no-value-for-parameter",
 ]
