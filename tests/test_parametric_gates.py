@@ -4,11 +4,18 @@ import numpy
 from hypothesis import given, strategies
 from qiskit.circuit import ParameterVector, Parameter
 from qiskit.circuit.library import (
-    UGate, RXGate, RYGate, RZGate,
-    PhaseGate, RGate,
-    RXXGate, RYYGate,
-    RZZGate, RZXGate,
-    XXMinusYYGate, XXPlusYYGate
+    UGate,
+    RXGate,
+    RYGate,
+    RZGate,
+    PhaseGate,
+    RGate,
+    RXXGate,
+    RYYGate,
+    RZZGate,
+    RZXGate,
+    XXMinusYYGate,
+    XXPlusYYGate,
 )
 from qiskit_symb.circuit.library import (
     UGate as symb_UGate,
@@ -22,7 +29,7 @@ from qiskit_symb.circuit.library import (
     RZZGate as symb_RZZGate,
     RZXGate as symb_RZXGate,
     XXMinusYYGate as symb_XXMinusYYGate,
-    XXPlusYYGate as symb_XXPlusYYGate
+    XXPlusYYGate as symb_XXPlusYYGate,
 )
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}

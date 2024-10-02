@@ -3,12 +3,11 @@
 import numpy
 import pytest
 from qiskit.quantum_info import Statevector
-from qiskit_symb.circuit.random import random_parametric_circuit
 from qiskit_symb.quantum_info import Statevector as symb_Statevector
 from qiskit_symb.utils import get_random_params
+from qiskit_symb.circuit.random import random_parametric_circuit
 
 
-# pylint: disable=duplicate-code
 testing_params = {'num_qubits': (1, 3), 'seed': (0, 999)}
 pars, ids = get_random_params(testing_params, size=10)
 

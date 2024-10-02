@@ -8,7 +8,6 @@ from qiskit_symb.quantum_info import DensityMatrix as symb_DensityMatrix
 from qiskit_symb.utils import get_random_params
 
 
-# pylint: disable=duplicate-code
 testing_params = {'num_qubits': (1, 3), 'seed': (0, 999)}
 pars, ids = get_random_params(testing_params, size=10)
 
