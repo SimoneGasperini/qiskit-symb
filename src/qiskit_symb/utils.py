@@ -2,8 +2,7 @@
 
 import random
 from sympy import Symbol, sympify
-from qiskit import QuantumCircuit, transpile
-from .circuit.library import NAME_TO_INIT  # pylint: disable=cyclic-import
+from .circuit.library import NAME_TO_INIT
 
 
 def get_init(name):
@@ -19,22 +18,8 @@ def get_symbolic_gates_names():
     return set(NAME_TO_INIT.keys())
 
 
-def flatten_circuit(circuit):
-    """todo"""
-    qubits, clbits = circuit.num_qubits, circuit.num_clbits
-    return QuantumCircuit(qubits, clbits).compose(circuit)
-
-
-def transpile_circuit(circuit):
-    """todo"""
-    circuit.data = [
-        instr for instr in circuit if instr.operation.name not in ['barrier', 'delay']]
-    return transpile(circuit, optimization_level=2)
-
-
 def get_symbolic_expr(par_expr):
     """todo"""
-    # pylint: disable=protected-access
     if hasattr(par_expr, '_symbol_expr'):
         return sympify(par_expr._symbol_expr)
     return par_expr
@@ -42,7 +27,6 @@ def get_symbolic_expr(par_expr):
 
 def get_unique_symbols(par_expr):
     """todo"""
-    # pylint: disable=protected-access
     if hasattr(par_expr, '_parameter_symbols'):
         return list(dict.fromkeys([sympify(symb) for symb in par_expr._parameter_symbols.values()]))
     return []
@@ -65,19 +49,3 @@ def get_random_params(params_dict, size, seed=None):
                      for parname, parval in zip(parnames, parvals)])
            for parvals in params]
     return params, ids
-
-
-def get_random_controlled(base_gate, seed=None):
-    """todo"""
-    random.seed(seed)
-    num_targets = base_gate.num_qubits
-    num_controls = random.randint(1, 2)
-    state = random.randint(0, num_controls)
-    ctrl_state = format(state, 'b').zfill(num_controls)
-    gate = base_gate.control(num_controls, ctrl_state=ctrl_state)
-    num_qubits = num_controls + num_targets
-    num_wires = random.randint(num_qubits, num_qubits+1)
-    qargs = random.sample(range(num_wires), num_qubits)
-    circuit = QuantumCircuit(num_wires)
-    circuit.append(gate, qargs)
-    return circuit
