@@ -4,7 +4,8 @@ import numpy
 import sympy
 from sympy import Symbol, lambdify
 from sympy.matrices import Matrix, matrix2numpy
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, transpile
+from qiskit.converters import circuit_to_dag
 from qiskit.providers.basic_provider.basic_provider_tools import einsum_matmul_index
 
 
@@ -13,7 +14,6 @@ class QuantumBase:
 
     def __init__(self, data, params):
         """todo"""
-        # pylint: disable=no-member
         if isinstance(data, QuantumCircuit):
             params = list(data.parameters)
             data = self._get_data_from_circuit(circuit=data)
@@ -23,37 +23,32 @@ class QuantumBase:
     @staticmethod
     def _get_circ_unitary(circ):
         """todo"""
-        # pylint: disable=import-outside-toplevel
-        # pylint: disable=protected-access
-        from ..utils import transpile_circuit, flatten_circuit
         from ..circuit import Gate
-        circ = transpile_circuit(flatten_circuit(circ))
-        layers = circ.draw(output='text').nodes
+        circ = QuantumCircuit(circ.num_qubits).compose(circ)
+        circ = transpile(circ, optimization_level=1)
         dim = 2 ** circ.num_qubits
         newshape = (2, 2) * circ.num_qubits
-        unitary = numpy.reshape(numpy.eye(dim), newshape=newshape)
-        for layer in layers:
-            for instruction in layer[::-1]:
-                gate_tensor = Gate.get(instruction)._get_tensor()
-                gate_indices = [qarg._index for qarg in instruction.qargs]
+        unitary = numpy.reshape(numpy.eye(dim), shape=newshape)
+        for layer in circuit_to_dag(circ).layers():
+            for instr in layer['graph'].gate_nodes():
+                gate_tensor = Gate.get(instruction=instr)._get_tensor()
+                gate_indices = [qarg._index for qarg in instr.qargs]
                 indexing = einsum_matmul_index(
                     gate_indices=gate_indices, number_of_qubits=circ.num_qubits)
                 unitary = numpy.einsum(indexing, gate_tensor, unitary,
                                        dtype=object, casting='no', optimize='optimal')
         gph = sympy.exp(sympy.I * circ.global_phase)
-        return gph * Matrix(numpy.reshape(unitary, newshape=(dim, dim)))
+        return gph * Matrix(numpy.reshape(unitary, shape=(dim, dim)))
 
     @classmethod
     def from_label(cls, label):
         """todo"""
-        # pylint: disable=no-member
         data = cls._get_data_from_label(label)
         return cls(data=data, params=[])
 
     @classmethod
     def from_circuit(cls, circuit):
         """todo"""
-        # pylint: disable=no-member
         data = cls._get_data_from_circuit(circuit)
         params = list(circuit.parameters)
         return cls(data=data, params=params)
