@@ -1,6 +1,14 @@
+numpy
+sympy
 qiskit
+
+# Lint
 pylint
+
+# Test
 pytest
-pytest-cov
 hypothesis
+
+# Coverage
+pytest-cov
 coveralls
