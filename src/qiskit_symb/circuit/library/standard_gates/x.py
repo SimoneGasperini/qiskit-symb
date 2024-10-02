@@ -1,21 +1,28 @@
 r"""Symbolic Pauli :math:`X` and controlled-:math:`X` gates module"""
 
-from sympy.matrices import Matrix
+import sympy
+from sympy.physics.quantum.gate import X
 from ...gate import Gate
 from ...controlledgate import ControlledGate
 
 
-class XGate(Gate):
+class XGate(Gate, X):
     r"""Symbolic Pauli :math:`X` gate class"""
 
     def __init__(self):
         """todo"""
-        super().__init__(name='x', num_qubits=1, params=[])
+        super().__init__(qiskit_name='x', sympy_name='X', params=())
 
     def __sympy__(self):
         """todo"""
-        return Matrix([[0, 1],
-                       [1, 0]])
+        sympy_matrix = self.get_target_matrix()
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class CXGate(ControlledGate):

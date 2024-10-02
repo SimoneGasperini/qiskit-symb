@@ -12,7 +12,6 @@ from .standard_gates import (
     SwapGate, CSwapGate,
     iSwapGate, CiSwapGate,
     ECRGate, DCXGate,
-    UnitaryGate
 )
 
 from .parametric_gates import (
@@ -27,7 +26,7 @@ from .parametric_gates import (
     RZZGate, CRZZGate,
     RZXGate, CRZXGate,
     XXMinusYYGate,
-    XXPlusYYGate
+    XXPlusYYGate,
 )
 
 NAME_TO_INIT = {
@@ -82,5 +81,4 @@ NAME_TO_INIT = {
     'dcx': DCXGate,
     'xx_minus_yy': XXMinusYYGate,
     'xx_plus_yy': XXPlusYYGate,
-    'unitary': UnitaryGate
 }

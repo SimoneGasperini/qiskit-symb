@@ -11,15 +11,22 @@ class iSwapGate(Gate):
 
     def __init__(self):
         """todo"""
-        super().__init__(name='iswap', num_qubits=2, params=[])
+        super().__init__(qiskit_name='iswap', sympy_name='iSWAP', params=())
 
     def __sympy__(self):
         """todo"""
         i = sympy.I
-        return Matrix([[1, 0, 0, 0],
-                       [0, 0, i, 0],
-                       [0, i, 0, 0],
-                       [0, 0, 0, 1]])
+        sympy_matrix = Matrix([[1, 0, 0, 0],
+                               [0, 0, i, 0],
+                               [0, i, 0, 0],
+                               [0, 0, 0, 1]])
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class CiSwapGate(ControlledGate):

@@ -2,23 +2,28 @@ r"""Symbolic :math:`T`, :math:`T^{\dagger}`, controlled-:math:`T`,
 and controlled-:math:`T^{\dagger}` gates module"""
 
 import sympy
-from sympy.matrices import Matrix
+from sympy.physics.quantum.gate import T
 from ...gate import Gate
 from ...controlledgate import ControlledGate
 
 
-class TGate(Gate):
+class TGate(Gate, T):
     r"""Symbolic :math:`T` gate class"""
 
     def __init__(self):
         """todo"""
-        super().__init__(name='t', num_qubits=1, params=[])
+        super().__init__(qiskit_name='t', sympy_name='T', params=())
 
     def __sympy__(self):
         """todo"""
-        i = sympy.I
-        return Matrix([[1, 0],
-                       [0, (1 + i) / sympy.sqrt(2)]])
+        sympy_matrix = self.get_target_matrix()
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class TdgGate(Gate):
@@ -26,13 +31,18 @@ class TdgGate(Gate):
 
     def __init__(self):
         """todo"""
-        super().__init__(name='tdg', num_qubits=1, params=[])
+        super().__init__(qiskit_name='tdg', sympy_name='T^\\dagger', params=())
 
     def __sympy__(self):
         """todo"""
-        i = sympy.I
-        return Matrix([[1, 0],
-                       [0, (1-i)/sympy.sqrt(2)]])
+        sympy_matrix = TGate().__sympy__().H
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class CTGate(ControlledGate):

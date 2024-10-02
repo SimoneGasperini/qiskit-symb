@@ -12,13 +12,20 @@ class SXGate(Gate):
 
     def __init__(self):
         """todo"""
-        super().__init__(name='sx', num_qubits=1, params=[])
+        super().__init__(qiskit_name='sx', sympy_name='\\sqrt X', params=())
 
     def __sympy__(self):
         """todo"""
         i = sympy.I
-        return 1/2 * Matrix([[1+i, 1-i],
-                             [1-i, 1+i]])
+        sympy_matrix = 1/2 * Matrix([[1+i, 1-i],
+                                     [1-i, 1+i]])
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class SXdgGate(Gate):
@@ -26,13 +33,18 @@ class SXdgGate(Gate):
 
     def __init__(self):
         """todo"""
-        super().__init__(name='sxdg', num_qubits=1, params=[])
+        super().__init__(qiskit_name='sx', sympy_name='\\sqrt X^\\dagger', params=())
 
     def __sympy__(self):
         """todo"""
-        i = sympy.I
-        return 1/2 * Matrix([[1-i, 1+i],
-                             [1+i, 1-i]])
+        sympy_matrix = SXGate().__sympy__().H
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class CSXGate(ControlledGate):

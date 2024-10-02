@@ -1,7 +1,6 @@
 """Test standard gates module"""
 
 import numpy
-from qiskit.quantum_info import random_unitary
 from qiskit.circuit.library import (
     IGate,
     XGate,
@@ -18,7 +17,6 @@ from qiskit.circuit.library import (
     iSwapGate,
     ECRGate,
     DCXGate,
-    UnitaryGate,
 )
 from qiskit_symb.circuit.library import (
     IGate as symb_IGate,
@@ -36,7 +34,6 @@ from qiskit_symb.circuit.library import (
     iSwapGate as symb_iSwapGate,
     ECRGate as symb_ECRGate,
     DCXGate as symb_DCXGate,
-    UnitaryGate as symb_UnitaryGate,
 )
 
 
@@ -142,20 +139,4 @@ def test_dcx():
     """todo"""
     arr1 = DCXGate().to_matrix()
     arr2 = symb_DCXGate().to_numpy()
-    assert numpy.allclose(arr1, arr2)
-
-
-def test_1qubit_unitary():
-    """todo"""
-    unitary = random_unitary(dims=2).data
-    arr1 = UnitaryGate(unitary).to_matrix()
-    arr2 = symb_UnitaryGate(unitary).to_numpy()
-    assert numpy.allclose(arr1, arr2)
-
-
-def test_2qubits_unitary():
-    """todo"""
-    unitary = random_unitary(dims=4).data
-    arr1 = UnitaryGate(unitary).to_matrix()
-    arr2 = symb_UnitaryGate(unitary).to_numpy()
     assert numpy.allclose(arr1, arr2)

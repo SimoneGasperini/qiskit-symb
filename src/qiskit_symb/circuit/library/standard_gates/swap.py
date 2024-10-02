@@ -1,23 +1,28 @@
 r"""Symbolic :math:`SWAP` and controlled-:math:`SWAP` gates module"""
 
-from sympy.matrices import Matrix
+import sympy
+from sympy.physics.quantum.gate import SWAP
 from ...gate import Gate
 from ...controlledgate import ControlledGate
 
 
-class SwapGate(Gate):
+class SwapGate(Gate, SWAP):
     r"""Symbolic :math:`SWAP` gate class"""
 
     def __init__(self):
         """todo"""
-        super().__init__(name='swap', num_qubits=2, params=[])
+        super().__init__(qiskit_name='swap', sympy_name='SWAP', params=())
 
     def __sympy__(self):
         """todo"""
-        return Matrix([[1, 0, 0, 0],
-                       [0, 0, 1, 0],
-                       [0, 1, 0, 0],
-                       [0, 0, 0, 1]])
+        sympy_matrix = self.get_target_matrix()
+        return sympy_matrix
+
+    def __numpy__(self):
+        """todo"""
+        sympy_matrix = self.__sympy__()
+        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
+        return numpy_matrix
 
 
 class CSwapGate(ControlledGate):

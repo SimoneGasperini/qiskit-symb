@@ -12,4 +12,3 @@ from .swap import SwapGate, CSwapGate
 from .iswap import iSwapGate, CiSwapGate
 from .ecr import ECRGate
 from .dcx import DCXGate
-from .unitary import UnitaryGate
