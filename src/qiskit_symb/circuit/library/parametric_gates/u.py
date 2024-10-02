@@ -30,7 +30,6 @@ class CUGate(ControlledGate):
 
     def __init__(self, theta, phi, lam, gamma=0, num_ctrl_qubits=1, ctrl_state=None):
         """todo"""
-        # pylint: disable=too-many-arguments
         base_gate = UGate(theta=theta, phi=phi, lam=lam, _gamma=gamma)
         num_qubits = num_ctrl_qubits + base_gate.num_qubits
         params = base_gate.params

@@ -12,7 +12,6 @@ class ControlledGate(Gate):
 
     def __init__(self, name, num_qubits, params, base_gate, num_ctrl_qubits, ctrl_state):
         """todo"""
-        # pylint: disable=too-many-arguments
         super().__init__(name=name, num_qubits=num_qubits, params=params)
         self.base_gate = base_gate
         self.num_ctrl_qubits = num_ctrl_qubits
@@ -21,7 +20,6 @@ class ControlledGate(Gate):
     @staticmethod
     def get(instruction):
         """todo"""
-        # pylint: disable=import-outside-toplevel
         from ..utils import get_init
         gate = instruction.op
         name = 'c' + gate.base_gate.name
@@ -31,7 +29,6 @@ class ControlledGate(Gate):
 
     def __sympy__(self):
         """todo"""
-        # pylint: disable=no-member
         proj = {'0': Matrix([[1, 0], [0, 0]]),
                 '1': Matrix([[0, 0], [0, 1]])}
         sympy_matrix = sympy.zeros(2**self.num_qubits)

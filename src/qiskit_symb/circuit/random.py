@@ -8,7 +8,6 @@ from qiskit.circuit.library import standard_gates
 
 def random_parametric_circuit(num_qubits, depth, seed=None):
     """todo"""
-    # pylint: disable=too-many-locals
     register = QuantumRegister(num_qubits)
     circuit = QuantumCircuit(register)
     if num_qubits == 0 or depth == 0:

@@ -17,8 +17,6 @@ class Gate:
     @staticmethod
     def get(instruction):
         """todo"""
-        # pylint: disable=import-outside-toplevel
-        # pylint: disable=cyclic-import
         from .controlledgate import ControlledGate
         from ..utils import get_init
         gate = instruction.op
@@ -28,13 +26,11 @@ class Gate:
 
     def _get_params_expr(self):
         """todo"""
-        # pylint: disable=import-outside-toplevel
         from ..utils import get_symbolic_expr
         return [get_symbolic_expr(par) for par in self.params]
 
     def _get_unique_symbols(self):
         """todo"""
-        # pylint: disable=import-outside-toplevel
         from ..utils import get_unique_symbols
         sympy_symbols = []
         for par in self.params:
@@ -43,22 +39,18 @@ class Gate:
 
     def _get_tensor(self):
         """todo"""
-        # pylint: disable=no-member
         sympy_matrix = self.__sympy__()
         newshape = (2, 2) * self.num_qubits
-        return numpy.reshape(sympy_matrix, newshape=newshape)
+        return numpy.reshape(sympy_matrix, shape=newshape)
 
     def to_sympy(self):
         """todo"""
-        # pylint: disable=import-outside-toplevel
-        # pylint: disable=no-member
         from ..utils import symbols2real
         sympy_matrix = self.__sympy__()
         return symbols2real(sympy_matrix)
 
     def to_numpy(self, *vals):
         """todo"""
-        # pylint: disable=no-member
         sympy_symbols = self._get_unique_symbols()
         sympy_matrix = self.__sympy__().subs(dict(zip(sympy_symbols, vals)))
         return matrix2numpy(sympy_matrix, dtype=complex)

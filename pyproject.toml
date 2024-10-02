@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qiskit-symb"
+version = "0.2.1"
+description = "Symbolic evaluation of parameterized quantum circuits in Qiskit"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [
+    {name = "Simone Gasperini", email = "simone.gasperini4@unibo.it"}
+]
+keywords = [
+    "quantum-computing",
+    "symbolic-computation",
+    "qiskit",
+    "sympy",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+]
+dynamic = ["readme", "dependencies"]
+
+[tool.setuptools.dynamic]
+readme = {file = "README.md", content-type = "text/markdown"}
+dependencies = {file = "requirements.txt"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pylint]
+disable = [
+    "cyclic-import",
+    "import-outside-toplevel",
+    "no-member",
+    "protected-access",
+    "too-many-arguments",
+    "too-many-positional-arguments",
+    "too-many-locals",
+    "invalid-name",
+    "duplicate-code",
+]

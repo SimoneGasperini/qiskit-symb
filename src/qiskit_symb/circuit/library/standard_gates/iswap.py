@@ -6,7 +6,6 @@ from ...gate import Gate
 from ...controlledgate import ControlledGate
 
 
-# pylint: disable=invalid-name
 class iSwapGate(Gate):
     r"""Symbolic :math:`iSWAP` gate class"""
 
