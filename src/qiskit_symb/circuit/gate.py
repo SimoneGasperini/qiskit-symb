@@ -41,7 +41,7 @@ class Gate:
         """todo"""
         sympy_matrix = self.__sympy__()
         newshape = (2, 2) * self.num_qubits
-        return numpy.reshape(sympy_matrix, shape=newshape)
+        return numpy.reshape(sympy_matrix, newshape)
 
     def to_sympy(self):
         """todo"""

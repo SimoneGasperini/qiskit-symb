@@ -28,7 +28,7 @@ class QuantumBase:
         circ = transpile(circ, optimization_level=1)
         dim = 2 ** circ.num_qubits
         newshape = (2, 2) * circ.num_qubits
-        unitary = numpy.reshape(numpy.eye(dim), shape=newshape)
+        unitary = numpy.reshape(numpy.eye(dim), newshape)
         for layer in circuit_to_dag(circ).layers():
             for instr in layer['graph'].gate_nodes():
                 gate_tensor = Gate.get(instruction=instr)._get_tensor()
@@ -38,7 +38,7 @@ class QuantumBase:
                 unitary = numpy.einsum(indexing, gate_tensor, unitary,
                                        dtype=object, casting='no', optimize='optimal')
         gph = sympy.exp(sympy.I * circ.global_phase)
-        return gph * Matrix(numpy.reshape(unitary, shape=(dim, dim)))
+        return gph * Matrix(numpy.reshape(unitary, (dim, dim)))
 
     @classmethod
     def from_label(cls, label):
