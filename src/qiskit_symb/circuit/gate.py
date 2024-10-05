@@ -57,7 +57,7 @@ class ParametricGate(Gate):
         return super().__new__(cls, *qubits, params=params)
 
     def to_numpy(self, par2val):
-        symb2val = {sympify(par.name): val for par, val in par2val.items()}
+        symb2val = {Symbol(par.name): val for par, val in par2val.items()}
         matrix = self.sympy_matrix.subs(symb2val)
         numpy_matrix = matrix2numpy(matrix, dtype=complex)
         return numpy_matrix

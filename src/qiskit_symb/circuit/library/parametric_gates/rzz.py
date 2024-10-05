@@ -1,27 +1,29 @@
 r"""Symbolic :math:`RZZ(\theta)` and controlled-:math:`RZZ(\theta)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, exp
+from ...gate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class RZZGate(Gate):
+class RZZGate(ParametricGate):
     r"""Symbolic :math:`RZZ(\theta)` gate class"""
+    gate_name = 'RZZ'
+    gate_name_latex = 'RZZ'
 
-    def __init__(self, theta):
+    def __new__(cls, theta, *qubits):
         """todo"""
-        params = [theta]
-        super().__init__(name='rzz', num_qubits=2, params=params)
+        params = (theta,)
+        return super().__new__(cls, *qubits, params=params)
 
-    def __sympy__(self):
+    @property
+    def sympy_matrix(self):
         """todo"""
-        theta, = self._get_params_expr()
-        i = sympy.I
-        return Matrix([[sympy.exp(-i*theta/2), 0, 0, 0],
-                       [0, sympy.exp(i*theta/2), 0, 0],
-                       [0, 0, sympy.exp(i*theta/2), 0],
-                       [0, 0, 0, sympy.exp(-i*theta/2)]])
+        theta, = self.get_params_expr()
+        sympy_matrix = Matrix([[exp(-I*theta/2), 0, 0, 0],
+                               [0, exp(I*theta/2), 0, 0],
+                               [0, 0, exp(I*theta/2), 0],
+                               [0, 0, 0, exp(-I*theta/2)]])
+        return sympy_matrix
 
 
 class CRZZGate(ControlledGate):

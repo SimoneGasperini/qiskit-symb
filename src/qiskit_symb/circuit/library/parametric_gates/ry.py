@@ -1,26 +1,27 @@
 r"""Symbolic :math:`RY(\theta)` and controlled-:math:`RY(\theta)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, sin, cos
+from ...gate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class RYGate(Gate):
+class RYGate(ParametricGate):
     r"""Symbolic :math:`RY(\theta)` gate class"""
+    gate_name = 'RY'
+    gate_name_latex = 'RY'
 
-    def __init__(self, theta):
+    def __new__(cls, theta, *qubits):
         """todo"""
-        params = [theta]
-        super().__init__(name='ry', num_qubits=1, params=params)
+        params = (theta,)
+        return super().__new__(cls, *qubits, params=params)
 
-    def __sympy__(self):
+    @property
+    def sympy_matrix(self):
         """todo"""
-        theta, = self._get_params_expr()
-        cos = sympy.cos(theta / 2)
-        sin = sympy.sin(theta / 2)
-        return Matrix([[cos, -sin],
-                       [sin, cos]])
+        theta, = self.get_params_expr()
+        sympy_matrix = Matrix([[cos(theta/2), -sin(theta/2)],
+                               [sin(theta/2), cos(theta/2)]])
+        return sympy_matrix
 
 
 class CRYGate(ControlledGate):

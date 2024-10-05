@@ -1,25 +1,27 @@
 r"""Symbolic :math:`RZ(\phi)` and controlled-:math:`RZ(\phi)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, exp
+from ...gate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class RZGate(Gate):
+class RZGate(ParametricGate):
     r"""Symbolic :math:`RZ(\lambda)` gate class"""
+    gate_name = 'RZ'
+    gate_name_latex = 'RZ'
 
-    def __init__(self, phi):
+    def __new__(cls, phi, *qubits):
         """todo"""
-        params = [phi]
-        super().__init__(name='rz', num_qubits=1, params=params)
+        params = (phi,)
+        return super().__new__(cls, *qubits, params=params)
 
-    def __sympy__(self):
+    @property
+    def sympy_matrix(self):
         """todo"""
-        lam, = self._get_params_expr()
-        i = sympy.I
-        return Matrix([[sympy.exp(-i*lam/2), 0],
-                       [0, sympy.exp(i*lam/2)]])
+        lam, = self.get_params_expr()
+        sympy_matrix = Matrix([[exp(-I*lam/2), 0],
+                               [0, exp(I*lam/2)]])
+        return sympy_matrix
 
 
 class CRZGate(ControlledGate):

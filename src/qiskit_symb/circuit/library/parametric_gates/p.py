@@ -1,25 +1,27 @@
 r"""Symbolic :math:`P(\lambda)` and controlled-:math:`P(\lambda)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, exp
+from ...gate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class PhaseGate(Gate):
+class PhaseGate(ParametricGate):
     r"""Symbolic :math:`P(\lambda)` gate class"""
+    gate_name = 'P'
+    gate_name_latex = 'P'
 
-    def __init__(self, theta):
+    def __new__(cls, theta, *qubits):
         """todo"""
-        params = [theta]
-        super().__init__(name='p', num_qubits=1, params=params)
+        params = (theta,)
+        return super().__new__(cls, *qubits, params=params)
 
-    def __sympy__(self):
+    @property
+    def sympy_matrix(self):
         """todo"""
-        lam, = self._get_params_expr()
-        i = sympy.I
-        return Matrix([[1, 0],
-                       [0, sympy.exp(i*lam)]])
+        lam, = self.get_params_expr()
+        sympy_matrix = Matrix([[1, 0],
+                               [0, exp(I*lam)]])
+        return sympy_matrix
 
 
 class CPhaseGate(ControlledGate):

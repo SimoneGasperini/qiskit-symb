@@ -1,27 +1,27 @@
 r"""Symbolic :math:`RX(\theta)` and controlled-:math:`RX(\theta)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, sin, cos
+from ...gate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class RXGate(Gate):
+class RXGate(ParametricGate):
     r"""Symbolic :math:`RX(\theta)` gate class"""
+    gate_name = 'RX'
+    gate_name_latex = 'RX'
 
-    def __init__(self, theta):
+    def __new__(cls, theta, *qubits):
         """todo"""
-        params = [theta]
-        super().__init__(name='rx', num_qubits=1, params=params)
+        params = (theta,)
+        return super().__new__(cls, *qubits, params=params)
 
-    def __sympy__(self):
+    @property
+    def sympy_matrix(self):
         """todo"""
-        theta, = self._get_params_expr()
-        i = sympy.I
-        cos = sympy.cos(theta / 2)
-        sin = sympy.sin(theta / 2)
-        return Matrix([[cos, -i*sin],
-                       [-i*sin, cos]])
+        theta, = self.get_params_expr()
+        sympy_matrix = Matrix([[cos(theta/2), -I*sin(theta/2)],
+                               [-I*sin(theta/2), cos(theta/2)]])
+        return sympy_matrix
 
 
 class CRXGate(ControlledGate):

@@ -1,25 +1,25 @@
 r"""Symbolic two-qubits interaction :math:`XXMinusYYGate(\theta, \beta)` gate module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, sin, cos, exp
+from ...gate import ParametricGate
 
 
-class XXMinusYYGate(Gate):
+class XXMinusYYGate(ParametricGate):
     r"""Symbolic two-qubits interaction :math:`XXMinusYYGate(\theta, \beta)` gate class"""
+    gate_name = 'XXmYY'
+    gate_name_latex = 'XXmYY'
 
-    def __init__(self, theta, beta=0):
+    def __new__(cls, theta, beta=0, *qubits):
         """todo"""
-        params = [theta, beta]
-        super().__init__(name='xx_minus_yy', num_qubits=2, params=params)
+        params = (theta, beta)
+        return super().__new__(cls, *qubits, params=params)
 
-    def __sympy__(self):
+    @property
+    def sympy_matrix(self):
         """todo"""
-        theta, beta = self._get_params_expr()
-        cos = sympy.cos(theta / 2)
-        sin = sympy.sin(theta / 2)
-        i = sympy.I
-        return Matrix([[cos, 0, 0, -i * sin * sympy.exp(-i * beta)],
-                       [0, 1, 0, 0],
-                       [0, 0, 1, 0],
-                       [-i * sin * sympy.exp(i * beta), 0, 0, cos]])
+        theta, beta = self.get_params_expr()
+        sympy_matrix = Matrix([[cos(theta/2), 0, 0, -I*sin(theta/2)*exp(-I*beta)],
+                               [0, 1, 0, 0],
+                               [0, 0, 1, 0],
+                               [-I*sin(theta/2)*exp(I*beta), 0, 0, cos(theta/2)]])
+        return sympy_matrix
