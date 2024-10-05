@@ -1,23 +1,17 @@
 r"""Symbolic Hadamard :math:`H` and controlled-:math:`H` gates module"""
 
-import sympy
+from sympy import Matrix, sqrt
 from sympy.physics.quantum.gate import H
-from ...gate import Gate
+from ...gate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class HGate(Gate, H):
-    def __init__(self):
-        super().__init__(qiskit_name='h', sympy_name='H', params=())
-
-    def __sympy__(self):
-        sympy_matrix = self.get_target_matrix()
-        return sympy_matrix
-
-    def __numpy__(self):
-        sympy_matrix = self.__sympy__()
-        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
-        return numpy_matrix
+class HGate(StandardGate, H):
+    r"""Symbolic math:`H` gate class"""
+    gate_name = 'H'
+    gate_name_latex = 'H'
+    sympy_matrix = 1/sqrt(2) * Matrix([[1, 1],
+                                       [1, -1]])
 
 
 class CHGate(ControlledGate):

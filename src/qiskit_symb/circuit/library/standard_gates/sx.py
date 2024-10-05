@@ -1,50 +1,24 @@
 r"""Symbolic :math:`\sqrt{X}`, :math:`\sqrt{X}^{\dagger}`, controlled-:math:`\sqrt{X}`,
 and controlled-:math:`\sqrt{X}^{\dagger}` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I
+from ...gate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class SXGate(Gate):
+class SXGate(StandardGate):
     r"""Symbolic :math:`\sqrt{X}` gate class"""
-
-    def __init__(self):
-        """todo"""
-        super().__init__(qiskit_name='sx', sympy_name='\\sqrt X', params=())
-
-    def __sympy__(self):
-        """todo"""
-        i = sympy.I
-        sympy_matrix = 1/2 * Matrix([[1+i, 1-i],
-                                     [1-i, 1+i]])
-        return sympy_matrix
-
-    def __numpy__(self):
-        """todo"""
-        sympy_matrix = self.__sympy__()
-        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
-        return numpy_matrix
+    gate_name = '\\sqrt X'
+    gate_name_latex = '\\sqrt X'
+    sympy_matrix = 1/2 * Matrix([[1+I, 1-I],
+                                 [1-I, 1+I]])
 
 
-class SXdgGate(Gate):
+class SXdgGate(StandardGate):
     r"""Symbolic :math:`\sqrt{X}^{\dagger}` gate class"""
-
-    def __init__(self):
-        """todo"""
-        super().__init__(qiskit_name='sx', sympy_name='\\sqrt X^\\dagger', params=())
-
-    def __sympy__(self):
-        """todo"""
-        sympy_matrix = SXGate().__sympy__().H
-        return sympy_matrix
-
-    def __numpy__(self):
-        """todo"""
-        sympy_matrix = self.__sympy__()
-        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
-        return numpy_matrix
+    gate_name = '\\sqrt X^\\dagger'
+    gate_name_latex = '\\sqrt X^\\dagger'
+    sympy_matrix = SXGate.sympy_matrix.H
 
 
 class CSXGate(ControlledGate):

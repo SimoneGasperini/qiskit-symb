@@ -1,32 +1,18 @@
 r"""Symbolic :math:`iSWAP` and controlled-:math:`iSWAP` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I
+from ...gate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class iSwapGate(Gate):
+class iSwapGate(StandardGate):
     r"""Symbolic :math:`iSWAP` gate class"""
-
-    def __init__(self):
-        """todo"""
-        super().__init__(qiskit_name='iswap', sympy_name='iSWAP', params=())
-
-    def __sympy__(self):
-        """todo"""
-        i = sympy.I
-        sympy_matrix = Matrix([[1, 0, 0, 0],
-                               [0, 0, i, 0],
-                               [0, i, 0, 0],
-                               [0, 0, 0, 1]])
-        return sympy_matrix
-
-    def __numpy__(self):
-        """todo"""
-        sympy_matrix = self.__sympy__()
-        numpy_matrix = sympy.matrix2numpy(sympy_matrix, dtype=complex)
-        return numpy_matrix
+    gate_name = 'iSWAP'
+    gate_name_latex = 'iSWAP'
+    sympy_matrix = Matrix([[1, 0, 0, 0],
+                           [0, 0, I, 0],
+                           [0, I, 0, 0],
+                           [0, 0, 0, 1]])
 
 
 class CiSwapGate(ControlledGate):
