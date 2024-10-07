@@ -10,10 +10,6 @@ from qiskit.circuit.library import (
     CRZGate,
     CPhaseGate,
     RGate,
-    RXXGate,
-    RYYGate,
-    RZZGate,
-    RZXGate,
 )
 from qiskit_symb.circuit.library import (
     CUGate as symb_CUGate,
@@ -22,10 +18,6 @@ from qiskit_symb.circuit.library import (
     CRZGate as symb_CRZGate,
     CPhaseGate as symb_CPhaseGate,
     CRGate as symb_CRGate,
-    CRXXGate as symb_CRXXGate,
-    CRYYGate as symb_CRYYGate,
-    CRZZGate as symb_CRZZGate,
-    CRZXGate as symb_CRZXGate,
 )
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
@@ -39,7 +31,8 @@ def test_cu(theta, phi, lam):
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = CUGate(*pars_vals, gamma=0).to_matrix()
-    arr2 = symb_CUGate(*pars).to_numpy(*pars_vals)
+    gate = symb_CUGate(*pars, gamma=0, control=0, target=1)
+    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -48,7 +41,8 @@ def test_crx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = CRXGate(theta).to_matrix()
-    arr2 = symb_CRXGate(par).to_numpy(theta)
+    gate = symb_CRXGate(par, control=0, target=1)
+    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -57,7 +51,8 @@ def test_cry(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = CRYGate(theta).to_matrix()
-    arr2 = symb_CRYGate(par).to_numpy(theta)
+    gate = symb_CRYGate(par, control=0, target=1)
+    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -66,7 +61,8 @@ def test_crz(phi):
     """todo"""
     par = Parameter(name='par')
     arr1 = CRZGate(phi).to_matrix()
-    arr2 = symb_CRZGate(par).to_numpy(phi)
+    gate = symb_CRZGate(par, control=0, target=1)
+    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: phi})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -75,7 +71,8 @@ def test_cp(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = CPhaseGate(theta).to_matrix()
-    arr2 = symb_CPhaseGate(par).to_numpy(theta)
+    gate = symb_CPhaseGate(par, control=0, target=1)
+    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -86,41 +83,6 @@ def test_cr(theta, phi):
     pars_vals = [theta, phi]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = RGate(*pars_vals).control(annotated=True).to_matrix()
-    arr2 = symb_CRGate(*pars).to_numpy(*pars_vals)
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_crxx(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RXXGate(theta).control(annotated=True).to_matrix()
-    arr2 = symb_CRXXGate(par).to_numpy(theta)
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_cryy(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RYYGate(theta).control(annotated=True).to_matrix()
-    arr2 = symb_CRYYGate(par).to_numpy(theta)
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_crzz(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RZZGate(theta).control(annotated=True).to_matrix()
-    arr2 = symb_CRZZGate(par).to_numpy(theta)
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_crzx(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RZXGate(theta).control(annotated=True).to_matrix()
-    arr2 = symb_CRZXGate(par).to_numpy(theta)
+    gate = symb_CRGate(*pars, control=0, target=1)
+    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)

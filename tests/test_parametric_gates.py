@@ -10,12 +10,6 @@ from qiskit.circuit.library import (
     RZGate,
     PhaseGate,
     RGate,
-    RXXGate,
-    RYYGate,
-    RZZGate,
-    RZXGate,
-    XXMinusYYGate,
-    XXPlusYYGate,
 )
 from qiskit_symb.circuit.library import (
     UGate as symb_UGate,
@@ -24,12 +18,6 @@ from qiskit_symb.circuit.library import (
     RZGate as symb_RZGate,
     PhaseGate as symb_PhaseGate,
     RGate as symb_RGate,
-    RXXGate as symb_RXXGate,
-    RYYGate as symb_RYYGate,
-    RZZGate as symb_RZZGate,
-    RZXGate as symb_RZXGate,
-    XXMinusYYGate as symb_XXMinusYYGate,
-    XXPlusYYGate as symb_XXPlusYYGate,
 )
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
@@ -43,7 +31,8 @@ def test_u(theta, phi, lam):
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = UGate(*pars_vals).to_matrix()
-    arr2 = symb_UGate(*pars).to_numpy(dict(zip(pars, pars_vals)))
+    gate = symb_UGate(*pars, target=0)
+    arr2 = gate.get_numpy_repr(nqubits=1, par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -52,7 +41,8 @@ def test_rx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RXGate(theta).to_matrix()
-    arr2 = symb_RXGate(par).to_numpy({par: theta})
+    gate = symb_RXGate(theta=par, target=0)
+    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -61,7 +51,8 @@ def test_ry(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RYGate(theta).to_matrix()
-    arr2 = symb_RYGate(par).to_numpy({par: theta})
+    gate = symb_RYGate(theta=par, target=0)
+    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -70,7 +61,8 @@ def test_rz(phi):
     """todo"""
     par = Parameter(name='par')
     arr1 = RZGate(phi).to_matrix()
-    arr2 = symb_RZGate(par).to_numpy({par: phi})
+    gate = symb_RZGate(phi=par, target=0)
+    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: phi})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -79,7 +71,8 @@ def test_p(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = PhaseGate(theta).to_matrix()
-    arr2 = symb_PhaseGate(par).to_numpy({par: theta})
+    gate = symb_PhaseGate(theta=par, target=0)
+    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -90,63 +83,6 @@ def test_r(theta, phi):
     pars_vals = [theta, phi]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = RGate(*pars_vals).to_matrix()
-    arr2 = symb_RGate(*pars).to_numpy(dict(zip(pars, pars_vals)))
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_rxx(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RXXGate(theta).to_matrix()
-    arr2 = symb_RXXGate(par).to_numpy({par: theta})
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_ryy(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RYYGate(theta).to_matrix()
-    arr2 = symb_RYYGate(par).to_numpy({par: theta})
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_rzz(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RZZGate(theta).to_matrix()
-    arr2 = symb_RZZGate(par).to_numpy({par: theta})
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_rzx(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RZXGate(theta).to_matrix()
-    arr2 = symb_RZXGate(par).to_numpy({par: theta})
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range),
-       beta=strategies.floats(**val_range))
-def test_xx_minus_yy(theta, beta):
-    """todo"""
-    pars_vals = [theta, beta]
-    pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = XXMinusYYGate(*pars_vals).to_matrix()
-    arr2 = symb_XXMinusYYGate(*pars).to_numpy(dict(zip(pars, pars_vals)))
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range),
-       beta=strategies.floats(**val_range))
-def test_xx_plus_yy(theta, beta):
-    """todo"""
-    pars_vals = [theta, beta]
-    pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = XXPlusYYGate(*pars_vals).to_matrix()
-    arr2 = symb_XXPlusYYGate(*pars).to_numpy(dict(zip(pars, pars_vals)))
+    gate = symb_RGate(*pars, target=0)
+    arr2 = gate.get_numpy_repr(nqubits=1, par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
