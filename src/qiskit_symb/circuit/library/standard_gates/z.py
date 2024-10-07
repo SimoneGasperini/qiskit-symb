@@ -2,25 +2,30 @@ r"""Symbolic Pauli :math:`Z` and controlled-:math:`Z` gates module"""
 
 from sympy import Matrix
 from sympy.physics.quantum.gate import Z
-from ...gate import StandardGate
-from ...controlledgate import ControlledGate
+from ...gate import StandardGate, ControlledGate
 
 
 class ZGate(StandardGate, Z):
     r"""Symbolic Pauli math:`Z` gate class"""
     gate_name = 'Z'
-    gate_name_latex = 'Z'
+    gate_name_latex = r'\text{Z}'
     sympy_matrix = Matrix([[1, 0],
                            [0, -1]])
 
-
-class CZGate(ControlledGate):
-    r"""Symbolic controlled-:math:`Z` gate class"""
-
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, target):
         """todo"""
-        base_gate = ZGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='cz', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
+
+
+class CZGate(StandardGate, ControlledGate):
+    r"""Symbolic controlled-:math:`Z` gate class"""
+    gate_name = 'CZ'
+    gate_name_latex = r'\text{CZ}'
+
+    def __new__(cls, control, target):
+        """todo"""
+        controls = (control,)
+        target_gate = ZGate(target=target)
+        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)

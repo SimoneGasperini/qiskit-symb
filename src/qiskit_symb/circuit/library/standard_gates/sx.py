@@ -2,44 +2,55 @@ r"""Symbolic :math:`\sqrt{X}`, :math:`\sqrt{X}^{\dagger}`, controlled-:math:`\sq
 and controlled-:math:`\sqrt{X}^{\dagger}` gates module"""
 
 from sympy import Matrix, I
-from ...gate import StandardGate
-from ...controlledgate import ControlledGate
+from ...gate import StandardGate, ControlledGate
 
 
 class SXGate(StandardGate):
     r"""Symbolic :math:`\sqrt{X}` gate class"""
-    gate_name = '\\sqrt X'
-    gate_name_latex = '\\sqrt X'
+    gate_name = '\sqrt X'
+    gate_name_latex = r'\sqrt{\text{X}}'
     sympy_matrix = 1/2 * Matrix([[1+I, 1-I],
                                  [1-I, 1+I]])
+
+    def __new__(cls, target):
+        """todo"""
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
 
 class SXdgGate(StandardGate):
     r"""Symbolic :math:`\sqrt{X}^{\dagger}` gate class"""
-    gate_name = '\\sqrt X^\\dagger'
-    gate_name_latex = '\\sqrt X^\\dagger'
+    gate_name = '\sqrt X^\dagger'
+    gate_name_latex = r'\sqrt{\text{X}}^\dagger'
     sympy_matrix = SXGate.sympy_matrix.H
 
+    def __new__(cls, target):
+        """todo"""
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-class CSXGate(ControlledGate):
+
+class CSXGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`\sqrt{X}` gate class"""
+    gate_name = 'C\sqrt X'
+    gate_name_latex = r'\text{C}\sqrt{\text{X}}'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, control, target):
         """todo"""
-        base_gate = SXGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='csx', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = SXGate(target=target)
+        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
 
 
-class CSXdgGate(ControlledGate):
+class CSXdgGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`\sqrt{X}^{\dagger}` gate class"""
+    gate_name = 'C\sqrt X^\dagger'
+    gate_name_latex = r'\text{C}\sqrt{\text{X}}^\dagger'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, control, target):
         """todo"""
-        base_gate = SXdgGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='csxdg', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = SXdgGate(target=target)
+        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
