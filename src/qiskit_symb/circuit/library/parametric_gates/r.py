@@ -23,7 +23,7 @@ class RGate(ParametricGate):
                        [-I*exp(I*phi)*sin(theta/2), cos(theta/2)]])
 
 
-class CRGate(ParametricGate, ControlledGate):
+class CRGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`R` gate class"""
     gate_name = 'CR'
     gate_name_latex = r'\text{CR}'
@@ -32,4 +32,4 @@ class CRGate(ParametricGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = RGate(theta=theta, phi=phi, target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

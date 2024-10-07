@@ -23,7 +23,7 @@ class RXGate(ParametricGate):
                        [-I*sin(theta/2), cos(theta/2)]])
 
 
-class CRXGate(ParametricGate, ControlledGate):
+class CRXGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`RX(\theta)` gate class"""
     gate_name = 'CRX'
     gate_name_latex = r'\text{CRX}'
@@ -32,4 +32,4 @@ class CRXGate(ParametricGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = RXGate(theta=theta, target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

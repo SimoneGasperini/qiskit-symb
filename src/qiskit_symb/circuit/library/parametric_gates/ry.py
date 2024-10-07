@@ -23,7 +23,7 @@ class RYGate(ParametricGate):
                        [sin(theta/2), cos(theta/2)]])
 
 
-class CRYGate(ParametricGate, ControlledGate):
+class CRYGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`RY(\theta)` gate class"""
     gate_name = 'CRY'
     gate_name_latex = r'\text{CRY}'
@@ -32,4 +32,4 @@ class CRYGate(ParametricGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = RYGate(theta=theta, target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

@@ -41,7 +41,7 @@ class CSXGate(StandardGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = SXGate(target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
 
 
 class CSXdgGate(StandardGate, ControlledGate):
@@ -53,4 +53,4 @@ class CSXdgGate(StandardGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = SXdgGate(target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

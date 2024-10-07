@@ -24,7 +24,7 @@ class UGate(ParametricGate):
                                         [exp(I*phi)*sin(theta/2), exp(I*(phi+lam))*cos(theta/2)]])
 
 
-class CUGate(ParametricGate, ControlledGate):
+class CUGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`U(\theta, \phi, \lambda, \gamma)` gate class"""
     gate_name = 'CU'
     gate_name_latex = r'\text{CU}'
@@ -34,4 +34,4 @@ class CUGate(ParametricGate, ControlledGate):
         controls = (control,)
         target_gate = UGate(theta=theta, phi=phi, lam=lam,
                             _gamma=gamma, target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

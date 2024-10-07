@@ -28,4 +28,4 @@ class CHGate(StandardGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = HGate(target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

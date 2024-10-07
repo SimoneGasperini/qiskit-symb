@@ -24,7 +24,7 @@ class PhaseGate(ParametricGate):
         return sympy_matrix
 
 
-class CPhaseGate(ParametricGate, ControlledGate):
+class CPhaseGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`P(\lambda)` gate class"""
     gate_name = 'CP'
     gate_name_latex = r'\text{CP}'
@@ -33,4 +33,4 @@ class CPhaseGate(ParametricGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = PhaseGate(theta=theta, target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

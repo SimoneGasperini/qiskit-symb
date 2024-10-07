@@ -23,7 +23,7 @@ class RZGate(ParametricGate):
                        [0, exp(I*lam/2)]])
 
 
-class CRZGate(ParametricGate, ControlledGate):
+class CRZGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`RZ(\phi)` gate class"""
     gate_name = 'CRZ'
     gate_name_latex = r'\text{CRZ}'
@@ -32,4 +32,4 @@ class CRZGate(ParametricGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = RZGate(phi=phi, target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)

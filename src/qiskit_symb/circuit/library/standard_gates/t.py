@@ -42,7 +42,7 @@ class CTGate(StandardGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = TGate(target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
 
 
 class CTdgGate(StandardGate, ControlledGate):
@@ -54,4 +54,4 @@ class CTdgGate(StandardGate, ControlledGate):
         """todo"""
         controls = (control,)
         target_gate = TdgGate(target=target)
-        return ControlledGate.__new__(cls, controls=controls, target_gate=target_gate)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
