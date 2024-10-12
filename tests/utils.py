@@ -1,20 +1,4 @@
-"""Utilities module"""
-
 import random
-from .circuit.library import NAME_TO_INIT
-
-
-def get_init(name):
-    """todo"""
-    if name not in NAME_TO_INIT:
-        raise NotImplementedError(
-            f'Instruction "{name}" is not implemented in qiskit-symb')
-    return NAME_TO_INIT[name]
-
-
-def get_symbolic_gates_names():
-    """todo"""
-    return set(NAME_TO_INIT.keys())
 
 
 def get_random_params(params_dict, size, seed=None):
