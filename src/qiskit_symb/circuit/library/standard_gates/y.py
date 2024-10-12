@@ -2,7 +2,8 @@ r"""Symbolic Pauli :math:`Y` and controlled-:math:`Y` gates module"""
 
 from sympy import Matrix, I
 from sympy.physics.quantum.gate import Y
-from ...gate import StandardGate, ControlledGate
+from ...standardgate import StandardGate
+from ...controlledgate import ControlledGate
 
 
 class YGate(StandardGate, Y):

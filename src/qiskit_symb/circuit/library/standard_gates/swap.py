@@ -2,7 +2,7 @@ r"""Symbolic :math:`SWAP` and controlled-:math:`SWAP` gates module"""
 
 from sympy import Matrix
 from sympy.physics.quantum.gate import SWAP
-from ...gate import StandardGate
+from ...standardgate import StandardGate
 
 
 class SwapGate(StandardGate, SWAP):

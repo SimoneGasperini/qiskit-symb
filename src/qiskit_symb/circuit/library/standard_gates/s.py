@@ -3,7 +3,8 @@ and controlled-:math:`S^{\dagger}` gates module"""
 
 from sympy import Matrix, I
 from sympy.physics.quantum.gate import S
-from ...gate import StandardGate, ControlledGate
+from ...standardgate import StandardGate
+from ...controlledgate import ControlledGate
 
 
 class SGate(StandardGate, S):

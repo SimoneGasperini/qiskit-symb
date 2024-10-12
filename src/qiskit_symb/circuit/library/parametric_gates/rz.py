@@ -1,7 +1,8 @@
 r"""Symbolic :math:`RZ(\phi)` and controlled-:math:`RZ(\phi)` gates module"""
 
 from sympy import Matrix, I, exp
-from ...gate import ParametricGate, ControlledGate
+from ...parametricgate import ParametricGate
+from ...controlledgate import ControlledGate
 
 
 class RZGate(ParametricGate):

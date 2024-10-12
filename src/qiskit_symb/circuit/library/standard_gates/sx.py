@@ -2,7 +2,8 @@ r"""Symbolic :math:`\sqrt{X}`, :math:`\sqrt{X}^{\dagger}`, controlled-:math:`\sq
 and controlled-:math:`\sqrt{X}^{\dagger}` gates module"""
 
 from sympy import Matrix, I
-from ...gate import StandardGate, ControlledGate
+from ...standardgate import StandardGate
+from ...controlledgate import ControlledGate
 
 
 class SXGate(StandardGate):

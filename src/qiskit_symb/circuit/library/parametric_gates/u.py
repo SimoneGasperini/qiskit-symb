@@ -2,7 +2,8 @@ r"""Symbolic :math:`U(\theta, \phi, \lambda)` and
 controlled-:math:`U(\theta, \phi, \lambda, \gamma)` gates module"""
 
 from sympy import Matrix, I, sin, cos, exp
-from ...gate import ParametricGate, ControlledGate
+from ...parametricgate import ParametricGate
+from ...controlledgate import ControlledGate
 
 
 class UGate(ParametricGate):

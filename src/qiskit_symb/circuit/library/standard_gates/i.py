@@ -2,7 +2,7 @@ r"""Symbolic Pauli :math:`I` gate module"""
 
 from sympy import Matrix
 from sympy.physics.quantum.gate import IdentityGate
-from ...gate import StandardGate
+from ...standardgate import StandardGate
 
 
 class IGate(StandardGate, IdentityGate):

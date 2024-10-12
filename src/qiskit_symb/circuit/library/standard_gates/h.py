@@ -2,7 +2,8 @@ r"""Symbolic Hadamard :math:`H` and controlled-:math:`H` gates module"""
 
 from sympy import Matrix, sqrt
 from sympy.physics.quantum.gate import H
-from ...gate import StandardGate, ControlledGate
+from ...standardgate import StandardGate
+from ...controlledgate import ControlledGate
 
 
 class HGate(StandardGate, H):

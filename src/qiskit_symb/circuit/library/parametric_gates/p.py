@@ -1,7 +1,8 @@
 r"""Symbolic :math:`P(\lambda)` and controlled-:math:`P(\lambda)` gates module"""
 
 from sympy import Matrix, I, exp
-from ...gate import ParametricGate, ControlledGate
+from ...parametricgate import ParametricGate
+from ...controlledgate import ControlledGate
 
 
 class PhaseGate(ParametricGate):
