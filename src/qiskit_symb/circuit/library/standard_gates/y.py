@@ -10,14 +10,17 @@ class YGate(StandardGate, Y):
     r"""Symbolic Pauli math:`Y` gate class"""
     gate_name = 'Y'
     gate_name_latex = r'\text{Y}'
-    sympy_matrix = Matrix([[0, -I],
-                           [I, 0]])
 
     def __new__(cls, target):
         """todo"""
         qubits = (target,)
         params = ()
         return super().__new__(cls, qubits=qubits, params=params)
+
+    @staticmethod
+    def _sympy_matrix():
+        return Matrix([[0, -I],
+                       [I, 0]])
 
 
 class CYGate(StandardGate, ControlledGate):

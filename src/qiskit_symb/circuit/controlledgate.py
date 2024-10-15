@@ -21,4 +21,4 @@ class ControlledGate(Gate, CGate):
 
     def get_target_matrix(self, format='sympy'):
         """todo"""
-        return self.gate.sympy_matrix
+        return self.gate._sympy_matrix()

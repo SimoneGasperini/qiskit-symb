@@ -16,8 +16,7 @@ class RZGate(ParametricGate):
         params = (phi,)
         return super().__new__(cls, qubits=qubits, params=params)
 
-    @property
-    def sympy_matrix(self):
+    def _sympy_matrix(self):
         """todo"""
         lam, = self.get_params_expr()
         return Matrix([[exp(-I*lam/2), 0],

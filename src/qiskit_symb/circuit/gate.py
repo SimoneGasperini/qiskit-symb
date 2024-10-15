@@ -2,7 +2,6 @@
 
 from sympy import sympify
 from sympy.physics.quantum import represent
-from qiskit.circuit.controlledgate import ControlledGate as QiskitCGate
 from sympy.physics.quantum.gate import Gate as SympyGate
 
 
@@ -11,27 +10,19 @@ class Gate(SympyGate):
 
     def __new__(cls, qubits, params):
         """todo"""
-        instance = super().__new__(cls, *qubits)
-        instance.qubits = qubits
-        instance.params = params
-        return instance
+        obj = super().__new__(cls, *qubits)
+        obj.qubits = qubits
+        obj.params = params
+        return obj
 
     @staticmethod
     def get(gate_node):
         """todo"""
-        if isinstance(gate_node.op, QiskitCGate):
-            name = 'c' + gate_node.op.base_gate.name
-        else:
-            name = gate_node.op.name
+        from . import get_class
+        _class = get_class(op=gate_node.op)
         params = gate_node.op.params
         qubits = (qarg._index for qarg in gate_node.qargs)
-        try:
-            from . import name2init
-            __init__ = name2init[name]
-        except KeyError:
-            raise NotImplementedError(
-                f'Instruction "{name}" is not implemented in qiskit-symb')
-        return __init__(*params, *qubits)
+        return _class(*params, *qubits)
 
     @property
     def nqubits(self):
@@ -40,10 +31,12 @@ class Gate(SympyGate):
 
     @property
     def qubits_label(self):
+        """todo"""
         return ','.join(str(s) for s in self.label)
 
     @property
     def params_label(self):
+        """todo"""
         return ','.join(str(s) for s in self.params[:3])
 
     def get_params_expr(self):
@@ -55,7 +48,7 @@ class Gate(SympyGate):
 
     def get_target_matrix(self, format='sympy'):
         """todo"""
-        return self.sympy_matrix
+        return self._sympy_matrix()
 
     def get_sympy_repr(self, nqubits):
         """todo"""

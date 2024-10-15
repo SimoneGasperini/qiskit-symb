@@ -11,27 +11,33 @@ class TGate(StandardGate, T):
     r"""Symbolic :math:`T` gate class"""
     gate_name = 'T'
     gate_name_latex = r'\text{T}'
-    sympy_matrix = Matrix([[1, 0],
-                           [0, exp(I*pi/4)]])
 
     def __new__(cls, target):
         """todo"""
         qubits = (target,)
         params = ()
         return super().__new__(cls, qubits=qubits, params=params)
+
+    @staticmethod
+    def _sympy_matrix():
+        return Matrix([[1, 0],
+                       [0, exp(I*pi/4)]])
 
 
 class TdgGate(StandardGate):
     r"""Symbolic :math:`T^{\dagger}` gate class"""
-    gate_name = 'T^\dagger'
+    gate_name = 'T^\\dagger'
     gate_name_latex = r'\text{T}^\dagger'
-    sympy_matrix = TGate.sympy_matrix.H
 
     def __new__(cls, target):
         """todo"""
         qubits = (target,)
         params = ()
         return super().__new__(cls, qubits=qubits, params=params)
+
+    @staticmethod
+    def _sympy_matrix():
+        return TGate._sympy_matrix().H
 
 
 class CTGate(StandardGate, ControlledGate):
@@ -48,7 +54,7 @@ class CTGate(StandardGate, ControlledGate):
 
 class CTdgGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`T^{\dagger}` gate class"""
-    gate_name = 'CT^\dagger'
+    gate_name = 'CT^\\dagger'
     gate_name_latex = r'\text{CT}^\dagger'
 
     def __new__(cls, control, target):

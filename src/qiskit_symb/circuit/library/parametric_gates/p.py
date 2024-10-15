@@ -16,13 +16,11 @@ class PhaseGate(ParametricGate):
         params = (theta,)
         return super().__new__(cls, qubits=qubits, params=params)
 
-    @property
-    def sympy_matrix(self):
+    def _sympy_matrix(self):
         """todo"""
         lam, = self.get_params_expr()
-        sympy_matrix = Matrix([[1, 0],
-                               [0, exp(I*lam)]])
-        return sympy_matrix
+        return Matrix([[1, 0],
+                       [0, exp(I*lam)]])
 
 
 class CPhaseGate(ControlledGate, ParametricGate):

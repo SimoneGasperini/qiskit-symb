@@ -17,8 +17,7 @@ class UGate(ParametricGate):
         params = (theta, phi, lam, _gamma)
         return super().__new__(cls, qubits=qubits, params=params)
 
-    @property
-    def sympy_matrix(self):
+    def _sympy_matrix(self):
         """todo"""
         theta, phi, lam, gamma = self.get_params_expr()
         return exp(I * gamma) * Matrix([[cos(theta/2), -exp(I*lam)*sin(theta/2)],

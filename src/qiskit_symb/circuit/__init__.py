@@ -1,9 +1,10 @@
 """Symbolic quantum circuit module"""
 
+from qiskit.circuit.controlledgate import ControlledGate
 from .library import *
 
 
-name2init = {
+name2class = {
     'id': IGate,
     'x': XGate,
     'cx': CXGate,
@@ -41,3 +42,19 @@ name2init = {
     'r': RGate,
     'cr': CRGate,
 }
+
+
+def get_class(op):
+    """todo"""
+    if isinstance(op, ControlledGate):
+        name = 'c' + op.base_gate.name
+    else:
+        name = op.name
+    try:
+        return name2class[name]
+    except KeyError:
+        error_message = f'Gate "{name}" is not implemented in qiskit-symb'
+        raise NotImplementedError(error_message)
+
+
+basis_gates = set(name2class.keys())

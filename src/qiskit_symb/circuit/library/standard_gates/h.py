@@ -10,14 +10,17 @@ class HGate(StandardGate, H):
     r"""Symbolic math:`H` gate class"""
     gate_name = 'H'
     gate_name_latex = r'\text{H}'
-    sympy_matrix = 1/sqrt(2) * Matrix([[1, 1],
-                                       [1, -1]])
 
     def __new__(cls, target):
         """todo"""
         qubits = (target,)
         params = ()
         return super().__new__(cls, qubits=qubits, params=params)
+
+    @staticmethod
+    def _sympy_matrix():
+        return 1/sqrt(2) * Matrix([[1, 1],
+                                   [1, -1]])
 
 
 class CHGate(StandardGate, ControlledGate):

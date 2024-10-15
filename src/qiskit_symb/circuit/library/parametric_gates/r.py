@@ -16,8 +16,7 @@ class RGate(ParametricGate):
         params = (theta, phi)
         return super().__new__(cls, qubits=qubits, params=params)
 
-    @property
-    def sympy_matrix(self):
+    def _sympy_matrix(self):
         """todo"""
         theta, phi = self.get_params_expr()
         return Matrix([[cos(theta/2), -I*exp(-I*phi)*sin(theta/2)],
