@@ -1,11 +1,23 @@
 """Test density matrix module"""
 
+import random
 import numpy
 import pytest
 from qiskit.quantum_info import DensityMatrix
 from qiskit_symb.quantum_info import DensityMatrix as symb_DensityMatrix
 from qiskit_symb.circuit.random import random_parametric_circuit
-from .utils import get_random_params
+
+
+def get_random_params(params_dict, size, seed=None):
+    """todo"""
+    random.seed(seed)
+    parnames = list(params_dict.keys())
+    params = list(zip(*[[random.randint(*params_dict[parname]) for _ in range(size)]
+                        for parname in parnames]))
+    ids = [','.join([f'{parname}={parval}'
+                     for parname, parval in zip(parnames, parvals)])
+           for parvals in params]
+    return params, ids
 
 
 testing_params = {'num_qubits': (1, 3), 'seed': (0, 999)}
