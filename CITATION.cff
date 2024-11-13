@@ -5,6 +5,6 @@ authors:
     given-names: "Simone"
     orcid: "https://orcid.org/0000-0003-4454-7131"
 title: "qiskit-symb"
-version: 0.2.0
-date-released: 2024-02-26
+version: 0.3.0
+date-released: 2024-11-13
 url: "https://github.com/SimoneGasperini/qiskit-symb"
