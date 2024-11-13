@@ -12,15 +12,6 @@
     <img title="coverage" src='https://coveralls.io/repos/github/SimoneGasperini/qiskit-symb/badge.svg?branch=master'>
 </p>
 
-***
-[Qiskit DemoDays](https://github.com/Qiskit/feedback/wiki/Qiskit-DemoDays) presentation $\rightarrow$ :link:[link](https://ibm.webex.com/recordingservice/sites/ibm/recording/playback/c6d96f25edba103bb7d600505681044d),
-password: `Demoday20230615` (15th June 2023)
-
-Jupyter notebook demo $\rightarrow$ :link:[link](https://github.com/Qiskit/feedback/blob/main/demo-day-notebooks/2023-06-15/1_qiskit_symb_demo.ipynb) (15th June 2023)
-
-Qiskit Medium blog $\rightarrow$ :link:[link](https://medium.com/p/b6b4407fa705) (28th June 2023)
-***
-
 # Table of contents
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -29,6 +20,7 @@ Qiskit Medium blog $\rightarrow$ :link:[link](https://medium.com/p/b6b4407fa705)
 - [Usage examples](#usage-examples)
     - [_Sympify_ a Qiskit circuit](#sympify-a-qiskit-circuit)
     - [_Lambdify_ a Qiskit circuit](#lambdify-a-qiskit-circuit)
+- [Qiskit Medium](#qiskit-medium)
 - [Contributors](#contributors)
 
 
@@ -124,10 +116,16 @@ psi = statevec(*x)
 
 This feature can be useful when, given a Qiskit PQC, we want to run it multiple times with different parameters values. Indeed, we can perform a single symbolic evalutation and then call the lambda generated function as many times as needed, passing different values of the parameters at each iteration.
 
+
+# Qiskit Medium
+Read my [blog post](https://medium.com/p/b6b4407fa705) introducing to `qiskit-symb` published on the official Qiskit Medium blog.
+
+![](/img/medium.png)
+
+
 # Contributors
 
 <table>
-  <tr>
     <td align="center"><a href="https://github.com/SimoneGasperini"><img src="https://avatars2.githubusercontent.com/u/71086758?s=400&v=4" width="120px;"/><br/><b>Simone Gasperini</b></a></td>
-  </tr>
+    <td align="center"><a href="https://github.com/sbrandhsn"><img src="https://avatars.githubusercontent.com/u/148463728?v=4" width="60px;"/><br/>Sebastian<br/>Brandhofer</a></td>
 </table>
