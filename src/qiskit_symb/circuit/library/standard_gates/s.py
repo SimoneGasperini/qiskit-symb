@@ -1,58 +1,86 @@
 r"""Symbolic :math:`S`, :math:`S^{\dagger}`, controlled-:math:`S`,
 and controlled-:math:`S^{\dagger}` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I
+from sympy.physics.quantum.gate import S
+from ...standardgate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class SGate(Gate):
+class SGate(StandardGate, S):
     r"""Symbolic :math:`S` gate class"""
+    gate_name = 'S'
+    gate_name_latex = r'\text{S}'
 
-    def __init__(self):
+    def __new__(cls, target):
         """todo"""
-        super().__init__(name='s', num_qubits=1, params=[])
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-    def __sympy__(self):
+    def __init__(self, target):
         """todo"""
-        i = sympy.I
+        self.params = ()
+        self.qubits = (target,)
+
+    @staticmethod
+    def _sympy_matrix():
         return Matrix([[1, 0],
-                       [0, i]])
+                       [0, I]])
 
 
-class SdgGate(Gate):
+class SdgGate(StandardGate):
     r"""Symbolic :math:`S^{\dagger}` gate class"""
+    gate_name = 'S^\\dagger'
+    gate_name_latex = r'\text{S}^\dagger'
 
-    def __init__(self):
+    def __new__(cls, target):
         """todo"""
-        super().__init__(name='sdg', num_qubits=1, params=[])
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-    def __sympy__(self):
+    def __init__(self, target):
         """todo"""
-        i = sympy.I
-        return Matrix([[1, 0],
-                       [0, -i]])
+        self.params = ()
+        self.qubits = (target,)
+
+    @staticmethod
+    def _sympy_matrix():
+        return SGate._sympy_matrix().H
 
 
-class CSGate(ControlledGate):
+class CSGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`S` gate class"""
+    gate_name = 'CS'
+    gate_name_latex = r'\text{CS}'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, control, target):
         """todo"""
-        base_gate = SGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='cs', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = SGate(target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, control, target):
+        """todo"""
+        target_gate = SGate(target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)
 
 
-class CSdgGate(ControlledGate):
+class CSdgGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`S^{\dagger}` gate class"""
+    gate_name = 'CS^\\dagger'
+    gate_name_latex = r'\text{CS}^\dagger'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
-        base_gate = SdgGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='csdg', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+    def __new__(cls, control, target):
+        """todo"""
+        controls = (control,)
+        target_gate = SdgGate(target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, control, target):
+        """todo"""
+        target_gate = SdgGate(target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)

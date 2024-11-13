@@ -1,36 +1,48 @@
 r"""Symbolic :math:`RX(\theta)` and controlled-:math:`RX(\theta)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, sin, cos
+from ...parametricgate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class RXGate(Gate):
+class RXGate(ParametricGate):
     r"""Symbolic :math:`RX(\theta)` gate class"""
+    gate_name = 'RX'
+    gate_name_latex = r'\text{RX}'
 
-    def __init__(self, theta):
+    def __new__(cls, theta, target):
         """todo"""
-        params = [theta]
-        super().__init__(name='rx', num_qubits=1, params=params)
+        params = (theta,)
+        qubits = (target,)
+        return super().__new__(cls, params=params, qubits=qubits)
 
-    def __sympy__(self):
+    def __init__(self, theta, target):
         """todo"""
-        theta, = self._get_params_expr()
-        i = sympy.I
-        cos = sympy.cos(theta / 2)
-        sin = sympy.sin(theta / 2)
-        return Matrix([[cos, -i*sin],
-                       [-i*sin, cos]])
+        self.params = (theta,)
+        self.qubits = (target,)
+
+    def _sympy_matrix(self):
+        """todo"""
+        theta, = self.get_params_expr()
+        costh2 = cos(theta / 2)
+        sinth2 = sin(theta / 2)
+        return Matrix([[costh2, -I*sinth2],
+                       [-I*sinth2, costh2]])
 
 
-class CRXGate(ControlledGate):
+class CRXGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`RX(\theta)` gate class"""
+    gate_name = 'CRX'
+    gate_name_latex = r'\text{CRX}'
 
-    def __init__(self, theta, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, theta, control, target):
         """todo"""
-        base_gate = RXGate(theta=theta)
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='crx', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = RXGate(theta=theta, target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, theta, control, target):
+        """todo"""
+        target_gate = RXGate(theta=theta, target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)

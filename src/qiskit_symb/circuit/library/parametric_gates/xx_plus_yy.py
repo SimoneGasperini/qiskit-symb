@@ -1,25 +1,51 @@
 r"""Symbolic two-qubits interaction :math:`XXPlusYYGate(\theta, \beta)` gate module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, sin, cos, exp
+from ...gate import op00, op01, op10, op11
+from ...parametricgate import ParametricGate
 
 
-class XXPlusYYGate(Gate):
+class XXPlusYYGate(ParametricGate):
     r"""Symbolic two-qubits interaction :math:`XXPlusYYGate(\theta, \beta)` gate class"""
+    gate_name = 'XX+YY'
+    gate_name_latex = r'\text{XX+YY}'
 
-    def __init__(self, theta, beta=0):
+    def __new__(cls, theta, beta, target1, target2):
         """todo"""
-        params = [theta, beta]
-        super().__init__(name='xx_plus_yy', num_qubits=2, params=params)
+        params = (theta, beta)
+        qubits = (target1, target2)
+        return super().__new__(cls, params=params, qubits=qubits)
 
-    def __sympy__(self):
+    def __init__(self, theta, beta, target1, target2):
         """todo"""
-        theta, beta = self._get_params_expr()
-        cos = sympy.cos(theta / 2)
-        sin = sympy.sin(theta / 2)
-        i = sympy.I
+        self.params = (theta, beta)
+        self.qubits = (target1, target2)
+
+    def _sympy_matrix(self):
+        """todo"""
+        theta, beta = self.get_params_expr()
+        costh2 = cos(theta / 2)
+        isinth2 = I * sin(theta / 2)
+        minusexp = exp(-I * beta)
+        plusexp = exp(I * beta)
         return Matrix([[1, 0, 0, 0],
-                       [0, cos, -i * sin * sympy.exp(-i * beta), 0],
-                       [0, -i * sin * sympy.exp(i * beta), cos, 0],
+                       [0, costh2, -isinth2*minusexp, 0],
+                       [0, -isinth2*plusexp, costh2, 0],
                        [0, 0, 0, 1]])
+
+    def _represent_ZGate(self, basis, **options):
+        """todo"""
+        theta, beta = self.get_params_expr()
+        nqubits = options.get('nqubits', self.min_qubits)
+        costh2 = cos(theta / 2)
+        isinth2 = I * sin(theta / 2)
+        minusexp = exp(-I * beta)
+        plusexp = exp(I * beta)
+        coeff_ops = [(1, (op00, op00)),
+                     (costh2, (op11, op00)),
+                     (costh2, (op00, op11)),
+                     (1, (op11, op11)),
+                     (-isinth2*minusexp, (op10, op01)),
+                     (-isinth2*plusexp, (op01, op10))]
+        matrix = self._define_matrix(coeff_ops=coeff_ops, nqubits=nqubits)
+        return matrix

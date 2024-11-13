@@ -42,6 +42,11 @@ disable = [
     "too-many-arguments",
     "too-many-positional-arguments",
     "too-many-locals",
+    "too-many-ancestors",
+    "redefined-builtin",
     "invalid-name",
     "no-value-for-parameter",
+    "abstract-method",
+    "signature-differs",
+    "duplicate-code",
 ]

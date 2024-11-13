@@ -1,32 +1,46 @@
 r"""Symbolic Pauli :math:`Y` and controlled-:math:`Y` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I
+from sympy.physics.quantum.gate import Y
+from ...standardgate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class YGate(Gate):
-    r"""Symbolic Pauli :math:`Y` gate class"""
+class YGate(StandardGate, Y):
+    r"""Symbolic Pauli math:`Y` gate class"""
+    gate_name = 'Y'
+    gate_name_latex = r'\text{Y}'
 
-    def __init__(self):
+    def __new__(cls, target):
         """todo"""
-        super().__init__(name='y', num_qubits=1, params=[])
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-    def __sympy__(self):
+    def __init__(self, target):
         """todo"""
-        i = sympy.I
-        return Matrix([[0, -i],
-                       [i, 0]])
+        self.params = ()
+        self.qubits = (target,)
+
+    @staticmethod
+    def _sympy_matrix():
+        return Matrix([[0, -I],
+                       [I, 0]])
 
 
-class CYGate(ControlledGate):
+class CYGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`Y` gate class"""
+    gate_name = 'CY'
+    gate_name_latex = r'\text{CY}'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, control, target):
         """todo"""
-        base_gate = YGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='cy', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = YGate(target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, control, target):
+        """todo"""
+        target_gate = YGate(target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)

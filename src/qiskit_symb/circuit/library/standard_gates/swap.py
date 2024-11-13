@@ -1,32 +1,40 @@
 r"""Symbolic :math:`SWAP` and controlled-:math:`SWAP` gates module"""
 
-from sympy.matrices import Matrix
-from ...gate import Gate
-from ...controlledgate import ControlledGate
+from sympy import Matrix
+from ...gate import op00, op01, op10, op11
+from ...standardgate import StandardGate
 
 
-class SwapGate(Gate):
+class SwapGate(StandardGate):
     r"""Symbolic :math:`SWAP` gate class"""
+    gate_name = 'SWAP'
+    gate_name_latex = r'\text{SWAP}'
 
-    def __init__(self):
+    def __new__(cls, target1, target2):
         """todo"""
-        super().__init__(name='swap', num_qubits=2, params=[])
+        qubits = (target1, target2)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-    def __sympy__(self):
+    def __init__(self, target1, target2):
+        """todo"""
+        self.params = ()
+        self.qubits = (target1, target2)
+
+    @staticmethod
+    def _sympy_matrix():
         """todo"""
         return Matrix([[1, 0, 0, 0],
                        [0, 0, 1, 0],
                        [0, 1, 0, 0],
                        [0, 0, 0, 1]])
 
-
-class CSwapGate(ControlledGate):
-    r"""Symbolic controlled-:math:`SWAP` gate class"""
-
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def _represent_ZGate(self, basis, **options):
         """todo"""
-        base_gate = SwapGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='cswap', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        nqubits = options.get('nqubits', self.min_qubits)
+        coeff_ops = [(1, (op00, op00)),
+                     (1, (op01, op10)),
+                     (1, (op10, op01)),
+                     (1, (op11, op11))]
+        matrix = self._define_matrix(coeff_ops=coeff_ops, nqubits=nqubits)
+        return matrix

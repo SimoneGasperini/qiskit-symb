@@ -8,8 +8,7 @@ from .h import HGate, CHGate
 from .sx import SXGate, SXdgGate, CSXGate, CSXdgGate
 from .s import SGate, SdgGate, CSGate, CSdgGate
 from .t import TGate, TdgGate, CTGate, CTdgGate
-from .swap import SwapGate, CSwapGate
-from .iswap import iSwapGate, CiSwapGate
-from .ecr import ECRGate
+from .swap import SwapGate
+from .iswap import iSwapGate
 from .dcx import DCXGate
-from .unitary import UnitaryGate
+from .ecr import ECRGate

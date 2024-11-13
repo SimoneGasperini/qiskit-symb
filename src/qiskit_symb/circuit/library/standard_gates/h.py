@@ -1,31 +1,47 @@
 r"""Symbolic Hadamard :math:`H` and controlled-:math:`H` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, Pow, Rational
+from sympy.physics.quantum.gate import H
+from ...standardgate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class HGate(Gate):
-    r"""Symbolic Hadamard :math:`H` gate class"""
+class HGate(StandardGate, H):
+    r"""Symbolic math:`H` gate class"""
+    gate_name = 'H'
+    gate_name_latex = r'\text{H}'
 
-    def __init__(self):
+    def __new__(cls, target):
         """todo"""
-        super().__init__(name='h', num_qubits=1, params=[])
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-    def __sympy__(self):
+    def __init__(self, target):
         """todo"""
-        return 1/sympy.sqrt(2) * Matrix([[1, 1],
-                                         [1, -1]])
+        self.params = ()
+        self.qubits = (target,)
+
+    @staticmethod
+    def _sympy_matrix():
+        sqrt2_inv = Pow(2, Rational(-1, 2), evaluate=False)
+        return sqrt2_inv * Matrix([[1, 1],
+                                   [1, -1]])
 
 
-class CHGate(ControlledGate):
-    r"""Symbolic controlled:math:`H` gate class"""
+class CHGate(StandardGate, ControlledGate):
+    r"""Symbolic controlled-:math:`H` gate class"""
+    gate_name = 'CH'
+    gate_name_latex = r'\text{CH}'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, control, target):
         """todo"""
-        base_gate = HGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='ch', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state,)
+        controls = (control,)
+        target_gate = HGate(target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, control, target):
+        """todo"""
+        target_gate = HGate(target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)

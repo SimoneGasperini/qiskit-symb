@@ -1,56 +1,80 @@
 """Symbolic gate module"""
 
-import numpy
-from sympy import matrix2numpy
-from qiskit.circuit import ControlledGate as QiskitControlledGate
+from sympy import Matrix, eye, zeros, sympify
+from sympy.physics.quantum.matrixutils import matrix_tensor_product
+from sympy.physics.quantum.gate import Gate as SympyGate
 
 
-class Gate:
-    """Symbolic gate base class"""
+op00 = Matrix([[1, 0], [0, 0]])  # |0><0|
+op01 = Matrix([[0, 1], [0, 0]])  # |0><1|
+op10 = Matrix([[0, 0], [1, 0]])  # |1><0|
+op11 = Matrix([[0, 0], [0, 1]])  # |1><1|
 
-    def __init__(self, name, num_qubits, params):
+
+class Gate(SympyGate):
+    """Symbolic gate abstract class"""
+
+    def __new__(cls, params, qubits):
         """todo"""
-        self.name = name
-        self.num_qubits = num_qubits
-        self.params = params
+        symbols = Gate.get_symbols(params=params)
+        return super().__new__(cls, *symbols, *qubits)
+
+    @property
+    def nqubits(self):
+        """todo"""
+        return len(self.qubits)
+
+    @property
+    def label(self):
+        """todo"""
+        return super().label[-self.nqubits:]
 
     @staticmethod
-    def get(instruction):
+    def get_symbols(params):
         """todo"""
-        from .controlledgate import ControlledGate
-        from ..utils import get_init
-        gate = instruction.op
-        if isinstance(gate, QiskitControlledGate):
-            return ControlledGate.get(instruction)
-        return get_init(gate.name)(*gate.params)
+        symbols = set()
+        for param in params:
+            if hasattr(param, '_symbol_expr'):
+                symbols.update(param._symbol_expr.free_symbols)
+        symbols = sorted(symbols, key=lambda s: s.name)
+        return symbols
 
-    def _get_params_expr(self):
+    @staticmethod
+    def get(gate_node):
         """todo"""
-        from ..utils import get_symbolic_expr
-        return [get_symbolic_expr(par) for par in self.params]
+        from . import get_class
+        _class = get_class(op=gate_node.op)
+        params = gate_node.op.params
+        qubits = (qarg._index for qarg in gate_node.qargs)
+        return _class(*params, *qubits)
 
-    def _get_unique_symbols(self):
+    def _define_matrix(self, coeff_ops, nqubits):
         """todo"""
-        from ..utils import get_unique_symbols
-        sympy_symbols = []
-        for par in self.params:
-            sympy_symbols.extend(get_unique_symbols(par))
-        return list(dict.fromkeys(sympy_symbols))
+        matrix = sum((coeff * matrix_tensor_product(
+            *(ops[0] if i == nqubits - self.targets[0] - 1 else
+              ops[1] if i == nqubits - self.targets[1] - 1 else
+              eye(2) for i in range(nqubits)))
+            for coeff, ops in coeff_ops),
+            start=zeros(2**nqubits))
+        return matrix
 
-    def _get_tensor(self):
+    def get_params_expr(self):
         """todo"""
-        sympy_matrix = self.__sympy__()
-        newshape = (2, 2) * self.num_qubits
-        return numpy.reshape(sympy_matrix, newshape)
+        params_expr = tuple(sympify(par._symbol_expr)
+                            if hasattr(par, '_symbol_expr') else par
+                            for par in self.params)
+        return params_expr
 
-    def to_sympy(self):
+    def get_target_matrix(self, format='sympy'):
         """todo"""
-        from ..utils import symbols2real
-        sympy_matrix = self.__sympy__()
-        return symbols2real(sympy_matrix)
+        return self._sympy_matrix()
 
-    def to_numpy(self, *vals):
+    def _latex(self, printer, *args):
         """todo"""
-        sympy_symbols = self._get_unique_symbols()
-        sympy_matrix = self.__sympy__().subs(dict(zip(sympy_symbols, vals)))
-        return matrix2numpy(sympy_matrix, dtype=complex)
+        controls = getattr(self, 'controls', ())
+        qubits_label = ','.join(str(s) for s in controls + self.targets)
+        params_label = ','.join(str(s) for s in self.params[:3])
+        latex_repr = '%s_{%s}' % (self.gate_name_latex, qubits_label)
+        if self.params:
+            latex_repr += f'({params_label})'
+        return latex_repr

@@ -1,44 +1,41 @@
 """Test statevector module"""
 
 import numpy
-import pytest
+from hypothesis import given, strategies, settings
 from qiskit.quantum_info import Statevector
 from qiskit_symb.quantum_info import Statevector as symb_Statevector
-from qiskit_symb.utils import get_random_params
 from qiskit_symb.circuit.random import random_parametric_circuit
 
 
-testing_params = {'num_qubits': (1, 3), 'seed': (0, 999)}
-pars, ids = get_random_params(testing_params, size=10)
-
-
-@pytest.fixture(scope='module', params=pars, ids=ids)
-def _test_data(request):
+@given(num_qubits=strategies.integers(min_value=1, max_value=3),
+       seed=strategies.integers(min_value=0))
+@settings(deadline=None)
+def test_from_circuit(num_qubits, seed):
     """todo"""
-    num_qubits, seed = request.param
-    circuit = random_parametric_circuit(num_qubits, depth=4, seed=seed)
-    symb_psi = symb_Statevector(circuit)
-    return circuit, symb_psi
-
-
-def test_from_circuit(_test_data):
-    """todo"""
-    circuit, symb_psi = _test_data
-    params = circuit.parameters
+    pqc = random_parametric_circuit(
+        num_qubits=num_qubits, depth=4, seed=seed)
+    params = pqc.parameters
     values = numpy.random.rand(len(params)) * 2*numpy.pi
-    params_dict = dict(zip(params, values))
-    qiskit_circ = circuit.assign_parameters(params_dict)
+    par2val = dict(zip(params, values))
+    qiskit_circ = pqc.assign_parameters(par2val)
     arr1 = Statevector(qiskit_circ).data
-    arr2 = symb_psi.subs(params_dict).to_numpy()[:, 0]
+    symb_psi = symb_Statevector.from_circuit(pqc)
+    arr2 = symb_psi.subs(par2val).to_numpy()[:, 0]
     assert numpy.allclose(arr1, arr2)
 
 
-def test_to_lambda(_test_data):
+@given(num_qubits=strategies.integers(min_value=1, max_value=3),
+       seed=strategies.integers(min_value=0))
+@settings(deadline=None)
+def test_to_lambda(num_qubits, seed):
     """todo"""
-    circuit, symb_psi = _test_data
-    params = circuit.parameters
+    pqc = random_parametric_circuit(
+        num_qubits=num_qubits, depth=4, seed=seed)
+    params = pqc.parameters
     values = numpy.random.rand(len(params)) * 2*numpy.pi
-    qiskit_circ = circuit.assign_parameters(values)
+    par2val = dict(zip(params, values))
+    qiskit_circ = pqc.assign_parameters(par2val)
     arr1 = Statevector(qiskit_circ).data
+    symb_psi = symb_Statevector(pqc)
     arr2 = symb_psi.to_lambda()(*values)[:, 0]
     assert numpy.allclose(arr1, arr2)

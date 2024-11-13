@@ -1,30 +1,46 @@
 r"""Symbolic Pauli :math:`X` and controlled-:math:`X` gates module"""
 
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix
+from sympy.physics.quantum.gate import X
+from ...standardgate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class XGate(Gate):
-    r"""Symbolic Pauli :math:`X` gate class"""
+class XGate(StandardGate, X):
+    r"""Symbolic Pauli math:`X` gate class"""
+    gate_name = 'X'
+    gate_name_latex = r'\text{X}'
 
-    def __init__(self):
+    def __new__(cls, target):
         """todo"""
-        super().__init__(name='x', num_qubits=1, params=[])
+        qubits = (target,)
+        params = ()
+        return super().__new__(cls, qubits=qubits, params=params)
 
-    def __sympy__(self):
+    def __init__(self, target):
         """todo"""
+        self.params = ()
+        self.qubits = (target,)
+
+    @staticmethod
+    def _sympy_matrix():
         return Matrix([[0, 1],
                        [1, 0]])
 
 
-class CXGate(ControlledGate):
+class CXGate(StandardGate, ControlledGate):
     r"""Symbolic controlled-:math:`X` gate class"""
+    gate_name = 'CX'
+    gate_name_latex = r'\text{CX}'
 
-    def __init__(self, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, control, target):
         """todo"""
-        base_gate = XGate()
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='cx', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = XGate(target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, control, target):
+        """todo"""
+        target_gate = XGate(target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)

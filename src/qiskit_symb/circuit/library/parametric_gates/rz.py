@@ -1,34 +1,48 @@
 r"""Symbolic :math:`RZ(\phi)` and controlled-:math:`RZ(\phi)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
+from sympy import Matrix, I, exp
+from ...parametricgate import ParametricGate
 from ...controlledgate import ControlledGate
 
 
-class RZGate(Gate):
+class RZGate(ParametricGate):
     r"""Symbolic :math:`RZ(\lambda)` gate class"""
+    gate_name = 'RZ'
+    gate_name_latex = r'\text{RZ}'
 
-    def __init__(self, phi):
+    def __new__(cls, phi, target):
         """todo"""
-        params = [phi]
-        super().__init__(name='rz', num_qubits=1, params=params)
+        params = (phi,)
+        qubits = (target,)
+        return super().__new__(cls, params=params, qubits=qubits)
 
-    def __sympy__(self):
+    def __init__(self, phi, target):
         """todo"""
-        lam, = self._get_params_expr()
-        i = sympy.I
-        return Matrix([[sympy.exp(-i*lam/2), 0],
-                       [0, sympy.exp(i*lam/2)]])
+        self.params = (phi,)
+        self.qubits = (target,)
+
+    def _sympy_matrix(self):
+        """todo"""
+        lam, = self.get_params_expr()
+        plusexp2 = exp(I * lam/2)
+        minusexp2 = exp(-I * lam/2)
+        return Matrix([[minusexp2, 0],
+                       [0, plusexp2]])
 
 
-class CRZGate(ControlledGate):
+class CRZGate(ControlledGate, ParametricGate):
     r"""Symbolic controlled-:math:`RZ(\phi)` gate class"""
+    gate_name = 'CRZ'
+    gate_name_latex = r'\text{CRZ}'
 
-    def __init__(self, phi, num_ctrl_qubits=1, ctrl_state=None):
+    def __new__(cls, phi, control, target):
         """todo"""
-        base_gate = RZGate(phi=phi)
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='crz', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        controls = (control,)
+        target_gate = RZGate(phi=phi, target=target)
+        return super().__new__(cls, controls=controls, target_gate=target_gate)
+
+    def __init__(self, phi, control, target):
+        """todo"""
+        target_gate = RZGate(phi=phi, target=target)
+        self.params = target_gate.params
+        self.qubits = (control, target)

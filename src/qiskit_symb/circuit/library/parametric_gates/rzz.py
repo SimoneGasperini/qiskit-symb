@@ -1,36 +1,45 @@
 r"""Symbolic :math:`RZZ(\theta)` and controlled-:math:`RZZ(\theta)` gates module"""
 
-import sympy
-from sympy.matrices import Matrix
-from ...gate import Gate
-from ...controlledgate import ControlledGate
+from sympy import Matrix, I, exp
+from ...gate import op00, op11
+from ...parametricgate import ParametricGate
 
 
-class RZZGate(Gate):
+class RZZGate(ParametricGate):
     r"""Symbolic :math:`RZZ(\theta)` gate class"""
+    gate_name = 'RZZ'
+    gate_name_latex = r'\text{RZZ}'
 
-    def __init__(self, theta):
+    def __new__(cls, theta, target1, target2):
         """todo"""
-        params = [theta]
-        super().__init__(name='rzz', num_qubits=2, params=params)
+        params = (theta,)
+        qubits = (target1, target2)
+        return super().__new__(cls, params=params, qubits=qubits)
 
-    def __sympy__(self):
+    def __init__(self, theta, target1, target2):
         """todo"""
-        theta, = self._get_params_expr()
-        i = sympy.I
-        return Matrix([[sympy.exp(-i*theta/2), 0, 0, 0],
-                       [0, sympy.exp(i*theta/2), 0, 0],
-                       [0, 0, sympy.exp(i*theta/2), 0],
-                       [0, 0, 0, sympy.exp(-i*theta/2)]])
+        self.params = (theta,)
+        self.qubits = (target1, target2)
 
-
-class CRZZGate(ControlledGate):
-    r"""Symbolic controlled-:math:`RZZ` gate class"""
-
-    def __init__(self, theta, num_ctrl_qubits=1, ctrl_state=None):
+    def _sympy_matrix(self):
         """todo"""
-        base_gate = RZZGate(theta=theta)
-        num_qubits = num_ctrl_qubits + base_gate.num_qubits
-        params = base_gate.params
-        super().__init__(name='crzz', num_qubits=num_qubits, params=params, base_gate=base_gate,
-                         num_ctrl_qubits=num_ctrl_qubits, ctrl_state=ctrl_state)
+        theta, = self.get_params_expr()
+        plusexp = exp(I * theta/2)
+        minusexp = exp(-I * theta/2)
+        Matrix([[minusexp, 0, 0, 0],
+                [0, plusexp, 0, 0],
+                [0, 0, plusexp, 0],
+                [0, 0, 0, minusexp]])
+
+    def _represent_ZGate(self, basis, **options):
+        """todo"""
+        theta, = self.get_params_expr()
+        nqubits = options.get('nqubits', self.min_qubits)
+        plusexp = exp(I * theta/2)
+        minusexp = exp(-I * theta/2)
+        coeff_ops = [(minusexp, (op00, op00)),
+                     (plusexp, (op11, op00)),
+                     (plusexp, (op00, op11)),
+                     (minusexp, (op11, op11))]
+        matrix = self._define_matrix(coeff_ops=coeff_ops, nqubits=nqubits)
+        return matrix
