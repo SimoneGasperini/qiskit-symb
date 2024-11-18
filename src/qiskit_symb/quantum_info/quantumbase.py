@@ -4,7 +4,6 @@ import functools
 import operator
 import sympy
 from sympy.physics.quantum.operator import IdentityOperator
-from sympy.physics.quantum import qapply, represent
 from qiskit.circuit import QuantumCircuit
 from qiskit.converters import circuit_to_dag
 
@@ -17,8 +16,8 @@ class QuantumBase:
         if isinstance(data, QuantumCircuit):
             nqubits = data.num_qubits
             params = tuple(data.parameters)
-            data = self._get_data(circuit=data)
-        self._data = data
+            data = self._get_sympy_expr(circuit=data)
+        self._sympy_expr = data
         self._nqubits = nqubits
         self._params = params
 
@@ -32,30 +31,26 @@ class QuantumBase:
         symb_gates = [Gate.get(gate_node=gate_node)
                       for layer in circuit_to_dag(circuit).layers()
                       for gate_node in layer['graph'].gate_nodes()]
-        symb_unitary = functools.reduce(
+        symb_unitary = gphase_term * functools.reduce(
             operator.mul, symb_gates[::-1], identity)
-        return gphase_term * symb_unitary
+        return symb_unitary
 
     @classmethod
     def from_circuit(cls, circuit):
         """todo"""
-        data = cls._get_data(circuit=circuit)
+        sympy_expr = cls._get_sympy_expr(circuit=circuit)
         nqubits = circuit.num_qubits
         params = tuple(circuit.parameters)
-        return cls(data=data, nqubits=nqubits, params=params)
+        return cls(data=sympy_expr, nqubits=nqubits, params=params)
 
     @classmethod
-    def from_data(cls, data, nqubits, params):
+    def from_sympy_expr(cls, sympy_expr, nqubits, params):
         """todo"""
-        return cls(data=data, nqubits=nqubits, params=params)
+        return cls(data=sympy_expr, nqubits=nqubits, params=params)
 
-    def _repr_latex_(self):
+    def to_sympy(self, simplify=False):
         """todo"""
-        return qapply(self._data)._repr_latex_()
-
-    def to_sympy(self):
-        """todo"""
-        return represent(self._data, nqubits=self._nqubits)
+        return sympy.simplify(self._sympy_expr) if simplify else self._sympy_expr
 
     def to_numpy(self):
         """todo"""
@@ -83,6 +78,6 @@ class QuantumBase:
         name2symb = {symb.name: symb for symb in sympy_expr.free_symbols}
         symb2val = {name2symb[par.name]: val for par, val in par2val.items()
                     if par.name in name2symb}
-        data = sympy_expr.subs(symb2val)
         params = [par for par in self._params if par not in par2val]
-        return self.from_data(data=data, nqubits=self._nqubits, params=params)
+        return self.from_sympy_expr(sympy_expr.subs(symb2val),
+                                    nqubits=self._nqubits, params=params)
