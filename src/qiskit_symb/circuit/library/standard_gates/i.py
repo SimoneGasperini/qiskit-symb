@@ -6,7 +6,6 @@ from ...standardgate import StandardGate
 
 class IGate(StandardGate):
     r"""Symbolic Pauli math:`I` gate class"""
-    gate_name = 'I'
 
     def __init__(self, qubit):
         """todo"""

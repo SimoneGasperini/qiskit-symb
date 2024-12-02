@@ -1,49 +1,25 @@
 r"""Symbolic :math:`RYY(\theta)` and controlled-:math:`RYY(\theta)` gates module"""
 
-from sympy import Matrix, I, sin, cos
-from ...gate import op00, op01, op10, op11
+from sympy import sin, cos
+from sympy.tensor.array import Array
 from ...parametricgate import ParametricGate
 
 
 class RYYGate(ParametricGate):
     r"""Symbolic :math:`RYY(\theta)` gate class"""
-    gate_name = 'RYY'
-    gate_name_latex = r'\text{RYY}'
 
-    def __new__(cls, theta, target1, target2):
+    def __init__(self, theta, qubit1, qubit2):
         """todo"""
         params = (theta,)
-        qubits = (target1, target2)
-        return super().__new__(cls, params=params, qubits=qubits)
+        qubits = (qubit1, qubit2)
+        super().__init__(params=params, qubits=qubits)
 
-    def __init__(self, theta, target1, target2):
+    def _sympy_array(self):
         """todo"""
-        self.params = (theta,)
-        self.qubits = (target1, target2)
-
-    def _sympy_matrix(self):
-        """todo"""
-        theta, = self.get_params_expr()
+        theta, = self._get_params_expr()
         costh2 = cos(theta / 2)
-        isinth2 = I * sin(theta / 2)
-        Matrix([[costh2, 0, 0, isinth2],
-                [0, costh2, -isinth2, 0],
-                [0, -isinth2, costh2, 0],
-                [isinth2, 0, 0, costh2]])
-
-    def _represent_ZGate(self, basis, **options):
-        """todo"""
-        theta, = self.get_params_expr()
-        nqubits = options.get('nqubits', self.min_qubits)
-        costh2 = cos(theta / 2)
-        isinth2 = I * sin(theta / 2)
-        coeff_ops = [(costh2, (op00, op00)),
-                     (costh2, (op11, op00)),
-                     (costh2, (op00, op11)),
-                     (costh2, (op11, op11)),
-                     (isinth2, (op01, op01)),
-                     (-isinth2, (op10, op01)),
-                     (-isinth2, (op01, op10)),
-                     (isinth2, (op10, op10))]
-        matrix = self._define_matrix(coeff_ops=coeff_ops, nqubits=nqubits)
-        return matrix
+        isinth2 = 1j * sin(theta / 2)
+        return Array([[costh2, 0, 0, isinth2],
+                      [0, costh2, -isinth2, 0],
+                      [0, -isinth2, costh2, 0],
+                      [isinth2, 0, 0, costh2]])

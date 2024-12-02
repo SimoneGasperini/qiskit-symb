@@ -1,6 +1,7 @@
 """Symbolic quantum statevector module"""
 
 import string
+import itertools
 import numpy
 import sympy
 import opt_einsum
@@ -8,13 +9,15 @@ from qiskit import QuantumCircuit, transpile
 from qiskit.converters import circuit_to_dag
 
 
-def get_einsum_contract(tensor, *gates):
+def get_einsum_contract(state, gates):
     """todo"""
-    num_qubits = tensor.rank()
+    num_qubits = len(state.shape)
     in_indices = string.ascii_lowercase[:num_qubits]
-    qubits = [gate.qubits[0] for gate in gates]
-    ops_indices = ', '.join(
-        [in_indices[-(i+1)].upper() + in_indices[-(i+1)] for i in qubits])
+    gates_qubits = [gate.qubits for gate in gates]
+    ops_indices = ', '.join(''.join(in_indices[-(q+1)].upper() for q in qubits) +
+                            ''.join(in_indices[-(q+1)] for q in qubits)
+                            for qubits in gates_qubits)
+    qubits = set(itertools.chain.from_iterable(gates_qubits))
     out_indices = ''.join(
         [x.upper() if i in qubits else x for i, x in enumerate(in_indices[::-1])])
     einsum_contract = f'{in_indices}, {ops_indices} -> {out_indices[::-1]}'
@@ -38,20 +41,22 @@ class Statevector:
     def _get_sympy_expr(circuit):
         """todo"""
         from ..circuit.gate import Gate
-        nq = circuit.num_qubits
-        circuit = QuantumCircuit(nq).compose(circuit)
+        num_qubits = circuit.num_qubits
+        circuit = QuantumCircuit(num_qubits).compose(circuit)
         circuit = transpile(circuit, optimization_level=1)
-        zero = [1] + [0] * (2**nq - 1)
-        tensor = sympy.Array(zero, shape=(2,)*nq)
+        zero = [1] + [0] * (2**num_qubits - 1)
+        state_tensor = sympy.Array(zero, shape=(2,)*num_qubits)
         for layer in circuit_to_dag(circuit).layers():
-            symb_gates = [Gate.get(gate_node=gate_node)
-                          for gate_node in layer['graph'].gate_nodes()]
-            einsum_contract = get_einsum_contract(tensor, *symb_gates)
-            gates = [gate.to_sympy() for gate in symb_gates]
-            tensor = opt_einsum.contract(einsum_contract, tensor, *gates)
+            gates = [Gate.get(gate_node=gate_node)
+                     for gate_node in layer['graph'].gate_nodes()]
+            einsum_contract = get_einsum_contract(state_tensor, gates)
+            gates_tensors = [gate._get_tensor_array() for gate in gates]
+            state_tensor = opt_einsum.contract(
+                einsum_contract, state_tensor, *gates_tensors)
+            print(sympy.flatten(state_tensor))
         gph = sympy.exp(sympy.I * circuit.global_phase)
-        state = gph * sympy.Array(tensor, shape=(2**nq,))
-        return state
+        state_tensor = gph * sympy.Array(state_tensor, shape=(2**num_qubits))
+        return state_tensor
 
     @classmethod
     def from_circuit(cls, circuit):

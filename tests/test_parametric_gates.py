@@ -49,8 +49,8 @@ def test_u(theta, phi, lam):
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = UGate(*pars_vals).to_matrix()
-    gate = symb_UGate(*pars, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val=dict(zip(pars, pars_vals)))
+    gate = symb_UGate(*pars, 0)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -59,8 +59,8 @@ def test_u1(lam):
     """todo"""
     par = Parameter(name='par')
     arr1 = U1Gate(lam).to_matrix()
-    gate = symb_U1Gate(par, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: lam})
+    gate = symb_U1Gate(par, 0)
+    arr2 = gate.get_numpy_repr(par2val={par: lam})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -71,8 +71,8 @@ def test_u2(phi, lam):
     pars_vals = [phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = U2Gate(*pars_vals).to_matrix()
-    gate = symb_U2Gate(*pars, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val=dict(zip(pars, pars_vals)))
+    gate = symb_U2Gate(*pars, 0)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -84,8 +84,8 @@ def test_u3(theta, phi, lam):
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = U3Gate(*pars_vals).to_matrix()
-    gate = symb_U3Gate(*pars, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val=dict(zip(pars, pars_vals)))
+    gate = symb_U3Gate(*pars, 0)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -94,8 +94,8 @@ def test_rx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RXGate(theta).to_matrix()
-    gate = symb_RXGate(theta=par, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: theta})
+    gate = symb_RXGate(par, 0)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -104,8 +104,8 @@ def test_ry(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RYGate(theta).to_matrix()
-    gate = symb_RYGate(theta=par, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: theta})
+    gate = symb_RYGate(par, 0)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -114,8 +114,8 @@ def test_rz(phi):
     """todo"""
     par = Parameter(name='par')
     arr1 = RZGate(phi).to_matrix()
-    gate = symb_RZGate(phi=par, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: phi})
+    gate = symb_RZGate(par, 0)
+    arr2 = gate.get_numpy_repr(par2val={par: phi})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -124,8 +124,8 @@ def test_p(lam):
     """todo"""
     par = Parameter(name='par')
     arr1 = PhaseGate(lam).to_matrix()
-    gate = symb_PhaseGate(lam=par, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val={par: lam})
+    gate = symb_PhaseGate(par, 0)
+    arr2 = gate.get_numpy_repr(par2val={par: lam})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -136,8 +136,8 @@ def test_r(theta, phi):
     pars_vals = [theta, phi]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = RGate(*pars_vals).to_matrix()
-    gate = symb_RGate(*pars, target=0)
-    arr2 = gate.get_numpy_repr(nqubits=1, par2val=dict(zip(pars, pars_vals)))
+    gate = symb_RGate(*pars, 0)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -146,8 +146,8 @@ def test_rxx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RXXGate(theta).to_matrix()
-    gate = symb_RXXGate(theta=par, target1=0, target2=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    gate = symb_RXXGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -156,8 +156,8 @@ def test_ryy(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RYYGate(theta).to_matrix()
-    gate = symb_RYYGate(theta=par, target1=0, target2=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    gate = symb_RYYGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -166,8 +166,8 @@ def test_rzz(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RZZGate(theta).to_matrix()
-    gate = symb_RZZGate(theta=par, target1=0, target2=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    gate = symb_RZZGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -176,8 +176,8 @@ def test_rzx(theta):
     """todo"""
     par = Parameter(name='par')
     arr1 = RZXGate(theta).to_matrix()
-    gate = symb_RZXGate(theta=par, target1=0, target2=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    gate = symb_RZXGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -188,8 +188,8 @@ def test_xx_minus_yy(theta, beta):
     pars_vals = [theta, beta]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = XXMinusYYGate(*pars_vals).to_matrix()
-    gate = symb_XXMinusYYGate(*pars, target1=0, target2=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
+    gate = symb_XXMinusYYGate(*pars, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -200,6 +200,6 @@ def test_xx_plus_yy(theta, beta):
     pars_vals = [theta, beta]
     pars = ParameterVector(name='pars', length=len(pars_vals))
     arr1 = XXPlusYYGate(*pars_vals).to_matrix()
-    gate = symb_XXPlusYYGate(*pars, target1=0, target2=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
+    gate = symb_XXPlusYYGate(*pars, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)

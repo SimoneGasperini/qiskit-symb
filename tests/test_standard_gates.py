@@ -37,106 +37,112 @@ from qiskit_symb.circuit.library import (
 )
 
 
+def convert_endian(unitary):
+    nq = int(numpy.log2(len(unitary)))
+    perm = [int(bin(i)[2:].zfill(nq)[::-1], 2) for i in range(len(unitary))]
+    return unitary[numpy.ix_(perm, perm)]
+
+
 def test_id():
     """todo"""
     arr1 = IGate().to_matrix()
-    arr2 = symb_IGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_IGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_x():
     """todo"""
     arr1 = XGate().to_matrix()
-    arr2 = symb_XGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_XGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_y():
     """todo"""
     arr1 = YGate().to_matrix()
-    arr2 = symb_YGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_YGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_z():
     """todo"""
     arr1 = ZGate().to_matrix()
-    arr2 = symb_ZGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_ZGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_h():
     """todo"""
     arr1 = HGate().to_matrix()
-    arr2 = symb_HGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_HGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_sx():
     """todo"""
     arr1 = SXGate().to_matrix()
-    arr2 = symb_SXGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_SXGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_sxdg():
     """todo"""
     arr1 = SXdgGate().to_matrix()
-    arr2 = symb_SXdgGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_SXdgGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_s():
     """todo"""
     arr1 = SGate().to_matrix()
-    arr2 = symb_SGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_SGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_sdg():
     """todo"""
     arr1 = SdgGate().to_matrix()
-    arr2 = symb_SdgGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_SdgGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_t():
     """todo"""
     arr1 = TGate().to_matrix()
-    arr2 = symb_TGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_TGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_tdg():
     """todo"""
     arr1 = TdgGate().to_matrix()
-    arr2 = symb_TdgGate(target=0).get_numpy_repr(nqubits=1)
+    arr2 = symb_TdgGate(0).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_swap():
     """todo"""
-    arr1 = SwapGate().to_matrix()
-    arr2 = symb_SwapGate(target1=0, target2=1).get_numpy_repr(nqubits=2)
+    arr1 = convert_endian(SwapGate().to_matrix())
+    arr2 = symb_SwapGate(0, 1).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_iswap():
     """todo"""
-    arr1 = iSwapGate().to_matrix()
-    arr2 = symb_iSwapGate(target1=0, target2=1).get_numpy_repr(nqubits=2)
+    arr1 = convert_endian(iSwapGate().to_matrix())
+    arr2 = symb_iSwapGate(0, 1).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_dcx():
     """todo"""
-    arr1 = DCXGate().to_matrix()
-    arr2 = symb_DCXGate(target1=0, target2=1).get_numpy_repr(nqubits=2)
+    arr1 = convert_endian(DCXGate().to_matrix())
+    arr2 = symb_DCXGate(0, 1).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)
 
 
 def test_ecr():
     """todo"""
-    arr1 = ECRGate().to_matrix()
-    arr2 = symb_ECRGate(target1=0, target2=1).get_numpy_repr(nqubits=2)
+    arr1 = convert_endian(ECRGate().to_matrix())
+    arr2 = symb_ECRGate(0, 1).get_numpy_repr()
     assert numpy.allclose(arr1, arr2)

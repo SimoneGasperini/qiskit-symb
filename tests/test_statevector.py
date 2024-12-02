@@ -20,7 +20,7 @@ def test_from_circuit(num_qubits, seed):
     qiskit_circ = pqc.assign_parameters(par2val)
     arr1 = Statevector(qiskit_circ).data
     symb_psi = symb_Statevector.from_circuit(pqc)
-    arr2 = symb_psi.subs(par2val).to_numpy()[:, 0]
+    arr2 = symb_psi.subs(par2val).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -37,5 +37,5 @@ def test_to_lambda(num_qubits, seed):
     qiskit_circ = pqc.assign_parameters(par2val)
     arr1 = Statevector(qiskit_circ).data
     symb_psi = symb_Statevector(pqc)
-    arr2 = symb_psi.to_lambda()(*values)[:, 0]
+    arr2 = symb_psi.to_lambda()(*values)
     assert numpy.allclose(arr1, arr2)

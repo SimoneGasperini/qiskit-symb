@@ -26,6 +26,13 @@ from qiskit_symb.circuit.library import (
     CRGate as symb_CRGate,
 )
 
+
+def convert_endian(unitary):
+    nq = int(numpy.log2(len(unitary)))
+    perm = [int(bin(i)[2:].zfill(nq)[::-1], 2) for i in range(len(unitary))]
+    return unitary[numpy.ix_(perm, perm)]
+
+
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
 
 
@@ -37,9 +44,9 @@ def test_cu(theta, phi, lam, gamma):
     """todo"""
     pars_vals = [theta, phi, lam, gamma]
     pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = CUGate(*pars_vals).to_matrix()
-    gate = symb_CUGate(*pars, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
+    arr1 = convert_endian(CUGate(*pars_vals).to_matrix())
+    gate = symb_CUGate(*pars, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -47,9 +54,9 @@ def test_cu(theta, phi, lam, gamma):
 def test_cu1(lam):
     """todo"""
     par = Parameter(name='par')
-    arr1 = U1Gate(lam).control(annotated=True).to_matrix()
-    gate = symb_CU1Gate(par, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: lam})
+    arr1 = convert_endian(U1Gate(lam).control(annotated=True).to_matrix().data)
+    gate = symb_CU1Gate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: lam})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -59,9 +66,10 @@ def test_cu2(phi, lam):
     """todo"""
     pars_vals = [phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = U2Gate(*pars_vals).control(annotated=True).to_matrix()
-    gate = symb_CU2Gate(*pars, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
+    arr1 = convert_endian(
+        U2Gate(*pars_vals).control(annotated=True).to_matrix().data)
+    gate = symb_CU2Gate(*pars, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -72,9 +80,10 @@ def test_cu3(theta, phi, lam):
     """todo"""
     pars_vals = [theta, phi, lam]
     pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = U3Gate(*pars_vals).control(annotated=True).to_matrix()
-    gate = symb_CU3Gate(*pars, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
+    arr1 = convert_endian(
+        U3Gate(*pars_vals).control(annotated=True).to_matrix().data)
+    gate = symb_CU3Gate(*pars, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)
 
 
@@ -82,9 +91,9 @@ def test_cu3(theta, phi, lam):
 def test_crx(theta):
     """todo"""
     par = Parameter(name='par')
-    arr1 = CRXGate(theta).to_matrix()
-    gate = symb_CRXGate(par, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    arr1 = convert_endian(CRXGate(theta).to_matrix())
+    gate = symb_CRXGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -92,9 +101,9 @@ def test_crx(theta):
 def test_cry(theta):
     """todo"""
     par = Parameter(name='par')
-    arr1 = CRYGate(theta).to_matrix()
-    gate = symb_CRYGate(par, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    arr1 = convert_endian(CRYGate(theta).to_matrix())
+    gate = symb_CRYGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -102,9 +111,9 @@ def test_cry(theta):
 def test_crz(phi):
     """todo"""
     par = Parameter(name='par')
-    arr1 = CRZGate(phi).to_matrix()
-    gate = symb_CRZGate(par, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: phi})
+    arr1 = convert_endian(CRZGate(phi).to_matrix())
+    gate = symb_CRZGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: phi})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -112,9 +121,9 @@ def test_crz(phi):
 def test_cp(theta):
     """todo"""
     par = Parameter(name='par')
-    arr1 = CPhaseGate(theta).to_matrix()
-    gate = symb_CPhaseGate(par, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val={par: theta})
+    arr1 = convert_endian(CPhaseGate(theta).to_matrix())
+    gate = symb_CPhaseGate(par, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val={par: theta})
     assert numpy.allclose(arr1, arr2)
 
 
@@ -124,7 +133,8 @@ def test_cr(theta, phi):
     """todo"""
     pars_vals = [theta, phi]
     pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = RGate(*pars_vals).control(annotated=True).to_matrix()
-    gate = symb_CRGate(*pars, control=0, target=1)
-    arr2 = gate.get_numpy_repr(nqubits=2, par2val=dict(zip(pars, pars_vals)))
+    arr1 = convert_endian(
+        RGate(*pars_vals).control(annotated=True).to_matrix().data)
+    gate = symb_CRGate(*pars, 0, 1)
+    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)

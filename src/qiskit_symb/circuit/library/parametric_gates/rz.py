@@ -3,12 +3,10 @@ r"""Symbolic :math:`RZ(\lambda)` and controlled-:math:`RZ(\lambda)` gates module
 from sympy import exp
 from sympy.tensor.array import Array
 from ...parametricgate import ParametricGate
-from ...controlledgate import ControlledGate
 
 
 class RZGate(ParametricGate):
     r"""Symbolic :math:`RZ(\lambda)` gate class"""
-    gate_name = 'RZ'
 
     def __init__(self, lam, qubit):
         """todo"""
@@ -18,26 +16,28 @@ class RZGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self.params
+        lam, = self._get_params_expr()
         plusexp2 = exp(1j * lam/2)
         minusexp2 = exp(-1j * lam/2)
         return Array([[minusexp2, 0],
                       [0, plusexp2]])
 
 
-class CRZGate(ControlledGate, ParametricGate):
-    r"""Symbolic controlled-:math:`RZ(\phi)` gate class"""
-    gate_name = 'CRZ'
-    gate_name_latex = r'\text{CRZ}'
+class CRZGate(ParametricGate):
+    r"""Symbolic controlled-:math:`RZ(\lambda)` gate class"""
 
-    def __new__(cls, phi, control, target):
+    def __init__(self, lam, control, target):
         """todo"""
-        controls = (control,)
-        target_gate = RZGate(phi=phi, target=target)
-        return super().__new__(cls, controls=controls, target_gate=target_gate)
+        params = (lam,)
+        qubits = (control, target)
+        super().__init__(params=params, qubits=qubits)
 
-    def __init__(self, phi, control, target):
+    def _sympy_array(self):
         """todo"""
-        target_gate = RZGate(phi=phi, target=target)
-        self.params = target_gate.params
-        self.qubits = (control, target)
+        lam, = self._get_params_expr()
+        plusexp2 = exp(1j * lam/2)
+        minusexp2 = exp(-1j * lam/2)
+        return Array([[1, 0, 0, 0],
+                      [0, 1, 0, 0],
+                      [0, 0, minusexp2, 0],
+                      [0, 0, 0, plusexp2]])
