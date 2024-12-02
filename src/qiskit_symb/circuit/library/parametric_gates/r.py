@@ -1,6 +1,7 @@
 r"""Symbolic :math:`R(\theta, \phi)` and controlled-:math:`R(\theta, \phi)` gates module"""
 
-from sympy import Matrix, I, sin, cos, exp
+from sympy import sin, cos, exp
+from sympy.tensor.array import Array
 from ...parametricgate import ParametricGate
 from ...controlledgate import ControlledGate
 
@@ -8,28 +9,22 @@ from ...controlledgate import ControlledGate
 class RGate(ParametricGate):
     r"""Symbolic :math:`R(\theta, \phi)` gate class"""
     gate_name = 'R'
-    gate_name_latex = r'\text{P}'
 
-    def __new__(cls, theta, phi, target):
+    def __init__(self, theta, phi, qubit):
         """todo"""
         params = (theta, phi)
-        qubits = (target,)
-        return super().__new__(cls, params=params, qubits=qubits)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
-    def __init__(self, theta, phi, target):
+    def _sympy_array(self):
         """todo"""
-        self.params = (theta, phi)
-        self.qubits = (target,)
-
-    def _sympy_matrix(self):
-        """todo"""
-        theta, phi = self.get_params_expr()
+        theta, phi = self.params
         costh2 = cos(theta / 2)
         sinth2 = sin(theta / 2)
-        plusexp = I * exp(I * phi)
-        minusexp = I * exp(-I * phi)
-        return Matrix([[costh2, -minusexp*sinth2],
-                       [-plusexp*sinth2, costh2]])
+        plusexp = 1j * exp(1j * phi)
+        minusexp = 1j * exp(-1j * phi)
+        return Array([[costh2, -minusexp*sinth2],
+                      [-plusexp*sinth2, costh2]])
 
 
 class CRGate(ControlledGate, ParametricGate):

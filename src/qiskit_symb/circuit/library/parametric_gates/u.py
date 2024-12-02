@@ -1,6 +1,8 @@
 """todo"""
 
-from sympy import Matrix, I, pi, sin, cos, exp
+from numpy import pi
+from sympy import sin, cos, exp
+from sympy.tensor.array import Array
 from ...parametricgate import ParametricGate
 from ...controlledgate import ControlledGate
 
@@ -8,78 +10,54 @@ from ...controlledgate import ControlledGate
 class UGate(ParametricGate):
     r"""Symbolic :math:`U(\theta, \phi, \lambda)` gate class"""
     gate_name = 'U'
-    gate_name_latex = r'\text{U}'
 
-    def __new__(cls, theta, phi, lam, target, _gamma=0):
+    def __init__(self, theta, phi, lam, qubit, _gamma=0):
         """todo"""
         params = (theta, phi, lam, _gamma)
-        qubits = (target,)
-        return super().__new__(cls, params=params, qubits=qubits)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
-    def __init__(self, theta, phi, lam, target, _gamma=0):
+    def _sympy_array(self):
         """todo"""
-        self.params = (theta, phi, lam, _gamma)
-        self.qubits = (target,)
-
-    def _sympy_matrix(self):
-        """todo"""
-        theta, phi, lam, gamma = self.get_params_expr()
+        theta, phi, lam, gamma = self.params
         costh2 = cos(theta / 2)
         sinth2 = sin(theta / 2)
-        expphi = exp(I * phi)
-        explam = exp(I * lam)
-        expphilam = exp(I * (phi + lam))
-        expgam = exp(I * gamma)
-        return expgam * Matrix([[costh2, -explam*sinth2],
-                                [expphi*sinth2, expphilam*costh2]])
+        expphi = exp(1j * phi)
+        explam = exp(1j * lam)
+        expphilam = exp(1j * (phi + lam))
+        expgam = exp(1j * gamma)
+        return expgam * Array([[costh2, -explam*sinth2],
+                               [expphi*sinth2, expphilam*costh2]])
 
 
 class U1Gate(UGate):
     r"""Symbolic :math:`U1(\lambda)` gate class"""
     gate_name = 'U'
-    gate_name_latex = r'\text{U}'
 
-    def __new__(cls, lam, target):
+    def __init__(self, lam, qubit):
         """todo"""
         theta = 0
         phi = 0
-        return super().__new__(cls, theta=theta, phi=phi, lam=lam, target=target)
-
-    def __init__(self, lam, target):
-        """todo"""
-        theta = 0
-        phi = 0
-        super().__init__(theta=theta, phi=phi, lam=lam, target=target)
+        super().__init__(theta=theta, phi=phi, lam=lam, qubit=qubit)
 
 
 class U2Gate(UGate):
     r"""Symbolic :math:`U2(\phi, \lambda)` gate class"""
     gate_name = 'U'
-    gate_name_latex = r'\text{U}'
 
-    def __new__(cls, phi, lam, target):
+    def __init__(self, phi, lam, qubit):
         """todo"""
         theta = pi / 2
-        return super().__new__(cls, theta=theta, phi=phi, lam=lam, target=target)
-
-    def __init__(self, phi, lam, target):
-        """todo"""
-        theta = pi / 2
-        super().__init__(theta=theta, phi=phi, lam=lam, target=target)
+        super().__init__(theta=theta, phi=phi, lam=lam, qubit=qubit)
 
 
 class U3Gate(UGate):
     r"""Symbolic :math:`U3(\theta, \phi, \lambda)` gate class"""
     gate_name = 'U'
-    gate_name_latex = r'\text{U}'
 
-    def __new__(cls, theta, phi, lam, target):
+    def __init__(self, theta, phi, lam, qubit):
         """todo"""
-        return super().__new__(cls, theta=theta, phi=phi, lam=lam, target=target)
-
-    def __init__(self, theta, phi, lam, target):
-        """todo"""
-        super().__init__(theta=theta, phi=phi, lam=lam, target=target)
+        super().__init__(theta=theta, phi=phi, lam=lam, qubit=qubit)
 
 
 class CUGate(ControlledGate, ParametricGate):

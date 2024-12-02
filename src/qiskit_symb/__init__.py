@@ -1,3 +1,3 @@
 """Qiskit symbolic module"""
 
-from .quantum_info import Statevector, Operator
+from .quantum_info import Statevector

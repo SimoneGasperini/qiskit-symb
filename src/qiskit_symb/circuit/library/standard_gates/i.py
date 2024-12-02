@@ -1,27 +1,21 @@
 r"""Symbolic Pauli :math:`I` gate module"""
 
-from sympy import Matrix
-from sympy.physics.quantum.gate import IdentityGate
+from sympy.tensor.array import Array
 from ...standardgate import StandardGate
 
 
-class IGate(StandardGate, IdentityGate):
+class IGate(StandardGate):
     r"""Symbolic Pauli math:`I` gate class"""
     gate_name = 'I'
-    gate_name_latex = r'\text{I}'
 
-    def __new__(cls, target):
+    def __init__(self, qubit):
         """todo"""
-        qubits = (target,)
         params = ()
-        return super().__new__(cls, qubits=qubits, params=params)
-
-    def __init__(self, target):
-        """todo"""
-        self.params = ()
-        self.qubits = (target,)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
     @staticmethod
-    def _sympy_matrix():
-        return Matrix([[1, 0],
-                       [0, 1]])
+    def _sympy_array():
+        """todo"""
+        return Array([[1, 0],
+                      [0, 1]])

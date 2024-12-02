@@ -1,7 +1,7 @@
 r"""Symbolic :math:`\sqrt{X}`, :math:`\sqrt{X}^{\dagger}`, controlled-:math:`\sqrt{X}`,
 and controlled-:math:`\sqrt{X}^{\dagger}` gates module"""
 
-from sympy import Matrix, I, Rational
+from sympy.tensor.array import Array
 from ...standardgate import StandardGate
 from ...controlledgate import ControlledGate
 
@@ -9,44 +9,35 @@ from ...controlledgate import ControlledGate
 class SXGate(StandardGate):
     r"""Symbolic :math:`\sqrt{X}` gate class"""
     gate_name = '\\sqrt X'
-    gate_name_latex = r'\sqrt{\text{X}}'
 
-    def __new__(cls, target):
+    def __init__(self, qubit):
         """todo"""
-        qubits = (target,)
         params = ()
-        return super().__new__(cls, qubits=qubits, params=params)
-
-    def __init__(self, target):
-        """todo"""
-        self.params = ()
-        self.qubits = (target,)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
     @staticmethod
-    def _sympy_matrix():
-        return Rational(1, 2) * Matrix([[1+I, 1-I],
-                                        [1-I, 1+I]])
+    def _sympy_array():
+        """todo"""
+        return 0.5 * Array([[1+1j, 1-1j],
+                            [1-1j, 1+1j]])
 
 
 class SXdgGate(StandardGate):
     r"""Symbolic :math:`\sqrt{X}^{\dagger}` gate class"""
     gate_name = '\\sqrt X^\\dagger'
-    gate_name_latex = r'\sqrt{\text{X}}^\dagger'
 
-    def __new__(cls, target):
+    def __init__(self, qubit):
         """todo"""
-        qubits = (target,)
         params = ()
-        return super().__new__(cls, qubits=qubits, params=params)
-
-    def __init__(self, target):
-        """todo"""
-        self.params = ()
-        self.qubits = (target,)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
     @staticmethod
-    def _sympy_matrix():
-        return SXGate._sympy_matrix().H
+    def _sympy_array():
+        """todo"""
+        return 0.5 * Array([[1-1j, 1+1j],
+                            [1+1j, 1-1j]])
 
 
 class CSXGate(StandardGate, ControlledGate):

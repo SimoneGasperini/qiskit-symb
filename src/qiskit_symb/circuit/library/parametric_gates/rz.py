@@ -1,6 +1,7 @@
-r"""Symbolic :math:`RZ(\phi)` and controlled-:math:`RZ(\phi)` gates module"""
+r"""Symbolic :math:`RZ(\lambda)` and controlled-:math:`RZ(\lambda)` gates module"""
 
-from sympy import Matrix, I, exp
+from sympy import exp
+from sympy.tensor.array import Array
 from ...parametricgate import ParametricGate
 from ...controlledgate import ControlledGate
 
@@ -8,26 +9,20 @@ from ...controlledgate import ControlledGate
 class RZGate(ParametricGate):
     r"""Symbolic :math:`RZ(\lambda)` gate class"""
     gate_name = 'RZ'
-    gate_name_latex = r'\text{RZ}'
 
-    def __new__(cls, phi, target):
+    def __init__(self, lam, qubit):
         """todo"""
-        params = (phi,)
-        qubits = (target,)
-        return super().__new__(cls, params=params, qubits=qubits)
+        params = (lam,)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
-    def __init__(self, phi, target):
+    def _sympy_array(self):
         """todo"""
-        self.params = (phi,)
-        self.qubits = (target,)
-
-    def _sympy_matrix(self):
-        """todo"""
-        lam, = self.get_params_expr()
-        plusexp2 = exp(I * lam/2)
-        minusexp2 = exp(-I * lam/2)
-        return Matrix([[minusexp2, 0],
-                       [0, plusexp2]])
+        lam, = self.params
+        plusexp2 = exp(1j * lam/2)
+        minusexp2 = exp(-1j * lam/2)
+        return Array([[minusexp2, 0],
+                      [0, plusexp2]])
 
 
 class CRZGate(ControlledGate, ParametricGate):

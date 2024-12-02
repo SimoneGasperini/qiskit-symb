@@ -1,6 +1,7 @@
 numpy
 sympy
 qiskit
+opt_einsum
 
 # Lint
 pylint

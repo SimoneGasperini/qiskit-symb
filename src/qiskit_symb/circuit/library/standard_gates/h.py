@@ -1,32 +1,25 @@
 r"""Symbolic Hadamard :math:`H` and controlled-:math:`H` gates module"""
 
-from sympy import Matrix, Pow, Rational
-from sympy.physics.quantum.gate import H
+from sympy.tensor.array import Array
 from ...standardgate import StandardGate
 from ...controlledgate import ControlledGate
 
 
-class HGate(StandardGate, H):
+class HGate(StandardGate):
     r"""Symbolic math:`H` gate class"""
     gate_name = 'H'
-    gate_name_latex = r'\text{H}'
 
-    def __new__(cls, target):
+    def __init__(self, qubit):
         """todo"""
-        qubits = (target,)
         params = ()
-        return super().__new__(cls, qubits=qubits, params=params)
-
-    def __init__(self, target):
-        """todo"""
-        self.params = ()
-        self.qubits = (target,)
+        qubits = (qubit,)
+        super().__init__(params=params, qubits=qubits)
 
     @staticmethod
-    def _sympy_matrix():
-        sqrt2_inv = Pow(2, Rational(-1, 2), evaluate=False)
-        return sqrt2_inv * Matrix([[1, 1],
-                                   [1, -1]])
+    def _sympy_array():
+        """todo"""
+        return 1/2**0.5 * Array([[1, 1],
+                                 [1, -1]])
 
 
 class CHGate(StandardGate, ControlledGate):
