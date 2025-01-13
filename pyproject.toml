@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qiskit-symb"
-version = "0.3.0"
+version = "0.4.0"
 description = "Symbolic evaluation of parameterized quantum circuits in Qiskit"
 requires-python = ">=3.9"
 license = { text = "Apache-2.0" }
