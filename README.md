@@ -25,11 +25,11 @@
 
 
 # Introduction
-The `qiskit-symb` package is meant to be a Python tool to enable the symbolic evaluation of parametric quantum states and operators defined in [Qiskit](https://github.com/Qiskit/qiskit) by parameterized quantum circuits.
+The `qiskit-symb` package is meant to be a Python tool to enable the symbolic evaluation of parametric quantum states defined by [Qiskit](https://github.com/Qiskit/qiskit) by parameterized quantum circuits.
 
 A Parameterized Quantum Circuit (PQC) is a quantum circuit where we have at least one free parameter (e.g. a rotation angle $\theta$). PQCs are particularly relevant in Quantum Machine Learning (QML) models, where the values of these parameters can be learned during training to reach the desired output.
 
-In particular, `qiskit-symb` can be used to create a symbolic representation of a parametric quantum state or operator directly from the Qiskit quantum circuit. This has been achieved through the re-implementation of some basic classes defined in the [`qiskit/quantum_info/`](https://github.com/Qiskit/qiskit/tree/main/qiskit/quantum_info) module by using [sympy](https://github.com/sympy/sympy) as a backend for symbolic expressions manipulation.
+In particular, `qiskit-symb` can be used to create a symbolic representation of a parametric quantum state directly from the Qiskit quantum circuit. This has been achieved through the re-implementation of some basic classes defined in the [`qiskit/quantum_info/`](https://github.com/Qiskit/qiskit/tree/main/qiskit/quantum_info) module by using [sympy](https://github.com/sympy/sympy) as a backend for symbolic expressions manipulation.
 
 
 # Installation
@@ -63,30 +63,30 @@ p = ParameterVector('p', length=2)
 pqc = QuantumCircuit(2)
 pqc.ry(y, 0)
 pqc.cx(0, 1)
-pqc.u(0, *p, 1)
+pqc.u(p[0], 0, p[1], 1)
 
 pqc.draw('mpl')
 ```
 ![](/img/example_circuit.png)
 
-To get the *sympy* representation of the unitary matrix corresponding to the parameterized circuit, we just have to create the symbolic `Operator` instance and call the `to_sympy()` method:
+To get the *sympy* representation of the unit-norm complex vector prepared by the parameterized circuit, we just have to create the symbolic `Statevector` instance and call the `to_sympy()` method:
 ```python
-from qiskit_symb.quantum_info import Operator
+from qiskit_symb.quantum_info import Statevector
 
-op = Operator(pqc)
-op.to_sympy()
+psi = Statevector(pqc)
+psi.to_sympy()
 ```
 ```math
-\left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i \left(p[0] + p[1]\right)} \cos{\left(\frac{y}{2} \right)} & - e^{i \left(p[0] + p[1]\right)} \sin{\left(\frac{y}{2} \right)}\\e^{i \left(p[0] + p[1]\right)} \sin{\left(\frac{y}{2} \right)} & e^{i \left(p[0] + p[1]\right)} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
+\left[\begin{matrix}\cos{\left(\frac{p[0]}{2} \right)} \cos{\left(\frac{y}{2} \right)} & - e^{1.0 i p[1]} \sin{\left(\frac{p[0]}{2} \right)} \sin{\left(\frac{y}{2} \right)} & \sin{\left(\frac{p[0]}{2} \right)} \cos{\left(\frac{y}{2} \right)} & e^{1.0 i p[1]} \sin{\left(\frac{y}{2} \right)} \cos{\left(\frac{p[0]}{2} \right)}\end{matrix}\right]
 ```
 
 If you want then to assign a value to some specific parameter, you can use the `subs(<dict>)` method passing a dictionary that maps each parameter to the desired corresponding value:
 ```python
-new_op = op.subs({p: [-1, 2]})
-new_op.to_sympy()
+new_psi = psi.subs({p: [-1, 2]})
+new_psi.to_sympy()
 ```
 ```math
-\left[\begin{matrix}\cos{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{y}{2} \right)} & 0 & 0\\0 & 0 & \sin{\left(\frac{y}{2} \right)} & \cos{\left(\frac{y}{2} \right)}\\0 & 0 & e^{i} \cos{\left(\frac{y}{2} \right)} & - e^{i} \sin{\left(\frac{y}{2} \right)}\\e^{i} \sin{\left(\frac{y}{2} \right)} & e^{i} \cos{\left(\frac{y}{2} \right)} & 0 & 0\end{matrix}\right]
+\left[\begin{matrix}\cos{\left(\frac{1}{2} \right)} \cos{\left(\frac{y}{2} \right)} & e^{2.0 i} \sin{\left(\frac{1}{2} \right)} \sin{\left(\frac{y}{2} \right)} & - \sin{\left(\frac{1}{2} \right)} \cos{\left(\frac{y}{2} \right)} & e^{2.0 i} \sin{\left(\frac{y}{2} \right)} \cos{\left(\frac{1}{2} \right)}\end{matrix}\right]
 ```
 
 ### _Lambdify_ a Qiskit circuit
