@@ -28,7 +28,4 @@ from .parametric_gates import (
     RXXGate,
     RYYGate,
     RZZGate,
-    RZXGate,
-    XXMinusYYGate,
-    XXPlusYYGate,
 )

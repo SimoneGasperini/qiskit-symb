@@ -51,20 +51,16 @@ name2class = {
     'rxx': RXXGate,
     'ryy': RYYGate,
     'rzz': RZZGate,
-    'rzx': RZXGate,
-    'xx_minus_yy': XXMinusYYGate,
-    'xx_plus_yy': XXPlusYYGate,
 }
+
+
+def get_gates():
+    """todo"""
+    return set(name2class.keys())
 
 
 def get_class(op):
     """todo"""
-    if isinstance(op, ControlledGate):
-        name = 'c' + op.base_gate.name
-    else:
-        name = op.name
-    try:
-        return name2class[name]
-    except KeyError as kerr:
-        error_message = f'Gate "{name}" is not implemented in qiskit-symb'
-        raise NotImplementedError(error_message) from kerr
+    is_controlled = isinstance(op, ControlledGate)
+    name = 'c' + op.base_gate.name if is_controlled else op.name
+    return name2class[name]

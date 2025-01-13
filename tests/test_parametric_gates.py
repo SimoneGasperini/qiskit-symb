@@ -16,9 +16,6 @@ from qiskit.circuit.library import (
     RXXGate,
     RYYGate,
     RZZGate,
-    RZXGate,
-    XXMinusYYGate,
-    XXPlusYYGate,
 )
 from qiskit_symb.circuit.library import (
     UGate as symb_UGate,
@@ -33,9 +30,6 @@ from qiskit_symb.circuit.library import (
     RXXGate as symb_RXXGate,
     RYYGate as symb_RYYGate,
     RZZGate as symb_RZZGate,
-    RZXGate as symb_RZXGate,
-    XXMinusYYGate as symb_XXMinusYYGate,
-    XXPlusYYGate as symb_XXPlusYYGate,
 )
 
 val_range = {'min_value': -2*numpy.pi, 'max_value': 2*numpy.pi}
@@ -168,38 +162,4 @@ def test_rzz(theta):
     arr1 = RZZGate(theta).to_matrix()
     gate = symb_RZZGate(par, 0, 1)
     arr2 = gate.get_numpy_repr(par2val={par: theta})
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range))
-def test_rzx(theta):
-    """todo"""
-    par = Parameter(name='par')
-    arr1 = RZXGate(theta).to_matrix()
-    gate = symb_RZXGate(par, 0, 1)
-    arr2 = gate.get_numpy_repr(par2val={par: theta})
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range),
-       beta=strategies.floats(**val_range))
-def test_xx_minus_yy(theta, beta):
-    """todo"""
-    pars_vals = [theta, beta]
-    pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = XXMinusYYGate(*pars_vals).to_matrix()
-    gate = symb_XXMinusYYGate(*pars, 0, 1)
-    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
-    assert numpy.allclose(arr1, arr2)
-
-
-@given(theta=strategies.floats(**val_range),
-       beta=strategies.floats(**val_range))
-def test_xx_plus_yy(theta, beta):
-    """todo"""
-    pars_vals = [theta, beta]
-    pars = ParameterVector(name='pars', length=len(pars_vals))
-    arr1 = XXPlusYYGate(*pars_vals).to_matrix()
-    gate = symb_XXPlusYYGate(*pars, 0, 1)
-    arr2 = gate.get_numpy_repr(par2val=dict(zip(pars, pars_vals)))
     assert numpy.allclose(arr1, arr2)

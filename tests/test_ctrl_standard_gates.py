@@ -28,6 +28,7 @@ from qiskit_symb.circuit.library import (
 
 
 def convert_endian(unitary):
+    """todo"""
     nq = int(numpy.log2(len(unitary)))
     perm = [int(bin(i)[2:].zfill(nq)[::-1], 2) for i in range(len(unitary))]
     return unitary[numpy.ix_(perm, perm)]

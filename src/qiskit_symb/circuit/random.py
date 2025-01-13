@@ -4,7 +4,7 @@ from qiskit.circuit import QuantumCircuit, ParameterVector
 from qiskit.circuit.random import random_circuit
 
 
-def random_parametric_circuit(num_qubits, depth, max_operands=2, seed=None):
+def random_parametric_circuit(num_qubits, depth, max_operands=3, seed=None):
     """todo"""
     random_qc = random_circuit(
         num_qubits=num_qubits, depth=depth, max_operands=max_operands, seed=seed)

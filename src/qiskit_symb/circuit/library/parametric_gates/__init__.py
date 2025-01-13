@@ -12,6 +12,3 @@ from .r import RGate, CRGate
 from .rxx import RXXGate
 from .ryy import RYYGate
 from .rzz import RZZGate
-from .rzx import RZXGate
-from .xx_minus_yy import XXMinusYYGate
-from .xx_plus_yy import XXPlusYYGate

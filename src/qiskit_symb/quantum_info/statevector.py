@@ -40,10 +40,13 @@ class Statevector:
     @staticmethod
     def _get_sympy_expr(circuit):
         """todo"""
+        from ..circuit import get_gates
         from ..circuit.gate import Gate
         num_qubits = circuit.num_qubits
         circuit = QuantumCircuit(num_qubits).compose(circuit)
-        circuit = transpile(circuit, optimization_level=1)
+        basis_gates = get_gates()
+        circuit = transpile(
+            circuit, basis_gates=basis_gates, optimization_level=1)
         zero = [1] + [0] * (2**num_qubits - 1)
         state_tensor = sympy.Array(zero, shape=(2,)*num_qubits)
         for layer in circuit_to_dag(circuit).layers():
@@ -53,9 +56,8 @@ class Statevector:
             gates_tensors = [gate._get_tensor_array() for gate in gates]
             state_tensor = opt_einsum.contract(
                 einsum_contract, state_tensor, *gates_tensors)
-            print(sympy.flatten(state_tensor))
         gph = sympy.exp(sympy.I * circuit.global_phase)
-        state_tensor = gph * sympy.Array(state_tensor, shape=(2**num_qubits))
+        state_tensor = gph * sympy.Array(state_tensor, shape=2**num_qubits)
         return state_tensor
 
     @classmethod
@@ -79,15 +81,19 @@ class Statevector:
         """todo"""
         return numpy.array(self.to_sympy().tolist(), dtype=complex)
 
-    def to_lambda(self):
+    def _lambdify(self, sympy_expr):
         """todo"""
-        sympy_expr = self.to_sympy()
         name2symb = {symb.name: symb for symb in sympy_expr.free_symbols}
         args = [name2symb[par.name]
                 if par.name in name2symb
                 else sympy.Symbol('_')
                 for par in self._params]
         return sympy.lambdify(args=args, expr=sympy_expr, modules='numpy', dummify=True, cse=True)
+
+    def to_lambda(self):
+        """todo"""
+        sympy_expr = self.to_sympy()
+        return self._lambdify(sympy_expr=sympy_expr)
 
     def subs(self, params_dict):
         """todo"""
