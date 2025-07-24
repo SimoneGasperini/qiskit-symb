@@ -1,13 +1,2 @@
 qiskit<2.0
 opt_einsum
-
-# Lint
-pylint
-
-# Test
-pytest
-hypothesis
-
-# Coverage
-pytest-cov
-coveralls
