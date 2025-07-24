@@ -9,7 +9,7 @@
 
 <p align="center">
     <img title="build" src='https://github.com/SimoneGasperini/qiskit-symb/actions/workflows/python-package.yml/badge.svg?branch=master'>
-    <img title="coverage" src='https://coveralls.io/repos/github/SimoneGasperini/qiskit-symb/badge.svg?branch=master'>
+    <img title="coverage" src='https://codecov.io/github/SimoneGasperini/qiskit-symb/graph/badge.svg?token=R62B2D4SR6'>
 </p>
 
 # Table of contents
