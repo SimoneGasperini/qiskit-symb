@@ -1,6 +1,4 @@
-numpy
-sympy
-qiskit
+qiskit<2.0
 opt_einsum
 
 # Lint
