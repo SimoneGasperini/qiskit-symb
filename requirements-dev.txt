@@ -7,4 +7,3 @@ hypothesis
 
 # Coverage
 pytest-cov
-coveralls
