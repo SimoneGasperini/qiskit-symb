@@ -101,7 +101,7 @@ pqc.draw('mpl')
 ```
 ![](/img/zzfeaturemap_circuit.png)
 
-To get the Python function representing the final parameteric statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
+To get the Python function representing the final parametric statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
 ```python
 from qiskit_symb.quantum_info import Statevector
 
@@ -115,7 +115,7 @@ x = [1.24, 2.27, 0.29]
 psi = statevec(*x)
 ```
 
-This feature can be useful when, given a Qiskit PQC, we want to run it multiple times with different parameters values. Indeed, we can perform a single symbolic evalutation and then call the lambda generated function as many times as needed, passing different values of the parameters at each iteration.
+This feature can be useful when, given a Qiskit PQC, we want to run it multiple times with different parameters values. Indeed, we can perform a single symbolic evaluation and then call the lambda generated function as many times as needed, passing different values of the parameters at each iteration.
 
 
 # Qiskit Medium
