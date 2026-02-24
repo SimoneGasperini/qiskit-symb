@@ -39,8 +39,6 @@ In particular, `qiskit-symb` can be used to create a symbolic representation of 
 pip install qiskit-symb
 ```
 
-:warning: The package requires `qiskit==1.x`. It doesn't support `qiskit==2.x` yet.
-
 ## Dev-mode
 ```
 git clone https://github.com/SimoneGasperini/qiskit-symb.git

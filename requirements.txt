@@ -1,2 +1,2 @@
-qiskit<2.0
-opt_einsum
+qiskit>=2
+opt_einsum>=3.4

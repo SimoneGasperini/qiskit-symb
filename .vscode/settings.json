@@ -4,7 +4,7 @@
         "editor.defaultFormatter": "charliermarsh.ruff"
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.ruff": true
+        "source.fixAll.ruff": "explicit"
     },
     "ruff.format.enable": true,
     "ruff.lint.enable": true,
