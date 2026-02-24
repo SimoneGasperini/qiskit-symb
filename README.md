@@ -66,7 +66,7 @@ pqc.u(p[0], 0, p[1], 1)
 
 pqc.draw("mpl")
 ```
-![](/img/example_circuit.png)
+![](/img/circuit.png)
 
 To get the *sympy* representation of the unit-norm complex vector prepared by the parameterized circuit, we just have to create the symbolic `Statevector` instance and call the `to_sympy()` method:
 ```python
@@ -97,7 +97,7 @@ from qiskit.circuit.library import zz_feature_map
 pqc = zz_feature_map(feature_dimension=3, reps=1)
 pqc.draw("mpl")
 ```
-![](/img/zzfeaturemap_circuit.png)
+![](/img/zzfeaturemap.png)
 
 To get the Python function representing the final parametric statevector, we just have to create the symbolic `Statevector` instance and call the `to_lambda()` method:
 ```python
@@ -115,15 +115,10 @@ psi = statevec(*x)
 This feature can be useful when, given a Qiskit PQC, we want to run it multiple times with different parameters values. Indeed, we can perform a single symbolic evaluation and then call the lambda generated function as many times as needed, passing different values of the parameters at each iteration.
 
 
-# Qiskit Medium
-Read my [blog post](https://medium.com/p/b6b4407fa705) introducing to `qiskit-symb` published on the official Qiskit Medium blog.
-
-![](/img/medium.png)
-
-
 # Contributors
 
 <table>
     <td align="center"><a href="https://github.com/SimoneGasperini"><img src="https://avatars2.githubusercontent.com/u/71086758?s=400&v=4" width="120px;"/><br/><b>Simone Gasperini</b></a></td>
     <td align="center"><a href="https://github.com/sbrandhsn"><img src="https://avatars.githubusercontent.com/u/148463728?v=4" width="60px;"/><br/>Sebastian<br/>Brandhofer</a></td>
+    <td align="center"><a href="https://github.com/q-inho"><img src="https://avatars.githubusercontent.com/u/79438062?v=4" width="60px;"/><br>Inho<br/>Choi</a></td>
 </table>
