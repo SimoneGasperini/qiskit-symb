@@ -56,15 +56,15 @@ Let's get started on how to use `qiskit-symb` to get the symbolic representation
 from qiskit import QuantumCircuit
 from qiskit.circuit import Parameter, ParameterVector
 
-y = Parameter('y')
-p = ParameterVector('p', length=2)
+y = Parameter("y")
+p = ParameterVector("p", length=2)
 
 pqc = QuantumCircuit(2)
 pqc.ry(y, 0)
 pqc.cx(0, 1)
 pqc.u(p[0], 0, p[1], 1)
 
-pqc.draw('mpl')
+pqc.draw("mpl")
 ```
 ![](/img/example_circuit.png)
 
@@ -92,10 +92,10 @@ new_psi.to_sympy()
 Given a Qiskit circuit, `qiskit-symb` also allows to generate a Python lambda function with actual arguments matching the Qiskit unbound parameters.
 Let's consider the following example starting from a `ZZFeatureMap` circuit, commonly used as a data embedding ansatz in QML applications:
 ```python
-from qiskit.circuit.library import ZZFeatureMap
+from qiskit.circuit.library import zz_feature_map
 
-pqc = ZZFeatureMap(feature_dimension=3, reps=1)
-pqc.draw('mpl')
+pqc = zz_feature_map(feature_dimension=3, reps=1)
+pqc.draw("mpl")
 ```
 ![](/img/zzfeaturemap_circuit.png)
 
@@ -103,7 +103,6 @@ To get the Python function representing the final parametric statevector, we jus
 ```python
 from qiskit_symb.quantum_info import Statevector
 
-pqc = pqc.decompose()
 statevec = Statevector(pqc).to_lambda()
 ```
 
