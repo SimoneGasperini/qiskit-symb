@@ -16,5 +16,4 @@ class IGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0],
-                      [0, 1]])
+        return Array([[1, 0], [0, 1]])

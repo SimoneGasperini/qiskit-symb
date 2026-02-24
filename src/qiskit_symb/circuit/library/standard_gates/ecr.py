@@ -17,7 +17,11 @@ class ECRGate(StandardGate):
     def _sympy_array():
         """todo"""
         x = 1 / 2**0.5
-        return Array([[0, 0, x, x*1j],
-                      [0, 0, x*1j, x],
-                      [x, -x*1j, 0, 0],
-                      [-x*1j, x, 0, 0]])
+        return Array(
+            [
+                [0, 0, x, x * 1j],
+                [0, 0, x * 1j, x],
+                [x, -x * 1j, 0, 0],
+                [-x * 1j, x, 0, 0],
+            ]
+        )

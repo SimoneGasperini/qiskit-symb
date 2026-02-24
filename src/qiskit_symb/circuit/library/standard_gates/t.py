@@ -19,8 +19,7 @@ class TGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0],
-                      [0, exp(1j*pi/4)]])
+        return Array([[1, 0], [0, exp(1j * pi / 4)]])
 
 
 class TdgGate(StandardGate):
@@ -35,8 +34,7 @@ class TdgGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0],
-                      [0, exp(-1j*pi/4)]])
+        return Array([[1, 0], [0, exp(-1j * pi / 4)]])
 
 
 class CTGate(StandardGate):
@@ -51,10 +49,9 @@ class CTGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, exp(1j*pi/4)]])
+        return Array(
+            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, exp(1j * pi / 4)]]
+        )
 
 
 class CTdgGate(StandardGate):
@@ -69,7 +66,6 @@ class CTdgGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, exp(-1j*pi/4)]])
+        return Array(
+            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, exp(-1j * pi / 4)]]
+        )

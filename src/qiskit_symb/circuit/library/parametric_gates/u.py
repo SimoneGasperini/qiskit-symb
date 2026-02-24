@@ -23,8 +23,12 @@ class UGate(ParametricGate):
         explam = exp(1j * lam)
         expphilam = exp(1j * (phi + lam))
         expgam = exp(1j * gamma)
-        return Array([[expgam*costh2, -expgam*explam*sinth2],
-                      [expgam*expphi*sinth2, expgam*expphilam*costh2]])
+        return Array(
+            [
+                [expgam * costh2, -expgam * explam * sinth2],
+                [expgam * expphi * sinth2, expgam * expphilam * costh2],
+            ]
+        )
 
 
 class U1Gate(ParametricGate):
@@ -38,10 +42,9 @@ class U1Gate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self._get_params_expr()
+        (lam,) = self._get_params_expr()
         explam = exp(1j * lam)
-        return Array([[1, 0],
-                      [0, explam]])
+        return Array([[1, 0], [0, explam]])
 
 
 class U2Gate(ParametricGate):
@@ -49,7 +52,7 @@ class U2Gate(ParametricGate):
 
     def __init__(self, phi, lam, qubit):
         """todo"""
-        params = (phi, lam,)
+        params = (phi, lam)
         qubits = (qubit,)
         super().__init__(params=params, qubits=qubits)
 
@@ -60,8 +63,7 @@ class U2Gate(ParametricGate):
         explam = exp(1j * lam)
         expphilam = exp(1j * (phi + lam))
         x = 1 / 2**0.5
-        return Array([[x, -x*explam],
-                      [x*expphi, x*expphilam]])
+        return Array([[x, -x * explam], [x * expphi, x * expphilam]])
 
 
 class U3Gate(ParametricGate):
@@ -69,7 +71,7 @@ class U3Gate(ParametricGate):
 
     def __init__(self, theta, phi, lam, qubit):
         """todo"""
-        params = (theta, phi, lam,)
+        params = (theta, phi, lam)
         qubits = (qubit,)
         super().__init__(params=params, qubits=qubits)
 
@@ -81,8 +83,9 @@ class U3Gate(ParametricGate):
         expphi = exp(1j * phi)
         explam = exp(1j * lam)
         expphilam = exp(1j * (phi + lam))
-        return Array([[costh2, -explam*sinth2],
-                      [expphi*sinth2, expphilam*costh2]])
+        return Array(
+            [[costh2, -explam * sinth2], [expphi * sinth2, expphilam * costh2]]
+        )
 
 
 class CUGate(ParametricGate):
@@ -103,10 +106,14 @@ class CUGate(ParametricGate):
         explam = exp(1j * lam)
         expphilam = exp(1j * (phi + lam))
         expgam = exp(1j * gamma)
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, expgam*costh2, -expgam*explam*sinth2],
-                      [0, 0, expgam*expphi*sinth2, expgam*expphilam*costh2]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, expgam * costh2, -expgam * explam * sinth2],
+                [0, 0, expgam * expphi * sinth2, expgam * expphilam * costh2],
+            ]
+        )
 
 
 class CU1Gate(ParametricGate):
@@ -120,12 +127,9 @@ class CU1Gate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self._get_params_expr()
+        (lam,) = self._get_params_expr()
         explam = exp(1j * lam)
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, explam]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, explam]])
 
 
 class CU2Gate(ParametricGate):
@@ -144,10 +148,14 @@ class CU2Gate(ParametricGate):
         explam = exp(1j * lam)
         expphilam = exp(1j * (phi + lam))
         x = 1 / 2**0.5
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, x, -x*explam],
-                      [0, 0, x*expphi, x*expphilam]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, x, -x * explam],
+                [0, 0, x * expphi, x * expphilam],
+            ]
+        )
 
 
 class CU3Gate(ParametricGate):
@@ -167,7 +175,11 @@ class CU3Gate(ParametricGate):
         expphi = exp(1j * phi)
         explam = exp(1j * lam)
         expphilam = exp(1j * (phi + lam))
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, costh2, -explam*sinth2],
-                      [0, 0, expphi*sinth2, expphilam*costh2]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, costh2, -explam * sinth2],
+                [0, 0, expphi * sinth2, expphilam * costh2],
+            ]
+        )

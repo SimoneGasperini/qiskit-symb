@@ -16,8 +16,7 @@ class ZGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0],
-                      [0, -1]])
+        return Array([[1, 0], [0, -1]])
 
 
 class CZGate(StandardGate):
@@ -32,7 +31,4 @@ class CZGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, -1]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1]])

@@ -16,7 +16,4 @@ class DCXGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, 1],
-                      [0, 1, 0, 0]])
+        return Array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [0, 1, 0, 0]])

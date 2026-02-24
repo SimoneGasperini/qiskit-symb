@@ -16,11 +16,10 @@ class RZGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self._get_params_expr()
-        plusexp2 = exp(1j * lam/2)
-        minusexp2 = exp(-1j * lam/2)
-        return Array([[minusexp2, 0],
-                      [0, plusexp2]])
+        (lam,) = self._get_params_expr()
+        plusexp2 = exp(1j * lam / 2)
+        minusexp2 = exp(-1j * lam / 2)
+        return Array([[minusexp2, 0], [0, plusexp2]])
 
 
 class CRZGate(ParametricGate):
@@ -34,10 +33,9 @@ class CRZGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self._get_params_expr()
-        plusexp2 = exp(1j * lam/2)
-        minusexp2 = exp(-1j * lam/2)
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, minusexp2, 0],
-                      [0, 0, 0, plusexp2]])
+        (lam,) = self._get_params_expr()
+        plusexp2 = exp(1j * lam / 2)
+        minusexp2 = exp(-1j * lam / 2)
+        return Array(
+            [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, minusexp2, 0], [0, 0, 0, plusexp2]]
+        )

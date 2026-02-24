@@ -17,8 +17,7 @@ class HGate(StandardGate):
     def _sympy_array():
         """todo"""
         x = 1 / 2**0.5
-        return Array([[x, x],
-                      [x, -x]])
+        return Array([[x, x], [x, -x]])
 
 
 class CHGate(StandardGate):
@@ -34,7 +33,4 @@ class CHGate(StandardGate):
     def _sympy_array():
         """todo"""
         x = 1 / 2**0.5
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, x, x],
-                      [0, 0, x, -x]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, x, x], [0, 0, x, -x]])

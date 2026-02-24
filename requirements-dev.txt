@@ -1,5 +1,5 @@
-# Lint
-pylint
+# Lint & Format
+ruff
 
 # Test
 pytest

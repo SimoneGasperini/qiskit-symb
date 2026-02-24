@@ -16,10 +16,9 @@ class PhaseGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self._get_params_expr()
+        (lam,) = self._get_params_expr()
         explam = exp(1j * lam)
-        return Array([[1, 0],
-                      [0, explam]])
+        return Array([[1, 0], [0, explam]])
 
 
 class CPhaseGate(ParametricGate):
@@ -33,9 +32,6 @@ class CPhaseGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        lam, = self._get_params_expr()
+        (lam,) = self._get_params_expr()
         explam = exp(1j * lam)
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, explam]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, explam]])

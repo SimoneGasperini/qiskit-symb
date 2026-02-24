@@ -21,8 +21,7 @@ class RGate(ParametricGate):
         sinth2 = sin(theta / 2)
         plusexp = 1j * exp(1j * phi)
         minusexp = 1j * exp(-1j * phi)
-        return Array([[costh2, -minusexp*sinth2],
-                      [-plusexp*sinth2, costh2]])
+        return Array([[costh2, -minusexp * sinth2], [-plusexp * sinth2, costh2]])
 
 
 class CRGate(ParametricGate):
@@ -41,7 +40,11 @@ class CRGate(ParametricGate):
         sinth2 = sin(theta / 2)
         plusexp = 1j * exp(1j * phi)
         minusexp = 1j * exp(-1j * phi)
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, costh2, -minusexp*sinth2],
-                      [0, 0, -plusexp*sinth2, costh2]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, costh2, -minusexp * sinth2],
+                [0, 0, -plusexp * sinth2, costh2],
+            ]
+        )

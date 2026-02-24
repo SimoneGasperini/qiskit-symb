@@ -16,10 +16,14 @@ class RXXGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        theta, = self._get_params_expr()
+        (theta,) = self._get_params_expr()
         costh2 = cos(theta / 2)
         isinth2 = 1j * sin(theta / 2)
-        return Array([[costh2, 0, 0, -isinth2],
-                      [0, costh2, -isinth2, 0],
-                      [0, -isinth2, costh2, 0],
-                      [-isinth2, 0, 0, costh2]])
+        return Array(
+            [
+                [costh2, 0, 0, -isinth2],
+                [0, costh2, -isinth2, 0],
+                [0, -isinth2, costh2, 0],
+                [-isinth2, 0, 0, costh2],
+            ]
+        )

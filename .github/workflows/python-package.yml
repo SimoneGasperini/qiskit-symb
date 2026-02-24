@@ -33,9 +33,9 @@ jobs:
         python -m pip install --upgrade .
         python -m pip install -r requirements-dev.txt
 
-    - name: Lint with pylint
+    - name: Lint with ruff
       run: |
-        python -m pylint src/ tests/
+        python -m ruff check .
 
     - name: Test with pytest
       run: |

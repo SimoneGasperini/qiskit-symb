@@ -20,6 +20,7 @@ class Gate:
     def get(gate_node):
         """todo"""
         from . import get_class
+
         _class = get_class(op=gate_node.op)
         params = gate_node.op.params
         qubits = [qarg._index for qarg in gate_node.qargs]
@@ -27,9 +28,10 @@ class Gate:
 
     def _get_params_expr(self):
         """todo"""
-        params_expr = [sympify(param._symbol_expr)
-                       if hasattr(param, '_symbol_expr') else param
-                       for param in self.params]
+        params_expr = [
+            sympify(param._symbol_expr) if hasattr(param, "_symbol_expr") else param
+            for param in self.params
+        ]
         return params_expr
 
     def _get_tensor_array(self):

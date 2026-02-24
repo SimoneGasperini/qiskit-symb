@@ -16,11 +16,10 @@ class RYGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        theta, = self._get_params_expr()
+        (theta,) = self._get_params_expr()
         costh2 = cos(theta / 2)
         sinth2 = sin(theta / 2)
-        return Array([[costh2, -sinth2],
-                      [sinth2, costh2]])
+        return Array([[costh2, -sinth2], [sinth2, costh2]])
 
 
 class CRYGate(ParametricGate):
@@ -34,10 +33,14 @@ class CRYGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        theta, = self._get_params_expr()
+        (theta,) = self._get_params_expr()
         costh2 = cos(theta / 2)
         sinth2 = sin(theta / 2)
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, costh2, -sinth2],
-                      [0, 0, sinth2, costh2]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, costh2, -sinth2],
+                [0, 0, sinth2, costh2],
+            ]
+        )

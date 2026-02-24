@@ -17,8 +17,7 @@ class SGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0],
-                      [0, 1j]])
+        return Array([[1, 0], [0, 1j]])
 
 
 class SdgGate(StandardGate):
@@ -33,8 +32,7 @@ class SdgGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0],
-                      [0, -1j]])
+        return Array([[1, 0], [0, -1j]])
 
 
 class CSGate(StandardGate):
@@ -49,10 +47,7 @@ class CSGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, 1j]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1j]])
 
 
 class CSdgGate(StandardGate):
@@ -67,7 +62,4 @@ class CSdgGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, 0],
-                      [0, 0, 0, -1j]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, -1j]])

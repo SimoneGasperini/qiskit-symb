@@ -16,8 +16,7 @@ class YGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[0, -1j],
-                      [1j, 0]])
+        return Array([[0, -1j], [1j, 0]])
 
 
 class CYGate(StandardGate):
@@ -32,7 +31,4 @@ class CYGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 0, -1j],
-                      [0, 0, 1j, 0]])
+        return Array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, -1j], [0, 0, 1j, 0]])

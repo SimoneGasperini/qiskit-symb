@@ -17,8 +17,7 @@ class SXGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[0.5+0.5j, 0.5-0.5j],
-                      [0.5-0.5j, 0.5+0.5j]])
+        return Array([[0.5 + 0.5j, 0.5 - 0.5j], [0.5 - 0.5j, 0.5 + 0.5j]])
 
 
 class SXdgGate(StandardGate):
@@ -33,8 +32,7 @@ class SXdgGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[0.5-0.5j, 0.5+0.5j],
-                      [0.5+0.5j, 0.5-0.5j]])
+        return Array([[0.5 - 0.5j, 0.5 + 0.5j], [0.5 + 0.5j, 0.5 - 0.5j]])
 
 
 class CSXGate(StandardGate):
@@ -49,10 +47,14 @@ class CSXGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 0.5+0.5j, 0.5-0.5j],
-                      [0, 0, 0.5-0.5j, 0.5+0.5j]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 0.5 + 0.5j, 0.5 - 0.5j],
+                [0, 0, 0.5 - 0.5j, 0.5 + 0.5j],
+            ]
+        )
 
 
 class CSXdgGate(StandardGate):
@@ -67,7 +69,11 @@ class CSXdgGate(StandardGate):
     @staticmethod
     def _sympy_array():
         """todo"""
-        return Array([[1, 0, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 0.5-0.5j, 0.5+0.5j],
-                      [0, 0, 0.5+0.5j, 0.5-0.5j]])
+        return Array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 0.5 - 0.5j, 0.5 + 0.5j],
+                [0, 0, 0.5 + 0.5j, 0.5 - 0.5j],
+            ]
+        )

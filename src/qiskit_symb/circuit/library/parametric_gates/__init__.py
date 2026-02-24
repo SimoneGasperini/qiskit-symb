@@ -12,3 +12,27 @@ from .r import RGate, CRGate
 from .rxx import RXXGate
 from .ryy import RYYGate
 from .rzz import RZZGate
+
+__all__ = [
+    "UGate",
+    "CUGate",
+    "U1Gate",
+    "CU1Gate",
+    "U2Gate",
+    "CU2Gate",
+    "U3Gate",
+    "CU3Gate",
+    "RXGate",
+    "CRXGate",
+    "RYGate",
+    "CRYGate",
+    "RZGate",
+    "CRZGate",
+    "PhaseGate",
+    "CPhaseGate",
+    "RGate",
+    "CRGate",
+    "RXXGate",
+    "RYYGate",
+    "RZZGate",
+]

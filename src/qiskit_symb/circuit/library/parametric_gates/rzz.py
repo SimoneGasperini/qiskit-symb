@@ -16,10 +16,14 @@ class RZZGate(ParametricGate):
 
     def _sympy_array(self):
         """todo"""
-        theta, = self._get_params_expr()
-        plusexp = exp(1j * theta/2)
-        minusexp = exp(-1j * theta/2)
-        return Array([[minusexp, 0, 0, 0],
-                      [0, plusexp, 0, 0],
-                      [0, 0, plusexp, 0],
-                      [0, 0, 0, minusexp]])
+        (theta,) = self._get_params_expr()
+        plusexp = exp(1j * theta / 2)
+        minusexp = exp(-1j * theta / 2)
+        return Array(
+            [
+                [minusexp, 0, 0, 0],
+                [0, plusexp, 0, 0],
+                [0, 0, plusexp, 0],
+                [0, 0, 0, minusexp],
+            ]
+        )
