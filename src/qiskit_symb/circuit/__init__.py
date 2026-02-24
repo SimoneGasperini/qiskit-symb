@@ -1,6 +1,8 @@
 """Symbolic quantum circuit module"""
 
+from qiskit.circuit import Gate, Parameter
 from qiskit.circuit.controlledgate import ControlledGate
+from qiskit.transpiler import Target
 from .library import (
     CPhaseGate,
     CRGate,
@@ -101,9 +103,19 @@ name2class = {
 }
 
 
-def get_gates():
+def build_target():
     """todo"""
-    return set(name2class.keys())
+    basis_gates = sorted(name2class.keys())
+    custom_name_mapping = {
+        "cr": Gate("cr", num_qubits=2, params=[Parameter("theta"), Parameter("phi")]),
+        "csxdg": Gate("csxdg", num_qubits=2, params=[]),
+        "ct": Gate("ct", num_qubits=2, params=[]),
+        "ctdg": Gate("ctdg", num_qubits=2, params=[]),
+        "cu2": Gate("cu2", num_qubits=2, params=[Parameter("phi"), Parameter("lam")]),
+    }
+    return Target.from_configuration(
+        basis_gates=basis_gates, custom_name_mapping=custom_name_mapping
+    )
 
 
 def get_class(op):

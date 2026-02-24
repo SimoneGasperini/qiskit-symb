@@ -43,13 +43,12 @@ class Statevector:
     @staticmethod
     def _get_sympy_expr(circuit):
         """todo"""
-        from ..circuit import get_gates
+        from ..circuit import build_target
         from ..circuit.gate import Gate
 
         num_qubits = circuit.num_qubits
         circuit = QuantumCircuit(num_qubits).compose(circuit)
-        basis_gates = get_gates()
-        circuit = transpile(circuit, basis_gates=basis_gates, optimization_level=1)
+        circuit = transpile(circuit, target=build_target(), optimization_level=1)
         zero = [1] + [0] * (2**num_qubits - 1)
         state_tensor = sympy.Array(zero, shape=(2,) * num_qubits)
         for layer in circuit_to_dag(circuit).layers():
