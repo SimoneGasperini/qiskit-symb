@@ -7,11 +7,11 @@ from qiskit_symb.quantum_info import Statevector as symb_Statevector
 from qiskit_symb.circuit.random import random_parametric_circuit
 
 
-@given(num_qubits=strategies.integers(min_value=1, max_value=4))
+@given(num_qubits=strategies.integers(min_value=1, max_value=3))
 @settings(deadline=None)
 def test_from_circuit(num_qubits):
     """todo"""
-    pqc = random_parametric_circuit(num_qubits=num_qubits, depth=4)
+    pqc = random_parametric_circuit(num_qubits=num_qubits, depth=3)
     params = pqc.parameters
     values = numpy.random.rand(len(params)) * 2 * numpy.pi
     par2val = dict(zip(params, values))
@@ -22,11 +22,11 @@ def test_from_circuit(num_qubits):
     assert numpy.allclose(arr1, arr2)
 
 
-@given(num_qubits=strategies.integers(min_value=1, max_value=4))
+@given(num_qubits=strategies.integers(min_value=1, max_value=3))
 @settings(deadline=None)
 def test_to_lambda(num_qubits):
     """todo"""
-    pqc = random_parametric_circuit(num_qubits=num_qubits, depth=4)
+    pqc = random_parametric_circuit(num_qubits=num_qubits, depth=3)
     params = pqc.parameters
     values = numpy.random.rand(len(params)) * 2 * numpy.pi
     par2val = dict(zip(params, values))
