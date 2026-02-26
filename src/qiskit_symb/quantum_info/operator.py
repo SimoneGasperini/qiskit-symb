@@ -1,10 +1,10 @@
 """Symbolic quantum operator module."""
 
-from .base import SymbolicQuantumObject
+from .base import SymbQuantumObject
 from .mpo import MPOFramework
 
 
-class Operator(SymbolicQuantumObject):
+class Operator(SymbQuantumObject):
     """Symbolic quantum operator class."""
 
     @staticmethod

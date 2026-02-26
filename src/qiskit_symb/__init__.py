@@ -2,4 +2,4 @@
 
 from .quantum_info import Operator, Statevector
 
-__all__ = ["Statevector", "Operator"]
+__all__ = ["Operator", "Statevector"]

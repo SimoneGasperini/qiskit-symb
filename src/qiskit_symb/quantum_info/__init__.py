@@ -4,4 +4,4 @@ from .mpo import MPOFramework
 from .operator import Operator
 from .statevector import Statevector
 
-__all__ = ["Statevector", "Operator", "MPOFramework"]
+__all__ = ["MPOFramework", "Operator", "Statevector"]

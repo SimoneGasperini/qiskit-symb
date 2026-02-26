@@ -1,10 +1,10 @@
 """Symbolic quantum statevector module."""
 
-from .base import SymbolicQuantumObject
+from .base import SymbQuantumObject
 from .mpo import MPOFramework
 
 
-class Statevector(SymbolicQuantumObject):
+class Statevector(SymbQuantumObject):
     """Symbolic quantum statevector class."""
 
     @staticmethod

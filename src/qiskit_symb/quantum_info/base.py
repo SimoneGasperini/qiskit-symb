@@ -5,8 +5,8 @@ import sympy
 from qiskit import QuantumCircuit
 
 
-class SymbolicQuantumObject:
-    """Common API for symbolic quantum objects."""
+class SymbQuantumObject:
+    """Common base interface for symbolic quantum objects."""
 
     def __init__(self, data, nqubits=None, params=None):
         """todo"""
@@ -17,11 +17,6 @@ class SymbolicQuantumObject:
         self._sympy_expr = data
         self._nqubits = nqubits
         self._params = params
-
-    @staticmethod
-    def _get_sympy_expr(circuit):
-        """todo"""
-        raise NotImplementedError
 
     @classmethod
     def from_circuit(cls, circuit):

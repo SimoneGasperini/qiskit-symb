@@ -21,15 +21,10 @@ def _layers_to_symbolic_gates(circuit):
 
     layers = []
     for layer in circuit_to_dag(circuit).layers():
-        gates = [Gate.get(gate_node=gate_node) for gate_node in layer["graph"].gate_nodes()]
+        gates = [Gate.get(gate_node) for gate_node in layer["graph"].gate_nodes()]
         if gates:
             layers.append(gates)
     return layers
-
-
-def _is_zero(value):
-    """Check if value is exactly symbolic/numeric zero."""
-    return sympy.sympify(value) == 0
 
 
 def _gate_matrix_and_kind(gate):
@@ -38,12 +33,10 @@ def _gate_matrix_and_kind(gate):
     dim = 2**k
     gate_tensor = gate._get_tensor_array()
     mat = numpy.array(gate_tensor.tolist(), dtype=object).reshape(dim, dim)
-
-    # Fast path 1: diagonal matrix
     diagonal = True
     for row in range(dim):
         for col in range(dim):
-            if row != col and not _is_zero(mat[row, col]):
+            if row != col and not sympy.sympify(mat[row, col]) == 0:
                 diagonal = False
                 break
         if not diagonal:
@@ -51,14 +44,12 @@ def _gate_matrix_and_kind(gate):
     if diagonal:
         diag = numpy.array([mat[i, i] for i in range(dim)], dtype=object)
         return mat, ("diagonal", diag)
-
-    # Fast path 2: monomial (one non-zero per row and per column)
     col_used = [0] * dim
     perm = []
     coeffs = []
     monomial = True
     for row in range(dim):
-        nz_cols = [col for col in range(dim) if not _is_zero(mat[row, col])]
+        nz_cols = [col for col in range(dim) if not sympy.sympify(mat[row, col]) == 0]
         if len(nz_cols) != 1:
             monomial = False
             break
@@ -71,7 +62,6 @@ def _gate_matrix_and_kind(gate):
         coeffs.append(mat[row, col])
     if monomial and all(count == 1 for count in col_used):
         return mat, ("monomial", numpy.array(perm), numpy.array(coeffs, dtype=object))
-
     return mat, ("generic",)
 
 
@@ -86,18 +76,14 @@ def _apply_gate_to_axes(tensor, gate, num_row_axes):
     keep_axes = [axis for axis in range(total_axes) if axis not in gate_axes]
     perm = keep_axes + gate_axes
     inv_perm = numpy.argsort(perm)
-
     permuted = numpy.transpose(tensor, perm)
     flat = permuted.reshape(-1, dim)
-
     if kind[0] == "diagonal":
         flat = flat * kind[1]
     elif kind[0] == "monomial":
         flat = flat[:, kind[1]] * kind[2]
     else:
-        # y[o] = sum_i G[o, i] x[i]  -> row-vector form: y = x @ G^T
         flat = flat @ gate_matrix.T
-
     updated = flat.reshape(permuted.shape)
     return numpy.transpose(updated, inv_perm)
 
