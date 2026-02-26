@@ -50,6 +50,8 @@ from .parametric_gates import (
     RXXGate,
     RYYGate,
     RZZGate,
+    XXPlusYYGate,
+    XXMinusYYGate,
 )
 
 __all__ = [
@@ -99,4 +101,6 @@ __all__ = [
     "RXXGate",
     "RYYGate",
     "RZZGate",
+    "XXPlusYYGate",
+    "XXMinusYYGate",
 ]

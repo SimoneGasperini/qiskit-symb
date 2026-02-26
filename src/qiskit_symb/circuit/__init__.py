@@ -35,6 +35,8 @@ from .library import (
     RYYGate,
     RZGate,
     RZZGate,
+    XXMinusYYGate,
+    XXPlusYYGate,
     SGate,
     SXGate,
     SXdgGate,
@@ -100,6 +102,8 @@ name2class = {
     "rxx": RXXGate,
     "ryy": RYYGate,
     "rzz": RZZGate,
+    "xx_plus_yy": XXPlusYYGate,
+    "xx_minus_yy": XXMinusYYGate,
 }
 
 
@@ -176,4 +180,6 @@ __all__ = [
     "RXXGate",
     "RYYGate",
     "RZZGate",
+    "XXPlusYYGate",
+    "XXMinusYYGate",
 ]

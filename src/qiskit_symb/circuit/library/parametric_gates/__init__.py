@@ -12,6 +12,8 @@ from .r import RGate, CRGate
 from .rxx import RXXGate
 from .ryy import RYYGate
 from .rzz import RZZGate
+from .xx_plus_yy import XXPlusYYGate
+from .xx_minus_yy import XXMinusYYGate
 
 __all__ = [
     "UGate",
@@ -35,4 +37,6 @@ __all__ = [
     "RXXGate",
     "RYYGate",
     "RZZGate",
+    "XXPlusYYGate",
+    "XXMinusYYGate",
 ]
