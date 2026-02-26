@@ -1,9 +1,9 @@
-"""Test statevector module"""
+"""Test operator module"""
 
 import numpy
 from hypothesis import given, strategies, settings
-from qiskit.quantum_info import Statevector
-from qiskit_symb.quantum_info import Statevector as symb_Statevector
+from qiskit.quantum_info import Operator
+from qiskit_symb.quantum_info import Operator as symb_Operator
 from qiskit_symb.circuit.random import random_parametric_circuit
 
 
@@ -16,9 +16,9 @@ def test_from_circuit(num_qubits):
     values = numpy.random.rand(len(params)) * 2 * numpy.pi
     par2val = dict(zip(params, values))
     qiskit_circ = pqc.assign_parameters(par2val)
-    arr1 = Statevector(qiskit_circ).data
-    symb_psi = symb_Statevector.from_circuit(pqc)
-    arr2 = symb_psi.subs(par2val).to_numpy()
+    arr1 = Operator(qiskit_circ).data
+    symb_op = symb_Operator.from_circuit(pqc)
+    arr2 = symb_op.subs(par2val).to_numpy()
     assert numpy.allclose(arr1, arr2)
 
 
@@ -31,7 +31,7 @@ def test_to_lambda(num_qubits):
     values = numpy.random.rand(len(params)) * 2 * numpy.pi
     par2val = dict(zip(params, values))
     qiskit_circ = pqc.assign_parameters(par2val)
-    arr1 = Statevector(qiskit_circ).data
-    symb_psi = symb_Statevector(pqc)
-    arr2 = symb_psi.to_lambda()(*values)
+    arr1 = Operator(qiskit_circ).data
+    symb_op = symb_Operator(pqc)
+    arr2 = symb_op.to_lambda()(*values)
     assert numpy.allclose(arr1, arr2)
