@@ -6,21 +6,20 @@ from qiskit import QuantumCircuit, transpile
 from qiskit.converters import circuit_to_dag
 
 
-def _preprocess_circuit(circuit):
+def _preprocess_circuit(circ):
     """Build a normalized and transpiled copy of the input circuit."""
     from ..circuit import build_target
 
-    num_qubits = circuit.num_qubits
-    normalized = QuantumCircuit(num_qubits).compose(circuit)
+    normalized = QuantumCircuit(circ.num_qubits).compose(circ)
     return transpile(normalized, target=build_target(), optimization_level=1)
 
 
-def _layers_to_symbolic_gates(circuit):
+def _layers_to_symbolic_gates(circ):
     """Convert transpiled circuit layers to symbolic gates."""
     from ..circuit.gate import Gate
 
     layers = []
-    for layer in circuit_to_dag(circuit).layers():
+    for layer in circuit_to_dag(circ).layers():
         gates = [Gate.get(gate_node) for gate_node in layer["graph"].gate_nodes()]
         if gates:
             layers.append(gates)

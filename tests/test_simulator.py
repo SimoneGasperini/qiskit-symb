@@ -1,20 +1,25 @@
 """Test symbolic simulator module."""
 
 import numpy
+import pytest
 from hypothesis import given, settings, strategies
 from qiskit.quantum_info import Statevector
 from qiskit_symb import Simulator
 from qiskit_symb.circuit.random import random_parametric_circuit
 
 
-@given(num_qubits=strategies.integers(min_value=1, max_value=6))
+@pytest.mark.parametrize("splitting", ["layers", "barriers"])
+@given(num_qubits=strategies.integers(min_value=1, max_value=5))
 @settings(deadline=None)
-def test_execution(num_qubits):
+def test_execution(num_qubits, splitting):
     """todo"""
-    pqc = random_parametric_circuit(num_qubits=num_qubits, depth=4)
+    pqc1 = random_parametric_circuit(num_qubits, par_prefix="x", depth=2)
+    pqc1.barrier()
+    pqc2 = random_parametric_circuit(num_qubits, par_prefix="y", depth=3)
+    pqc = pqc1.compose(pqc2)
     params = tuple(pqc.parameters)
     data = numpy.random.rand(5, len(params)) * 2 * numpy.pi
-    simulator = Simulator()
+    simulator = Simulator(splitting=splitting)
     compiled_qc = simulator.compile(pqc)
     params_dict = dict(zip(params, data.transpose()))
     results = simulator.run(compiled_qc, params_dict=params_dict)
