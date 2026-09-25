@@ -1,2 +1,2 @@
-qiskit>=2
+qiskit>=2,<3
 sympy>=1.14
