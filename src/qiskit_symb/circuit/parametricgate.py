@@ -1,6 +1,7 @@
 """Symbolic parametric gate module"""
 
-from sympy import Symbol, Matrix, matrix2numpy
+from sympy import Matrix, Symbol, matrix2numpy
+
 from .gate import Gate
 
 

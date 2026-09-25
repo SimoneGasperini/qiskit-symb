@@ -2,6 +2,7 @@ r"""Symbolic :math:`RZ(\lambda)` and controlled-:math:`RZ(\lambda)` gates module
 
 from sympy import exp
 from sympy.tensor.array import Array
+
 from ...parametricgate import ParametricGate
 
 

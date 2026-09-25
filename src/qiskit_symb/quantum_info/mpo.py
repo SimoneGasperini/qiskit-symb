@@ -36,7 +36,7 @@ def _gate_matrix_and_kind(gate):
     diagonal = True
     for row in range(dim):
         for col in range(dim):
-            if row != col and not sympy.sympify(mat[row, col]) == 0:
+            if row != col and sympy.sympify(mat[row, col]) != 0:
                 diagonal = False
                 break
         if not diagonal:
@@ -49,7 +49,7 @@ def _gate_matrix_and_kind(gate):
     coeffs = []
     monomial = True
     for row in range(dim):
-        nz_cols = [col for col in range(dim) if not sympy.sympify(mat[row, col]) == 0]
+        nz_cols = [col for col in range(dim) if sympy.sympify(mat[row, col]) != 0]
         if len(nz_cols) != 1:
             monomial = False
             break

@@ -1,7 +1,8 @@
 """todo"""
 
-from sympy import sin, cos, exp
+from sympy import cos, exp, sin
 from sympy.tensor.array import Array
+
 from ...parametricgate import ParametricGate
 
 

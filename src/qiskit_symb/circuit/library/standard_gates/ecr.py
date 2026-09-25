@@ -1,6 +1,7 @@
 r"""Symbolic Echoed Cross-Resonance :math:`ECR` gate module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

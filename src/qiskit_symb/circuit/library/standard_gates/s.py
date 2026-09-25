@@ -2,6 +2,7 @@ r"""Symbolic :math:`S`, :math:`S^{\dagger}`, controlled-:math:`S`,
 and controlled-:math:`S^{\dagger}` gates module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

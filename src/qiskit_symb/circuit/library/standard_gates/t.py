@@ -4,6 +4,7 @@ and controlled-:math:`T^{\dagger}` gates module"""
 from numpy import pi
 from sympy import exp
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

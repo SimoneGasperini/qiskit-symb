@@ -2,37 +2,64 @@
 
 import numpy
 from hypothesis import given, strategies
-from qiskit.circuit import ParameterVector, Parameter
+from qiskit.circuit import Parameter, ParameterVector
 from qiskit.circuit.library import (
-    UGate,
+    PhaseGate,
+    RGate,
+    RXGate,
+    RXXGate,
+    RYGate,
+    RYYGate,
+    RZGate,
+    RZZGate,
     U1Gate,
     U2Gate,
     U3Gate,
-    RXGate,
-    RYGate,
-    RZGate,
-    PhaseGate,
-    RGate,
-    RXXGate,
-    RYYGate,
-    RZZGate,
+    UGate,
     XXMinusYYGate,
     XXPlusYYGate,
 )
+
+from qiskit_symb.circuit.library import (
+    PhaseGate as symb_PhaseGate,
+)
+from qiskit_symb.circuit.library import (
+    RGate as symb_RGate,
+)
+from qiskit_symb.circuit.library import (
+    RXGate as symb_RXGate,
+)
+from qiskit_symb.circuit.library import (
+    RXXGate as symb_RXXGate,
+)
+from qiskit_symb.circuit.library import (
+    RYGate as symb_RYGate,
+)
+from qiskit_symb.circuit.library import (
+    RYYGate as symb_RYYGate,
+)
+from qiskit_symb.circuit.library import (
+    RZGate as symb_RZGate,
+)
+from qiskit_symb.circuit.library import (
+    RZZGate as symb_RZZGate,
+)
+from qiskit_symb.circuit.library import (
+    U1Gate as symb_U1Gate,
+)
+from qiskit_symb.circuit.library import (
+    U2Gate as symb_U2Gate,
+)
+from qiskit_symb.circuit.library import (
+    U3Gate as symb_U3Gate,
+)
 from qiskit_symb.circuit.library import (
     UGate as symb_UGate,
-    U1Gate as symb_U1Gate,
-    U2Gate as symb_U2Gate,
-    U3Gate as symb_U3Gate,
-    RXGate as symb_RXGate,
-    RYGate as symb_RYGate,
-    RZGate as symb_RZGate,
-    PhaseGate as symb_PhaseGate,
-    RGate as symb_RGate,
-    RXXGate as symb_RXXGate,
-    RYYGate as symb_RYYGate,
-    RZZGate as symb_RZZGate,
+)
+from qiskit_symb.circuit.library import (
     XXMinusYYGate as symb_XXMinusYYGate,
+)
+from qiskit_symb.circuit.library import (
     XXPlusYYGate as symb_XXPlusYYGate,
 )
 

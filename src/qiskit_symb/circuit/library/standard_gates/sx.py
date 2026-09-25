@@ -2,6 +2,7 @@ r"""Symbolic :math:`\sqrt{X}`, :math:`\sqrt{X}^{\dagger}`, controlled-:math:`\sq
 and controlled-:math:`\sqrt{X}^{\dagger}` gates module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

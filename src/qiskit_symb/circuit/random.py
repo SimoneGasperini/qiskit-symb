@@ -1,6 +1,6 @@
 """Random parametric circuit module"""
 
-from qiskit.circuit import QuantumCircuit, ParameterVector
+from qiskit.circuit import ParameterVector, QuantumCircuit
 from qiskit.circuit.random import random_circuit
 
 

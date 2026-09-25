@@ -2,6 +2,7 @@ r"""Symbolic :math:`RZZ(\theta)` and controlled-:math:`RZZ(\theta)` gates module
 
 from sympy import exp
 from sympy.tensor.array import Array
+
 from ...parametricgate import ParametricGate
 
 

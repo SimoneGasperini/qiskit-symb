@@ -1,6 +1,7 @@
 """Symbolic standard gate module"""
 
 from sympy import Matrix, matrix2numpy
+
 from .gate import Gate
 
 

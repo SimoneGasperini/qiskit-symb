@@ -1,42 +1,42 @@
 """Symbolic standard gates module"""
 
-from .i import IGate
-from .x import XGate, CXGate
-from .y import YGate, CYGate
-from .z import ZGate, CZGate
-from .h import HGate, CHGate
-from .sx import SXGate, SXdgGate, CSXGate, CSXdgGate
-from .s import SGate, SdgGate, CSGate, CSdgGate
-from .t import TGate, TdgGate, CTGate, CTdgGate
-from .swap import SwapGate
-from .iswap import iSwapGate
 from .dcx import DCXGate
 from .ecr import ECRGate
+from .h import CHGate, HGate
+from .i import IGate
+from .iswap import iSwapGate
+from .s import CSdgGate, CSGate, SdgGate, SGate
+from .swap import SwapGate
+from .sx import CSXdgGate, CSXGate, SXdgGate, SXGate
+from .t import CTdgGate, CTGate, TdgGate, TGate
+from .x import CXGate, XGate
+from .y import CYGate, YGate
+from .z import CZGate, ZGate
 
 __all__ = [
-    "IGate",
-    "XGate",
-    "CXGate",
-    "YGate",
-    "CYGate",
-    "ZGate",
-    "CZGate",
-    "HGate",
     "CHGate",
-    "SXGate",
-    "SXdgGate",
+    "CSGate",
     "CSXGate",
     "CSXdgGate",
-    "SGate",
-    "SdgGate",
-    "CSGate",
     "CSdgGate",
-    "TGate",
-    "TdgGate",
     "CTGate",
     "CTdgGate",
-    "SwapGate",
-    "iSwapGate",
+    "CXGate",
+    "CYGate",
+    "CZGate",
     "DCXGate",
     "ECRGate",
+    "HGate",
+    "IGate",
+    "SGate",
+    "SXGate",
+    "SXdgGate",
+    "SdgGate",
+    "SwapGate",
+    "TGate",
+    "TdgGate",
+    "XGate",
+    "YGate",
+    "ZGate",
+    "iSwapGate",
 ]

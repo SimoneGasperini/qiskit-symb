@@ -2,6 +2,7 @@ r"""Symbolic :math:`(XX+YY)(\theta,\beta)` gate module."""
 
 from sympy import cos, exp, sin
 from sympy.tensor.array import Array
+
 from ...parametricgate import ParametricGate
 
 

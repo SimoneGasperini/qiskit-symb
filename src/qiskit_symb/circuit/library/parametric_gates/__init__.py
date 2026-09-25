@@ -1,42 +1,39 @@
 """Symbolic parametric gates module"""
 
-from .u import UGate, CUGate
-from .u import U1Gate, CU1Gate
-from .u import U2Gate, CU2Gate
-from .u import U3Gate, CU3Gate
-from .rx import RXGate, CRXGate
-from .ry import RYGate, CRYGate
-from .rz import RZGate, CRZGate
-from .p import PhaseGate, CPhaseGate
-from .r import RGate, CRGate
+from .p import CPhaseGate, PhaseGate
+from .r import CRGate, RGate
+from .rx import CRXGate, RXGate
 from .rxx import RXXGate
+from .ry import CRYGate, RYGate
 from .ryy import RYYGate
+from .rz import CRZGate, RZGate
 from .rzz import RZZGate
-from .xx_plus_yy import XXPlusYYGate
+from .u import CU1Gate, CU2Gate, CU3Gate, CUGate, U1Gate, U2Gate, U3Gate, UGate
 from .xx_minus_yy import XXMinusYYGate
+from .xx_plus_yy import XXPlusYYGate
 
 __all__ = [
-    "UGate",
-    "CUGate",
-    "U1Gate",
-    "CU1Gate",
-    "U2Gate",
-    "CU2Gate",
-    "U3Gate",
-    "CU3Gate",
-    "RXGate",
-    "CRXGate",
-    "RYGate",
-    "CRYGate",
-    "RZGate",
-    "CRZGate",
-    "PhaseGate",
     "CPhaseGate",
-    "RGate",
     "CRGate",
+    "CRXGate",
+    "CRYGate",
+    "CRZGate",
+    "CU1Gate",
+    "CU2Gate",
+    "CU3Gate",
+    "CUGate",
+    "PhaseGate",
+    "RGate",
+    "RXGate",
     "RXXGate",
+    "RYGate",
     "RYYGate",
+    "RZGate",
     "RZZGate",
-    "XXPlusYYGate",
+    "U1Gate",
+    "U2Gate",
+    "U3Gate",
+    "UGate",
     "XXMinusYYGate",
+    "XXPlusYYGate",
 ]

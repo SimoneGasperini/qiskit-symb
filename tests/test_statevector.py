@@ -1,10 +1,11 @@
 """Test statevector module"""
 
 import numpy
-from hypothesis import given, strategies, settings
+from hypothesis import given, settings, strategies
 from qiskit.quantum_info import Statevector
-from qiskit_symb.quantum_info import Statevector as symb_Statevector
+
 from qiskit_symb.circuit.random import random_parametric_circuit
+from qiskit_symb.quantum_info import Statevector as symb_Statevector
 
 
 @given(num_qubits=strategies.integers(min_value=1, max_value=4))

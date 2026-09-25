@@ -2,28 +2,47 @@
 
 import numpy
 from qiskit.circuit.library import (
+    CHGate,
+    CSdgGate,
+    CSGate,
+    CSXGate,
     CXGate,
     CYGate,
     CZGate,
-    CHGate,
-    CSXGate,
     SXdgGate,
-    CSGate,
-    CSdgGate,
-    TGate,
     TdgGate,
+    TGate,
+)
+
+from qiskit_symb.circuit.library import (
+    CHGate as symb_CHGate,
+)
+from qiskit_symb.circuit.library import (
+    CSdgGate as symb_CSdgGate,
+)
+from qiskit_symb.circuit.library import (
+    CSGate as symb_CSGate,
+)
+from qiskit_symb.circuit.library import (
+    CSXdgGate as symb_CSXdgGate,
+)
+from qiskit_symb.circuit.library import (
+    CSXGate as symb_CSXGate,
+)
+from qiskit_symb.circuit.library import (
+    CTdgGate as symb_CTdgGate,
+)
+from qiskit_symb.circuit.library import (
+    CTGate as symb_CTGate,
 )
 from qiskit_symb.circuit.library import (
     CXGate as symb_CXGate,
+)
+from qiskit_symb.circuit.library import (
     CYGate as symb_CYGate,
+)
+from qiskit_symb.circuit.library import (
     CZGate as symb_CZGate,
-    CHGate as symb_CHGate,
-    CSXGate as symb_CSXGate,
-    CSXdgGate as symb_CSXdgGate,
-    CSGate as symb_CSGate,
-    CSdgGate as symb_CSdgGate,
-    CTGate as symb_CTGate,
-    CTdgGate as symb_CTdgGate,
 )
 
 

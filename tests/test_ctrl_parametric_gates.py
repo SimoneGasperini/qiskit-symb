@@ -2,28 +2,45 @@
 
 import numpy
 from hypothesis import given, strategies
-from qiskit.circuit import ParameterVector, Parameter
+from qiskit.circuit import Parameter, ParameterVector
 from qiskit.circuit.library import (
-    CUGate,
-    U1Gate,
-    U2Gate,
-    U3Gate,
+    CPhaseGate,
     CRXGate,
     CRYGate,
     CRZGate,
-    CPhaseGate,
+    CUGate,
     RGate,
+    U1Gate,
+    U2Gate,
+    U3Gate,
+)
+
+from qiskit_symb.circuit.library import (
+    CPhaseGate as symb_CPhaseGate,
+)
+from qiskit_symb.circuit.library import (
+    CRGate as symb_CRGate,
+)
+from qiskit_symb.circuit.library import (
+    CRXGate as symb_CRXGate,
+)
+from qiskit_symb.circuit.library import (
+    CRYGate as symb_CRYGate,
+)
+from qiskit_symb.circuit.library import (
+    CRZGate as symb_CRZGate,
+)
+from qiskit_symb.circuit.library import (
+    CU1Gate as symb_CU1Gate,
+)
+from qiskit_symb.circuit.library import (
+    CU2Gate as symb_CU2Gate,
+)
+from qiskit_symb.circuit.library import (
+    CU3Gate as symb_CU3Gate,
 )
 from qiskit_symb.circuit.library import (
     CUGate as symb_CUGate,
-    CU1Gate as symb_CU1Gate,
-    CU2Gate as symb_CU2Gate,
-    CU3Gate as symb_CU3Gate,
-    CRXGate as symb_CRXGate,
-    CRYGate as symb_CRYGate,
-    CRZGate as symb_CRZGate,
-    CPhaseGate as symb_CPhaseGate,
-    CRGate as symb_CRGate,
 )
 
 

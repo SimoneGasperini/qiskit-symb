@@ -2,38 +2,67 @@
 
 import numpy
 from qiskit.circuit.library import (
+    DCXGate,
+    ECRGate,
+    HGate,
     IGate,
+    SdgGate,
+    SGate,
+    SwapGate,
+    SXdgGate,
+    SXGate,
+    TdgGate,
+    TGate,
     XGate,
     YGate,
     ZGate,
-    HGate,
-    SXGate,
-    SXdgGate,
-    SGate,
-    SdgGate,
-    TGate,
-    TdgGate,
-    SwapGate,
     iSwapGate,
-    DCXGate,
-    ECRGate,
+)
+
+from qiskit_symb.circuit.library import (
+    DCXGate as symb_DCXGate,
+)
+from qiskit_symb.circuit.library import (
+    ECRGate as symb_ECRGate,
+)
+from qiskit_symb.circuit.library import (
+    HGate as symb_HGate,
 )
 from qiskit_symb.circuit.library import (
     IGate as symb_IGate,
-    XGate as symb_XGate,
-    YGate as symb_YGate,
-    ZGate as symb_ZGate,
-    HGate as symb_HGate,
-    SXGate as symb_SXGate,
-    SXdgGate as symb_SXdgGate,
-    SGate as symb_SGate,
+)
+from qiskit_symb.circuit.library import (
     SdgGate as symb_SdgGate,
-    TGate as symb_TGate,
-    TdgGate as symb_TdgGate,
+)
+from qiskit_symb.circuit.library import (
+    SGate as symb_SGate,
+)
+from qiskit_symb.circuit.library import (
     SwapGate as symb_SwapGate,
+)
+from qiskit_symb.circuit.library import (
+    SXdgGate as symb_SXdgGate,
+)
+from qiskit_symb.circuit.library import (
+    SXGate as symb_SXGate,
+)
+from qiskit_symb.circuit.library import (
+    TdgGate as symb_TdgGate,
+)
+from qiskit_symb.circuit.library import (
+    TGate as symb_TGate,
+)
+from qiskit_symb.circuit.library import (
+    XGate as symb_XGate,
+)
+from qiskit_symb.circuit.library import (
+    YGate as symb_YGate,
+)
+from qiskit_symb.circuit.library import (
+    ZGate as symb_ZGate,
+)
+from qiskit_symb.circuit.library import (
     iSwapGate as symb_iSwapGate,
-    DCXGate as symb_DCXGate,
-    ECRGate as symb_ECRGate,
 )
 
 

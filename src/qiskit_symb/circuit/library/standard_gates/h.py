@@ -1,6 +1,7 @@
 r"""Symbolic Hadamard :math:`H` and controlled-:math:`H` gates module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

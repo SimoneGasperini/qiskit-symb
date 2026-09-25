@@ -1,6 +1,7 @@
 r"""Symbolic :math:`iSWAP` and controlled-:math:`iSWAP` gates module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

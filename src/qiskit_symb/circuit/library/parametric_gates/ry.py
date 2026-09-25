@@ -1,7 +1,8 @@
 r"""Symbolic :math:`RY(\theta)` and controlled-:math:`RY(\theta)` gates module"""
 
-from sympy import sin, cos
+from sympy import cos, sin
 from sympy.tensor.array import Array
+
 from ...parametricgate import ParametricGate
 
 

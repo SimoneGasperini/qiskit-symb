@@ -1,6 +1,7 @@
 r"""Symbolic Pauli :math:`I` gate module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 

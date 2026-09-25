@@ -1,6 +1,7 @@
 r"""Symbolic Double-CNOT :math:`DCX` gate module"""
 
 from sympy.tensor.array import Array
+
 from ...standardgate import StandardGate
 
 
